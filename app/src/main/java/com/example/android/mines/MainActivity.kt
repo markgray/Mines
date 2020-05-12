@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.graphics.Color
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.gridlayout.widget.GridLayout
 
+@Suppress("MemberVisibilityCanBePrivate")
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
 
@@ -46,19 +47,32 @@ class MainActivity : AppCompatActivity() {
 
         for (row in 1..ROW_COUNT) {
             for (column in 1..COLUMN_COUNT) {
+                val contents = SectorContent(row, column)
                 val textView = TextView(this)
+                textView.setBackgroundResource(R.drawable.background_unselected)
+                textView.tag = contents
                 textView.width = cellSize
                 textView.height = cellSize
                 textView.setPadding(4, 4, 4, 4)
                 textView.text = "($row,$column)"
-                textView.setOnClickListener {
-                    it.setBackgroundColor(Color.GRAY)
+                textView.setOnClickListener { view ->
+                    onSectorClicked(view)
                 }
                 board.addView(textView)
             }
         }
 
         return board
+    }
+
+    fun onSectorClicked(view: View) {
+        view.setBackgroundResource(R.drawable.background_selected)
+        val sectorTag : SectorContent = (view.tag as SectorContent)
+        Toast.makeText(
+            this,
+            "Row ${sectorTag.row}, Column ${sectorTag.column} clicked",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     companion object {
