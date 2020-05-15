@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
 
 import com.example.android.mines.R
 
@@ -16,12 +18,19 @@ class ScoreFragment : Fragment() {
     }
 
     private lateinit var viewModel: ScoreViewModel
+    private lateinit var uiView: View
+    private lateinit var buttonAgain: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.score_fragment, container, false)
+        uiView = inflater.inflate(R.layout.score_fragment, container, false)
+        buttonAgain = uiView.findViewById(R.id.button_again)
+        buttonAgain.setOnClickListener {
+            findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)
+        }
+        return uiView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

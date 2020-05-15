@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.gridlayout.widget.GridLayout
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SectorContent
 
@@ -38,6 +39,12 @@ class GameFragment : Fragment() {
         screenWidth = resources.displayMetrics.widthPixels
         screenHeight = resources.displayMetrics.heightPixels - 200
         createBoard()
+        good.setOnClickListener {
+            findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
+        }
+        mine.setOnClickListener {
+            findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
+        }
         return rootView
     }
 
