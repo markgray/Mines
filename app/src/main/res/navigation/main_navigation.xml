@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/chooseFragment">
+
+    <fragment
+        android:id="@+id/chooseFragment"
+        android:name="com.example.android.mines.choose.ChooseFragment"
+        android:label="choose_fragment"
+        tools:layout="@layout/choose_fragment" >
+        <action
+            android:id="@+id/action_chooseFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.example.android.mines.game.GameFragment"
+        android:label="game_fragment"
+        tools:layout="@layout/game_fragment" >
+        <action
+            android:id="@+id/action_gameFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="com.example.android.mines.score.ScoreFragment"
+        android:label="score_fragment"
+        tools:layout="@layout/score_fragment" >
+        <action
+            android:id="@+id/action_scoreFragment_to_chooseFragment"
+            app:destination="@id/chooseFragment" />
+    </fragment>
+</navigation>
