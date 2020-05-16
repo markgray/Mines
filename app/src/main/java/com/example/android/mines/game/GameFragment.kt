@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
+@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate", "unused", "RedundantOverride")
 
 package com.example.android.mines.game
 
@@ -11,11 +11,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.gridlayout.widget.GridLayout
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SectorContent
+import com.example.android.mines.SharedViewModel
 
 class GameFragment : Fragment() {
 
@@ -25,7 +26,7 @@ class GameFragment : Fragment() {
     private lateinit var mine: Button
     private var screenWidth: Int = 0
     private var screenHeight: Int = 0
-    private lateinit var viewModel: GameViewModel
+    private val viewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +51,6 @@ class GameFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
@@ -68,8 +68,8 @@ class GameFragment : Fragment() {
             cellHeight
         }
 
-        for (row in 1..ROW_COUNT) {
-            for (column in 1..COLUMN_COUNT) {
+        for (row in 0 until ROW_COUNT) {
+            for (column in 0 until COLUMN_COUNT) {
                 val contents = SectorContent(row, column)
                 val textView = TextView(activity)
                 textView.setBackgroundResource(R.drawable.background_unselected)

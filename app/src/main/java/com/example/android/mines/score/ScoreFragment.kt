@@ -1,15 +1,17 @@
+@file:Suppress("unused", "RedundantOverride")
+
 package com.example.android.mines.score
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-
 import com.example.android.mines.R
+import com.example.android.mines.SharedViewModel
 
 class ScoreFragment : Fragment() {
 
@@ -17,7 +19,7 @@ class ScoreFragment : Fragment() {
         fun newInstance() = ScoreFragment()
     }
 
-    private lateinit var viewModel: ScoreViewModel
+    private val viewModel: SharedViewModel by viewModels()
     private lateinit var uiView: View
     private lateinit var buttonAgain: Button
 
@@ -35,7 +37,6 @@ class ScoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ScoreViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
