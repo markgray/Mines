@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<!--suppress XmlDefaultAttributeValue -->
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="491.91095"
+    height="675.48199"
+    id="svg3173"
+    version="1.1">
+    <defs id="defs3175">
+        <linearGradient id="linearGradient3969">
+            <stop
+                style="stop-color:#000000;stop-opacity:1;"
+                offset="0"
+                id="stop3971" />
+            <stop
+                style="stop-color:#ffffff;stop-opacity:1;"
+                offset="1"
+                id="stop3973" />
+        </linearGradient>
+        <linearGradient id="linearGradient3959">
+            <stop
+                style="stop-color:#ffffff;stop-opacity:1;"
+                offset="0"
+                id="stop3961" />
+            <stop
+                style="stop-color:#000000;stop-opacity:1;"
+                offset="1"
+                id="stop3963" />
+        </linearGradient>
+        <radialGradient
+            xlink:href="#linearGradient3959"
+            id="radialGradient3965"
+            cx="388.57144"
+            cy="635.2193"
+            fx="388.57144"
+            fy="635.2193"
+            r="191.42857"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="matrix(0.65671636,0.67164192,-0.71500717,0.69911712,587.57657,-69.854257)" />
+        <linearGradient
+            xlink:href="#linearGradient3969"
+            id="linearGradient3975"
+            x1="354.28574"
+            y1="418.07645"
+            x2="277.14285"
+            y2="415.21933"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(94.285714,74.285715)" />
+        <linearGradient
+            xlink:href="#linearGradient3969"
+            id="linearGradient3987"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(94.285714,74.285715)"
+            x1="354.28574"
+            y1="418.07645"
+            x2="277.14285"
+            y2="415.21933" />
+        <radialGradient
+            xlink:href="#linearGradient3959"
+            id="radialGradient3989"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="matrix(0.65671636,0.67164192,-0.71500717,0.69911712,587.57657,-69.854257)"
+            cx="388.57144"
+            cy="635.2193"
+            fx="388.57144"
+            fy="635.2193"
+            r="191.42857" />
+    </defs>
+    <metadata id="metadata3178">
+        image/svg+xml
+    </metadata>
+    <g
+        id="layer1"
+        transform="translate(-237.14287,-179.73734)">
+        <g id="g3981">
+            <path
+                id="path3977"
+                d="M 422.85714,435.21933 C 451.70235,259.29159 562.07114,302.55868 648.57143,280.93361"
+                style="fill:none;stroke:#808000;stroke-width:22.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+            <rect
+                y="418.07648"
+                x="382.85715"
+                height="117.14285"
+                width="82.85714"
+                id="rect3967"
+                style="fill:url(#linearGradient3987);fill-opacity:1;stroke:none" />
+            <path
+                d="m 620.00002,663.79077 c 0,105.72308 -85.7055,191.42858 -191.42858,191.42858 -105.72308,0 -191.42857,-85.7055 -191.42857,-191.42858 0,-105.72308 85.70549,-191.42857 191.42857,-191.42857 105.72308,0 191.42858,85.70549 191.42858,191.42857 z"
+                id="path3181"
+                style="fill:url(#radialGradient3989);fill-opacity:1;stroke:none" />
+            <path
+                transform="matrix(0.57917342,0,0,0.57917342,251.21766,155.53875)"
+                d="m 754.27259,358.43585 -102.64764,-68.53222 -4.8964,77.38537 -45.89624,-89.58107 -73.57062,54.58871 31.34144,-96.51176 -52.23107,-16.84127 63.47041,-17.38101 -54.97841,-70.7794 83.80651,45.30383 13.75334,-100.755242 43.47953,73.475992 87.71184,-53.367683 -8.07006,74.770993 53.84801,-10.37504 -70.36135,66.81827 69.86572,42.07566 -84.86942,27.12663 z"
+                id="path3979"
+                style="fill:#ffff00;stroke:#ff6600;stroke-width:22.5;stroke-miterlimit:4;stroke-dasharray:none" />
+        </g>
+    </g>
+</svg>
