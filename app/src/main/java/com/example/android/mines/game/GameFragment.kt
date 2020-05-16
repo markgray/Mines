@@ -80,7 +80,7 @@ class GameFragment : Fragment() {
                 textView.width = cellSize
                 textView.height = cellSize
                 textView.setPadding(4, 4, 4, 4)
-                textView.text = "($row,$column)"
+                textView.text = "\u2705\u274c\u2734"
                 textView.setOnClickListener { view ->
                     onSectorClicked(view)
                 }
