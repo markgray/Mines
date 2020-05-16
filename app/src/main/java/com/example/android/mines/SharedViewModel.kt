@@ -5,17 +5,18 @@ import androidx.lifecycle.ViewModel
 class SharedViewModel: ViewModel() {
 
     lateinit var gameState: MutableList<SectorContent>
-    var screenWidth: Int = 0
-    var screenHeight: Int = 0
+    var numColumns: Int = 0
+    var numRows: Int = 0
     var mineCount: Int = 0
+    var startTime: Long = 0
 
-    fun init(width: Int, height: Int, mines: Int) {
-        screenWidth = width
-        screenHeight = height
+    fun init(columnCount: Int, rowCount: Int, mines: Int) {
+        numColumns = columnCount
+        numRows = rowCount
         mineCount = mines
-        gameState = ArrayList(screenWidth * screenHeight)
-        for (rows in 0 until screenHeight) {
-            for (columns in 0 until screenWidth) {
+        gameState = ArrayList(numColumns * numRows)
+        for (rows in 0 until numRows) {
+            for (columns in 0 until numColumns) {
                 gameState.add(SectorContent(rows, columns))
             }
         }

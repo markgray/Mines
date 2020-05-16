@@ -4,6 +4,7 @@ package com.example.android.mines.game
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.gridlayout.widget.GridLayout
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
@@ -26,7 +27,7 @@ class GameFragment : Fragment() {
     private lateinit var mine: Button
     private var screenWidth: Int = 0
     private var screenHeight: Int = 0
-    private val viewModel: SharedViewModel by viewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +47,7 @@ class GameFragment : Fragment() {
         mine.setOnClickListener {
             findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
         }
+        viewModel.startTime = SystemClock.elapsedRealtime()
         return rootView
     }
 
@@ -57,20 +59,21 @@ class GameFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun createBoard(): View {
 
-        board.columnCount = COLUMN_COUNT
-        board.rowCount = ROW_COUNT
+        board.columnCount = viewModel.numColumns
+        board.rowCount = viewModel.numRows
 
-        val cellWidth = screenWidth / COLUMN_COUNT
-        val cellHeight = screenHeight / ROW_COUNT
+        val cellWidth = screenWidth / viewModel.numColumns
+        val cellHeight = screenHeight / viewModel.numRows
         val cellSize = if (cellWidth < cellHeight) {
             cellWidth
         } else {
             cellHeight
         }
 
-        for (row in 0 until ROW_COUNT) {
-            for (column in 0 until COLUMN_COUNT) {
-                val contents = SectorContent(row, column)
+        var listIndex = 0
+        for (row in 0 until viewModel.numRows) {
+            for (column in 0 until viewModel.numColumns) {
+                val contents = viewModel.gameState[listIndex++]
                 val textView = TextView(activity)
                 textView.setBackgroundResource(R.drawable.background_unselected)
                 textView.tag = contents
