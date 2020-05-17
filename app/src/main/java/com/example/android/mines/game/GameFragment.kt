@@ -75,7 +75,7 @@ class GameFragment : Fragment() {
             for (column in 0 until viewModel.numColumns) {
                 val contents = viewModel.gameState[listIndex++]
                 val textView = TextView(activity)
-                textView.setBackgroundResource(R.drawable.background_unselected)
+                textView.setBackgroundResource(R.drawable.background_dark)
                 textView.tag = contents
                 textView.width = cellSize
                 textView.height = cellSize
@@ -92,7 +92,7 @@ class GameFragment : Fragment() {
     }
 
     fun onSectorClicked(view: View) {
-        view.setBackgroundResource(R.drawable.background_selected)
+        view.setBackgroundResource(R.drawable.background_light)
         val sectorTag : SectorContent = (view.tag as SectorContent)
         Toast.makeText(
             activity,
