@@ -92,7 +92,7 @@ class GameFragment : Fragment() {
     }
 
     fun onSectorClicked(view: View) {
-        view.setBackgroundResource(R.drawable.background_light)
+        view.setBackgroundResource(R.drawable.bomb_icon)
         val sectorTag : SectorContent = (view.tag as SectorContent)
         Toast.makeText(
             activity,
