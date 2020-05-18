@@ -80,7 +80,7 @@ class GameFragment : Fragment() {
                 textView.width = cellSize
                 textView.height = cellSize
                 textView.setPadding(4, 4, 4, 4)
-                textView.text = "\u2705\u274c\u2734"
+//              textView.text = "\u2705\u274c\u2734"
                 textView.setOnClickListener { view ->
                     onSectorClicked(view)
                 }
@@ -92,8 +92,15 @@ class GameFragment : Fragment() {
     }
 
     fun onSectorClicked(view: View) {
-        view.setBackgroundResource(R.drawable.bomb_icon)
         val sectorTag : SectorContent = (view.tag as SectorContent)
+        val textView : TextView = view as TextView
+        if (sectorTag.hasMine) {
+            textView.setBackgroundResource(R.drawable.bomb_icon)
+            textView.text = "\u274c"
+        } else {
+            textView.setBackgroundResource(R.drawable.background_light)
+            textView.text = ""
+        }
         Toast.makeText(
             activity,
             "Row ${sectorTag.row}, Column ${sectorTag.column} clicked",

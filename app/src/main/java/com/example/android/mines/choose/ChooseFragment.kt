@@ -18,7 +18,7 @@ class ChooseFragment : Fragment() {
     companion object {
         const val COLUMN_COUNT = 8
         const val ROW_COUNT = 8
-        const val MINE_COUNT = 0
+        const val MINE_COUNT = 10
         fun newInstance() = ChooseFragment()
     }
 
