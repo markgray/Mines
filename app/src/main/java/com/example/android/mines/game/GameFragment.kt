@@ -99,7 +99,14 @@ class GameFragment : Fragment() {
             textView.text = "\u274c"
         } else {
             textView.setBackgroundResource(R.drawable.background_light)
-            textView.text = ""
+            val neighborList = sectorTag.neighbors
+            var numberWithMines = 0
+            for (index: Int in neighborList) {
+                if (viewModel.haveMines[index]) {
+                    numberWithMines++
+                }
+            }
+            textView.text = numberWithMines.toString()
         }
         Toast.makeText(
             activity,
