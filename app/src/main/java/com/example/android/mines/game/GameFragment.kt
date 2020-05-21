@@ -5,6 +5,7 @@ package com.example.android.mines.game
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class GameFragment : Fragment() {
 
     private lateinit var rootView: View
     private lateinit var board: GridLayout
-    private lateinit var good: Button
+    private lateinit var safe: Button
     private lateinit var mine: Button
     private var screenWidth: Int = 0
     private var screenHeight: Int = 0
@@ -36,16 +37,16 @@ class GameFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.game_fragment, container, false)
         board = rootView.findViewById(R.id.board_grid)
-        good = rootView.findViewById(R.id.button_good)
+        safe = rootView.findViewById(R.id.button_safe)
         mine = rootView.findViewById(R.id.button_mine)
         screenWidth = resources.displayMetrics.widthPixels
         screenHeight = resources.displayMetrics.heightPixels - 200
         createBoard()
-        good.setOnClickListener {
-            findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
+        safe.setOnClickListener { view ->
+            onSafeClicked(view)
         }
-        mine.setOnClickListener {
-            findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
+        mine.setOnClickListener { view ->
+            onMineClicked(view)
         }
         viewModel.startTime = SystemClock.elapsedRealtime()
         return rootView
@@ -79,6 +80,8 @@ class GameFragment : Fragment() {
                 textView.tag = contents
                 textView.width = cellSize
                 textView.height = cellSize
+                textView.gravity = Gravity.CENTER
+                textView.textSize = cellSize.toFloat()/resources.displayMetrics.density - 8.0f
                 textView.setPadding(4, 4, 4, 4)
 //              textView.text = "\u2705\u274c\u2734"
                 textView.setOnClickListener { view ->
@@ -113,6 +116,16 @@ class GameFragment : Fragment() {
             "Row ${sectorTag.row}, Column ${sectorTag.column} clicked",
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun onSafeClicked(view: View) {
+        findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    fun onMineClicked(view: View) {
+        findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }
 
     companion object {
