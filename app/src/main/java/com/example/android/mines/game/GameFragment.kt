@@ -129,8 +129,6 @@ class GameFragment : Fragment() {
     }
 
     companion object {
-        const val COLUMN_COUNT = 8
-        const val ROW_COUNT = 8
         @Suppress("unused")
         fun newInstance() = GameFragment()
     }

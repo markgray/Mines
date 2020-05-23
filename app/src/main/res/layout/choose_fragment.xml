@@ -14,7 +14,7 @@
         android:text="@string/choose_text"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_play"
+        app:layout_constraintBottom_toTopOf="@+id/boardChoice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,5 +27,39 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/boardChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/button_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/board8by8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/board_8_by_8_10_mines" />
+
+        <RadioButton
+            android:id="@+id/board12by16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/board_12_by_16_30_mines" />
+
+        <RadioButton
+            android:id="@+id/board16by16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/board_16_by_16_40_mines" />
+
+        <RadioButton
+            android:id="@+id/boardCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/board_custom" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
