@@ -12,7 +12,13 @@ class SharedViewModel: ViewModel() {
     var numRows: Int = 0
     var numSectors: Int = 0
     var mineCount: Int = 0
+    var numChecked: Int = 0
+    var numCheckedSafe: Int = 0
+    var numCheckedMine: Int = 0
+    var buttonTop: Int = 0
     var startTime: Long = 0
+    var modeMine: Boolean = false
+    var modeSafe: Boolean = true
 
     fun init(columnCount: Int, rowCount: Int, mines: Int) {
         numColumns = columnCount

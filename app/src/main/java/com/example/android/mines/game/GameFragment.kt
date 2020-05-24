@@ -3,8 +3,10 @@
 package com.example.android.mines.game
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +28,8 @@ class GameFragment : Fragment() {
     private lateinit var board: GridLayout
     private lateinit var safe: Button
     private lateinit var mine: Button
-    private var screenWidth: Int = 0
-    private var screenHeight: Int = 0
+    private var boardWidth: Int = 0
+    private var boardHeight: Int = 0
     private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -39,9 +41,10 @@ class GameFragment : Fragment() {
         board = rootView.findViewById(R.id.board_grid)
         safe = rootView.findViewById(R.id.button_safe)
         mine = rootView.findViewById(R.id.button_mine)
-        screenWidth = resources.displayMetrics.widthPixels
-        screenHeight = resources.displayMetrics.heightPixels - 200
+        boardWidth = resources.displayMetrics.widthPixels
+        boardHeight = viewModel.buttonTop
         createBoard()
+        safe.setBackgroundColor(Color.RED)
         safe.setOnClickListener { view ->
             onSafeClicked(view)
         }
@@ -63,8 +66,8 @@ class GameFragment : Fragment() {
         board.columnCount = viewModel.numColumns
         board.rowCount = viewModel.numRows
 
-        val cellWidth = screenWidth / viewModel.numColumns
-        val cellHeight = screenHeight / viewModel.numRows
+        val cellWidth = boardWidth / viewModel.numColumns
+        val cellHeight = boardHeight / viewModel.numRows
         val cellSize = if (cellWidth < cellHeight) {
             cellWidth
         } else {
@@ -97,34 +100,65 @@ class GameFragment : Fragment() {
     fun onSectorClicked(view: View) {
         val sectorTag : SectorContent = (view.tag as SectorContent)
         val textView : TextView = view as TextView
-        if (sectorTag.hasMine) {
-            textView.setBackgroundResource(R.drawable.bomb_icon)
-            textView.text = "\u274c"
-        } else {
-            textView.setBackgroundResource(R.drawable.background_light)
-            val neighborList = sectorTag.neighbors
-            var numberWithMines = 0
-            for (index: Int in neighborList) {
-                if (viewModel.haveMines[index]) {
-                    numberWithMines++
+        if (viewModel.modeSafe) {
+            if (sectorTag.hasMine) {
+                textView.setBackgroundResource(R.drawable.bomb_icon)
+                textView.text = "\u274c"
+            } else if(!sectorTag.hasBeenChecked) {
+                sectorTag.hasBeenChecked = true
+                viewModel.numCheckedSafe++
+                textView.setBackgroundResource(R.drawable.background_light)
+                val neighborList = sectorTag.neighbors
+                var numberWithMines = 0
+                for (index: Int in neighborList) {
+                    if (viewModel.haveMines[index]) {
+                        numberWithMines++
+                    }
                 }
+                textView.text = numberWithMines.toString()
             }
-            textView.text = numberWithMines.toString()
+        } else if (viewModel.modeMine) {
+            if (sectorTag.hasMine) {
+                if (!sectorTag.hasBeenChecked) {
+                    sectorTag.hasBeenChecked = true
+                    viewModel.numCheckedMine++
+                }
+                textView.setBackgroundResource(R.drawable.background_light)
+                textView.text = "\u274c"
+            } else {
+                textView.setBackgroundResource(R.drawable.background_dark)
+            }
         }
-        Toast.makeText(
+/*        Toast.makeText(
             activity,
-            "Row ${sectorTag.row}, Column ${sectorTag.column} clicked",
+            "${viewModel.numChecked} checked out of ${viewModel.numSectors}",
             Toast.LENGTH_SHORT
         ).show()
+*/
+        viewModel.numChecked=
+        Log.i(
+            "GameFragment",
+            "${viewModel.numCheckedSafe} safe ${viewModel.numCheckedMine} mine"
+        )
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun onSafeClicked(view: View) {
-        findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
+        viewModel.modeSafe = true
+        viewModel.modeMine = false
+        view.setBackgroundColor(Color.RED)
+        mine.setBackgroundColor(Color.GRAY)
     }
 
     @Suppress("UNUSED_PARAMETER")
     fun onMineClicked(view: View) {
+        viewModel.modeSafe = false
+        viewModel.modeMine = true
+        view.setBackgroundColor(Color.RED)
+        safe.setBackgroundColor(Color.GRAY)
+    }
+
+    fun onFlippedAll() {
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }
 

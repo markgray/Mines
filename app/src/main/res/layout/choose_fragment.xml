@@ -55,10 +55,10 @@
             android:text="@string/board_16_by_16_40_mines" />
 
         <RadioButton
-            android:id="@+id/boardCustom"
+            android:id="@+id/board16by30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/board_custom" />
+            android:text="@string/board_16_by_30_99_mines" />
 
     </RadioGroup>
 
