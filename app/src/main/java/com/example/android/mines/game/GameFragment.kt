@@ -126,20 +126,26 @@ class GameFragment : Fragment() {
                 textView.setBackgroundResource(R.drawable.background_light)
                 textView.text = "\u274c"
             } else {
-                textView.setBackgroundResource(R.drawable.background_dark)
+                if (!sectorTag.hasBeenChecked) {
+                    textView.setBackgroundResource(R.drawable.background_dark)
+                }
             }
         }
-/*        Toast.makeText(
-            activity,
-            "${viewModel.numChecked} checked out of ${viewModel.numSectors}",
-            Toast.LENGTH_SHORT
-        ).show()
-*/
-        viewModel.numChecked=
+
+        viewModel.numChecked = viewModel.numCheckedSafe + viewModel.numCheckedMine
         Log.i(
             "GameFragment",
+            "${sectorTag.column} ${sectorTag.row} " +
             "${viewModel.numCheckedSafe} safe ${viewModel.numCheckedMine} mine"
         )
+        if (viewModel.numChecked == viewModel.numSectors) {
+            Toast.makeText(
+                activity,
+                "${viewModel.numChecked} checked out of ${viewModel.numSectors}",
+                Toast.LENGTH_SHORT
+            ).show()
+            onFlippedAll()
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
