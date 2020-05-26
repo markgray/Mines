@@ -25,6 +25,12 @@ class SharedViewModel: ViewModel() {
         numRows = rowCount
         numSectors = columnCount * rowCount
         mineCount = mines
+        numChecked = 0
+        numCheckedSafe = 0
+        numCheckedMine = 0
+        modeMine = false
+        modeSafe = true
+
         gameState = ArrayList(numSectors)
         haveMines = ArrayList(numSectors)
         for (index in 0 until mineCount) {
@@ -35,9 +41,9 @@ class SharedViewModel: ViewModel() {
         }
         haveMines.shuffle()
         var index = 0
-        for (rows in 0 until numRows) {
-            for (columns in 0 until numColumns) {
-                val newSectorContent = SectorContent(rows, columns)
+        for (rowNumber in 0 until numRows) {
+            for (columnNumber in 0 until numColumns) {
+                val newSectorContent = SectorContent(rowNumber, columnNumber)
                 newSectorContent.childNum = index
                 newSectorContent.hasMine = haveMines[index]
                 neighborSearch(newSectorContent)

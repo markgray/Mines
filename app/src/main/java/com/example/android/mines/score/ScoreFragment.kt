@@ -4,6 +4,7 @@ package com.example.android.mines.score
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,8 @@ class ScoreFragment : Fragment() {
             findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)
         }
         textView = uiView.findViewById(R.id.textViewScore)
-        textView.append("\n${SystemClock.elapsedRealtime() - viewModel.startTime} milliseconds")
+        val elapsedTime: Long = (SystemClock.elapsedRealtime() - viewModel.startTime)/1_000
+        textView.append("\n${DateUtils.formatElapsedTime(elapsedTime)}")
         return uiView
     }
 

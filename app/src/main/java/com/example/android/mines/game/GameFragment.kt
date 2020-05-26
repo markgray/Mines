@@ -148,7 +148,6 @@ class GameFragment : Fragment() {
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
     fun onSafeClicked(view: View) {
         viewModel.modeSafe = true
         viewModel.modeMine = false
@@ -156,7 +155,6 @@ class GameFragment : Fragment() {
         mine.setBackgroundColor(Color.GRAY)
     }
 
-    @Suppress("UNUSED_PARAMETER")
     fun onMineClicked(view: View) {
         viewModel.modeSafe = false
         viewModel.modeMine = true
