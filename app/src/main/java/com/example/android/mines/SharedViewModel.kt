@@ -11,7 +11,7 @@ class SharedViewModel: ViewModel() {
     var numColumns: Int = 0
     var numRows: Int = 0
     var numSectors: Int = 0
-    var mineCount: Int = 0
+    var numMines: Int = 0
     var numChecked: Int = 0
     var numCheckedSafe: Int = 0
     var numCheckedMine: Int = 0
@@ -24,7 +24,7 @@ class SharedViewModel: ViewModel() {
         numColumns = columnCount
         numRows = rowCount
         numSectors = columnCount * rowCount
-        mineCount = mines
+        numMines = mines
         numChecked = 0
         numCheckedSafe = 0
         numCheckedMine = 0
@@ -33,10 +33,10 @@ class SharedViewModel: ViewModel() {
 
         gameState = ArrayList(numSectors)
         haveMines = ArrayList(numSectors)
-        for (index in 0 until mineCount) {
+        for (index in 0 until numMines) {
             haveMines.add(true)
         }
-        for (index in mineCount until numSectors) {
+        for (index in numMines until numSectors) {
             haveMines.add(false)
         }
         haveMines.shuffle()

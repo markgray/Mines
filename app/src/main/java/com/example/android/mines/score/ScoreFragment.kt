@@ -15,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
+import java.util.*
 
 class ScoreFragment : Fragment() {
 
@@ -37,6 +38,10 @@ class ScoreFragment : Fragment() {
             findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)
         }
         textView = uiView.findViewById(R.id.textViewScore)
+
+        val todaysDate = Calendar.getInstance().getTime()
+        textView.append("\nCurrent time => $todaysDate")
+
         val elapsedTime: Long = (SystemClock.elapsedRealtime() - viewModel.startTime)/1_000
         textView.append("\n${DateUtils.formatElapsedTime(elapsedTime)}")
         return uiView
