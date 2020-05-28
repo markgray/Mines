@@ -105,17 +105,7 @@ class GameFragment : Fragment() {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
                 textView.text = "\u274c"
             } else if(!sectorTag.hasBeenChecked) {
-                sectorTag.hasBeenChecked = true
-                viewModel.numCheckedSafe++
-                textView.setBackgroundResource(R.drawable.background_light)
-                val neighborList = sectorTag.neighbors
-                var numberWithMines = 0
-                for (index: Int in neighborList) {
-                    if (viewModel.haveMines[index]) {
-                        numberWithMines++
-                    }
-                }
-                textView.text = numberWithMines.toString()
+                markSectorAsSafe(sectorTag, textView)
             }
         } else if (viewModel.modeMine) {
             if (sectorTag.hasMine) {
@@ -146,6 +136,30 @@ class GameFragment : Fragment() {
             ).show()
             onFlippedAll()
         }
+    }
+
+    private fun markSectorAsSafe(
+        sectorTag: SectorContent,
+        textView: TextView
+    ) {
+        sectorTag.hasBeenChecked = true
+        viewModel.numCheckedSafe++
+        textView.setBackgroundResource(R.drawable.background_light)
+        val neighborList = sectorTag.neighbors
+        var numberWithMines = 0
+        for (index: Int in neighborList) {
+            if (viewModel.haveMines[index]) {
+                numberWithMines++
+            }
+        }
+        if (numberWithMines == 0) {
+            if (viewModel.zeroMinedNeighbors == null) {
+                viewModel.zeroMinedNeighbors = neighborList.toMutableList()
+            } else {
+                viewModel.zeroMinedNeighbors!!.addAll(neighborList)
+            }
+        }
+        textView.text = numberWithMines.toString()
     }
 
     fun onSafeClicked(view: View) {
