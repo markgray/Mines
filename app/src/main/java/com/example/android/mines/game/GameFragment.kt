@@ -155,17 +155,7 @@ class GameFragment : Fragment() {
             }
         }
         textView.text = numberWithMines.toString()
-        if (numberWithMines == 0) {
-            /**
-             * Here we will want to loop through neighborList and call [markSectorAsSafe] on each.
-             * The zeroMinedNeighbors list approach has me a bit nervousu
-             */
-            if (viewModel.zeroMinedNeighbors == null) {
-                viewModel.zeroMinedNeighbors = neighborList.toMutableList()
-            } else {
-                viewModel.zeroMinedNeighbors!!.addAll(neighborList)
-            }
-        }
+
         return numberWithMines
     }
 

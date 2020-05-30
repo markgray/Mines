@@ -8,7 +8,6 @@ class SharedViewModel: ViewModel() {
 
     lateinit var gameState: MutableList<SectorContent>
     lateinit var haveMines: MutableList<Boolean>
-    var zeroMinedNeighbors: MutableList<Int>? = null
     var numColumns: Int = 0
     var numRows: Int = 0
     var numSectors: Int = 0
@@ -34,7 +33,6 @@ class SharedViewModel: ViewModel() {
 
         gameState = ArrayList(numSectors)
         haveMines = ArrayList(numSectors)
-        zeroMinedNeighbors = null
         for (index in 0 until numMines) {
             haveMines.add(true)
         }
