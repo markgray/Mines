@@ -105,7 +105,9 @@ class GameFragment : Fragment() {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
                 textView.text = "\u274c"
             } else if(!sectorTag.hasBeenChecked) {
-                markSectorAsSafe(sectorTag, textView)
+                if (markSectorAsSafe(sectorTag, textView) == 0) {
+                    markNeighborsAsSafe(sectorTag.neighbors)
+                }
             }
         } else if (viewModel.modeMine) {
             if (sectorTag.hasMine) {
@@ -141,7 +143,7 @@ class GameFragment : Fragment() {
     private fun markSectorAsSafe(
         sectorTag: SectorContent,
         textView: TextView
-    ) {
+    ) : Int {
         sectorTag.hasBeenChecked = true
         viewModel.numCheckedSafe++
         textView.setBackgroundResource(R.drawable.background_light)
@@ -152,14 +154,29 @@ class GameFragment : Fragment() {
                 numberWithMines++
             }
         }
+        textView.text = numberWithMines.toString()
         if (numberWithMines == 0) {
+            /**
+             * Here we will want to loop through neighborList and call [markSectorAsSafe] on each.
+             * The zeroMinedNeighbors list approach has me a bit nervousu
+             */
             if (viewModel.zeroMinedNeighbors == null) {
                 viewModel.zeroMinedNeighbors = neighborList.toMutableList()
             } else {
                 viewModel.zeroMinedNeighbors!!.addAll(neighborList)
             }
         }
-        textView.text = numberWithMines.toString()
+        return numberWithMines
+    }
+
+    private fun markNeighborsAsSafe(listOfNeighbors: MutableList<Int>) {
+        for (sectorIndex in listOfNeighbors) {
+            val sector = viewModel.gameState[sectorIndex]
+            if (!sector.hasBeenChecked) {
+                val view: TextView = board.getChildAt(sectorIndex) as TextView
+                markSectorAsSafe(sector, view)
+            }
+        }
     }
 
     fun onSafeClicked(view: View) {
