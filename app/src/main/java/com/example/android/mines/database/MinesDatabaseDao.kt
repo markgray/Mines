@@ -22,7 +22,7 @@ interface MinesDatabaseDao {
     fun clear()
 
     @Query("SELECT * FROM mines_game_history ORDER BY gameId DESC LIMIT 1")
-    fun getLastEntry(): MinesDatum?
+    fun getLatestEntry(): MinesDatum?
 
     @Query("SELECT * FROM mines_game_history ORDER BY gameId DESC")
     fun getAllGames(): LiveData<List<MinesDatum>>

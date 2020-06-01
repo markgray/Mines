@@ -13,7 +13,6 @@
         android:layout_height="0dp"
         android:text="@string/score_text"
         android:textAlignment="center"
-        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/button_again"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

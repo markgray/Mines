@@ -184,6 +184,7 @@ class GameFragment : Fragment() {
     }
 
     fun onFlippedAll() {
+        viewModel.toMinesDatum()
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }
 

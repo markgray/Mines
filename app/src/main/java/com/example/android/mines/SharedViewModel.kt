@@ -3,6 +3,15 @@
 package com.example.android.mines
 
 import androidx.lifecycle.ViewModel
+import com.example.android.mines.database.MinesDatabaseDao
+import com.example.android.mines.database.MinesDatum
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+import java.lang.StringBuilder
 
 class SharedViewModel: ViewModel() {
 
@@ -19,6 +28,9 @@ class SharedViewModel: ViewModel() {
     var startTime: Long = 0
     var modeMine: Boolean = false
     var modeSafe: Boolean = true
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    var minesDatabaseDao: MinesDatabaseDao? = null
 
     fun init(columnCount: Int, rowCount: Int, mines: Int) {
         numColumns = columnCount
@@ -79,6 +91,43 @@ class SharedViewModel: ViewModel() {
             if (theSectorContent.column < numColumns - 1) {
                 theSectorContent.neighbors.add(followingChildNum + 1)
             }
+        }
+    }
+
+    fun toMinesDatum(): MinesDatum {
+        val minesDatum = MinesDatum(
+            numColumns = numColumns,
+            numRows = numRows,
+            numMines = numMines,
+            elapsedTimeMilli = System.currentTimeMillis() - startTime,
+            haveMines = stringEncodeHaveMines()
+        )
+        uiScope.launch {
+            insertMinesDatum(minesDatum)
+        }
+        return minesDatum
+    }
+
+    private suspend fun insertMinesDatum(datum: MinesDatum) {
+        withContext(Dispatchers.IO) {
+            minesDatabaseDao?.insert(datum)
+        }
+    }
+
+    fun stringEncodeHaveMines(): String {
+        val stringBuilder = StringBuilder(haveMines.size)
+        for (sectorHasMine in haveMines) {
+            when (sectorHasMine) {
+                true -> stringBuilder.append('*')
+                false -> stringBuilder.append(' ')
+            }
+        }
+        return stringBuilder.toString()
+    }
+
+    suspend fun retrieveLatestDatum(): MinesDatum {
+        return withContext(Dispatchers.IO) {
+            minesDatabaseDao!!.getLatestEntry()!!
         }
     }
 }

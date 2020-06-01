@@ -15,6 +15,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.database.MinesDatum
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class ScoreFragment : Fragment() {
@@ -27,6 +32,7 @@ class ScoreFragment : Fragment() {
     private lateinit var uiView: View
     private lateinit var buttonAgain: Button
     private lateinit var textView: TextView
+    private lateinit var latestDatum: MinesDatum
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,11 +45,11 @@ class ScoreFragment : Fragment() {
         }
         textView = uiView.findViewById(R.id.textViewScore)
 
-        val todaysDate = Calendar.getInstance().getTime()
-        textView.append("\nCurrent time => $todaysDate")
+        CoroutineScope(Dispatchers.Main).launch {
+            latestDatum = viewModel.retrieveLatestDatum()
+            textView.append(latestDatum.toString())
+        }
 
-        val elapsedTime: Long = (SystemClock.elapsedRealtime() - viewModel.startTime)/1_000
-        textView.append("\n${DateUtils.formatElapsedTime(elapsedTime)}")
         return uiView
     }
 

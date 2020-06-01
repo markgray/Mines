@@ -2,6 +2,7 @@
 
 package com.example.android.mines.choose
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.database.MinesDataBase
 
 class ChooseFragment : Fragment() {
 
@@ -24,6 +26,8 @@ class ChooseFragment : Fragment() {
     }
 
     private val viewModel: SharedViewModel by activityViewModels()
+    private lateinit var application: Application
+    private lateinit var minesDataBase: MinesDataBase
     private lateinit var uiView: View
     private lateinit var radioGroup: RadioGroup
     private var boardSizeChosen: Boolean = false
@@ -46,7 +50,9 @@ class ChooseFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
+        application = requireNotNull(this.activity).application
+        minesDataBase  = MinesDataBase.getInstance(application)
+        if (viewModel.minesDatabaseDao == null) viewModel.minesDatabaseDao = minesDataBase.minesDatabaseDao
     }
 
     private fun onPlayClicked(view: View) {
