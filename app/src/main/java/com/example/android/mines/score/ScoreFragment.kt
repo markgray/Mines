@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
+import com.example.android.mines.formatMinesDatum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,7 +48,7 @@ class ScoreFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             latestDatum = viewModel.retrieveLatestDatum()
-            textView.append(latestDatum.toString())
+            textView.append(formatMinesDatum(latestDatum))
         }
 
         return uiView

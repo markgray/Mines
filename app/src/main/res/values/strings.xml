@@ -4,7 +4,7 @@
     <string name="mine">Mine</string>
     <string name="choose_text">This Fragment will eventually allow you to select the size of  your Mine Field</string>
     <string name="play">Play</string>
-    <string name="score_text">This Fragment will eventually display the results of playing the game</string>
+    <string name="score_text">This Fragment will eventually display game history\n</string>
     <string name="again">Again</string>
     <string name="board_8_by_8_10_mines">8 by 8, 10 Mines</string>
     <string name="board_12_by_16_30_mines">12 by 16, 30 Mines</string>

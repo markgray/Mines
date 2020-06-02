@@ -5,7 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "mines_game_history")
-data class MinesDatum(
+data class MinesDatum
+    (
     @PrimaryKey(autoGenerate = true)
     var gameId: Long = 0L,
 

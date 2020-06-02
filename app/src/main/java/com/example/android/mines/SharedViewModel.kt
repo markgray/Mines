@@ -2,6 +2,7 @@
 
 package com.example.android.mines
 
+import android.os.SystemClock
 import androidx.lifecycle.ViewModel
 import com.example.android.mines.database.MinesDatabaseDao
 import com.example.android.mines.database.MinesDatum
@@ -99,7 +100,7 @@ class SharedViewModel: ViewModel() {
             numColumns = numColumns,
             numRows = numRows,
             numMines = numMines,
-            elapsedTimeMilli = System.currentTimeMillis() - startTime,
+            elapsedTimeMilli = SystemClock.elapsedRealtime() - startTime,
             haveMines = stringEncodeHaveMines()
         )
         uiScope.launch {
