@@ -2,6 +2,8 @@ package com.example.android.mines
 
 import android.annotation.SuppressLint
 import android.text.format.DateUtils
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.database.MinesDatum
 import java.text.SimpleDateFormat
 
@@ -33,3 +35,6 @@ fun convertLongToDateString(systemTime: Long): String {
     return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
         .format(systemTime).toString()
 }
+
+class
+TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)

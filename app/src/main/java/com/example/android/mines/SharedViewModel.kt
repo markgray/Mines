@@ -3,6 +3,7 @@
 package com.example.android.mines
 
 import android.os.SystemClock
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.mines.database.MinesDatabaseDao
 import com.example.android.mines.database.MinesDatum
@@ -31,7 +32,8 @@ class SharedViewModel: ViewModel() {
     var modeSafe: Boolean = true
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    var minesDatabaseDao: MinesDatabaseDao? = null
+    var minesDatabaseDao: MinesDatabaseDao? = null // These two lines are iffy
+    var gameHistory: LiveData<List<MinesDatum>>? = null
 
     fun init(columnCount: Int, rowCount: Int, mines: Int) {
         numColumns = columnCount

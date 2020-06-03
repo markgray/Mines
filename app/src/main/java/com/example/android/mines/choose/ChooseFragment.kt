@@ -53,6 +53,9 @@ class ChooseFragment : Fragment() {
         application = requireNotNull(this.activity).application
         minesDataBase  = MinesDataBase.getInstance(application)
         if (viewModel.minesDatabaseDao == null) viewModel.minesDatabaseDao = minesDataBase.minesDatabaseDao
+        if (viewModel.gameHistory == null) {
+            viewModel.gameHistory = viewModel.minesDatabaseDao!!.getAllGames()
+        }
     }
 
     private fun onPlayClicked(view: View) {
