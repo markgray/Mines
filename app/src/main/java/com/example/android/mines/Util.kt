@@ -2,8 +2,6 @@ package com.example.android.mines
 
 import android.annotation.SuppressLint
 import android.text.format.DateUtils
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.database.MinesDatum
 import java.text.SimpleDateFormat
 
@@ -16,8 +14,28 @@ fun formatMinesDatum(game: MinesDatum): String {
         append("Number of mines: ${game.numMines}\n")
         append("Start time: ${convertLongToDateString(game.startTimeMilli)}\n")
         append("Elapsed Time: ${DateUtils.formatElapsedTime(game.elapsedTimeMilli/1_000L)}\n")
-        append("Mine Locations: ${game.haveMines}\n")
+        //append("Mine Locations: ${game.haveMines}\n")
     }
+    return sb.toString()
+}
+
+fun formatGameBoard(game: MinesDatum): String {
+    val sb = StringBuilder()
+    val numColumns = game.numColumns
+    val numRows = game.numRows
+    var index = 0
+    for (r in 0 until numRows) {
+        for (c in 0 until numColumns) {
+            if (game.haveMines[index] == ' ') {
+                sb.append("\u2734")
+            } else {
+                sb.append("\u274c")
+            }
+            index++
+        }
+        sb.append("\n")
+    }
+
     return sb.toString()
 }
 
@@ -32,9 +50,6 @@ fun formatMinesDatum(game: MinesDatum): String {
  */
 @SuppressLint("SimpleDateFormat")
 fun convertLongToDateString(systemTime: Long): String {
-    return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
+    return SimpleDateFormat("MMM-dd-yyyy' 'HH:mm")
         .format(systemTime).toString()
 }
-
-class
-TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
