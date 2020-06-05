@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
+import com.example.android.mines.databinding.ScoreFragmentBinding
 import com.example.android.mines.formatMinesDatum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +30,6 @@ class ScoreFragment : Fragment() {
     }
 
     private val viewModel: SharedViewModel by activityViewModels()
-    private lateinit var uiView: View
     private lateinit var buttonAgain: Button
     private lateinit var textView: TextView
     private lateinit var latestDatum: MinesDatum
@@ -38,13 +39,14 @@ class ScoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        uiView = inflater.inflate(R.layout.score_fragment, container, false)
-        buttonAgain = uiView.findViewById(R.id.button_again)
+        val binding: ScoreFragmentBinding = DataBindingUtil.inflate(
+            inflater, R.layout.score_fragment, container, false)
+        buttonAgain = binding.buttonAgain
         buttonAgain.setOnClickListener {
             findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)
         }
-        textView = uiView.findViewById(R.id.textViewScore)
-        recyclerView = uiView.findViewById(R.id.game_history_list)
+        textView = binding.textViewScore
+        recyclerView = binding.gameHistoryList
         val adapter = MineDatumAdapter()
         recyclerView.adapter = adapter
         viewModel.gameHistory!!.observe(viewLifecycleOwner, Observer {
@@ -58,7 +60,7 @@ class ScoreFragment : Fragment() {
             textView.append(formatMinesDatum(latestDatum))
         }
 
-        return uiView
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chooseConstraint"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".choose.ChooseFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/choose_text"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/boardChoice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <Button
-        android:id="@+id/button_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    </data>
 
-    <RadioGroup
-        android:id="@+id/boardChoice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button_play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chooseConstraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".choose.ChooseFragment">
 
-        <RadioButton
-            android:id="@+id/board8by8"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/choose_text"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/boardChoice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_play"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/board_8_by_8_10_mines" />
+            android:text="@string/play"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <RadioButton
-            android:id="@+id/board12by16"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/boardChoice"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/board_12_by_16_30_mines" />
+            app:layout_constraintBottom_toTopOf="@+id/button_play"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <RadioButton
-            android:id="@+id/board16by16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/board_16_by_16_40_mines" />
+            <RadioButton
+                android:id="@+id/board8by8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/board_8_by_8_10_mines" />
 
-        <RadioButton
-            android:id="@+id/board16by30"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/board_16_by_30_99_mines" />
+            <RadioButton
+                android:id="@+id/board12by16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/board_12_by_16_30_mines" />
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/board16by16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/board_16_by_16_40_mines" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <RadioButton
+                android:id="@+id/board16by30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/board_16_by_30_99_mines" />
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

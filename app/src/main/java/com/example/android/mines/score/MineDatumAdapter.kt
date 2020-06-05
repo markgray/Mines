@@ -4,12 +4,10 @@ package com.example.android.mines.score
 
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.mines.R
 import com.example.android.mines.database.MinesDatum
+import com.example.android.mines.databinding.MineDatumViewBinding
 import com.example.android.mines.formatGameBoard
 import com.example.android.mines.formatMinesDatum
 
@@ -80,23 +78,22 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val gameStats: TextView = itemView.findViewById(R.id.game_stats)
-        val gameBoard: TextView = itemView.findViewById(R.id.game_board)
+    class ViewHolder private constructor(val binding: MineDatumViewBinding
+    ) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: MinesDatum) {
-            gameBoard.setBackgroundColor(Color.GRAY)
-            gameStats.text = formatMinesDatum(item)
-            gameBoard.text = formatGameBoard(item)
+            binding.gameBoard.setBackgroundColor(Color.GRAY)
+            binding.gameStats.text = formatMinesDatum(item)
+            binding.gameBoard.text = formatGameBoard(item)
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater
-                    .inflate(R.layout.mine_datum_view, parent, false)
+                val binding =
+                    MineDatumViewBinding.inflate(layoutInflater, parent, false)
 
-                return ViewHolder(view)
+                return ViewHolder(binding)
             }
         }
     }

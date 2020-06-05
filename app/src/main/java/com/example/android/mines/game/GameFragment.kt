@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.gridlayout.widget.GridLayout
@@ -21,10 +22,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SectorContent
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.databinding.GameFragmentBinding
 
 class GameFragment : Fragment() {
 
-    private lateinit var rootView: View
     private lateinit var board: GridLayout
     private lateinit var safe: Button
     private lateinit var mine: Button
@@ -37,10 +38,12 @@ class GameFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.game_fragment, container, false)
-        board = rootView.findViewById(R.id.board_grid)
-        safe = rootView.findViewById(R.id.button_safe)
-        mine = rootView.findViewById(R.id.button_mine)
+        val binding: GameFragmentBinding = DataBindingUtil.inflate(
+            inflater, R.layout.game_fragment, container, false)
+
+        board = binding.boardGrid
+        safe = binding.buttonSafe
+        mine = binding.buttonMine
         boardWidth = resources.displayMetrics.widthPixels
         boardHeight = viewModel.buttonTop
         createBoard()
@@ -52,7 +55,7 @@ class GameFragment : Fragment() {
             onMineClicked(view)
         }
         viewModel.startTime = SystemClock.elapsedRealtime()
-        return rootView
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
