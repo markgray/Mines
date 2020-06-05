@@ -27,13 +27,15 @@ fun formatGameBoard(game: MinesDatum): String {
     for (r in 0 until numRows) {
         for (c in 0 until numColumns) {
             if (game.haveMines[index] == ' ') {
-                sb.append("\u2734")
+                sb.append("\u2705")
             } else {
                 sb.append("\u274c")
             }
             index++
         }
-        sb.append("\n")
+        if (index < game.haveMines.length) {
+            sb.append("\n")
+        }
     }
 
     return sb.toString()
