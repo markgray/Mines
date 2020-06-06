@@ -22,7 +22,7 @@ data class MinesDatum
     @ColumnInfo(name = "game_date_and_time")
     val startTimeMilli: Long = System.currentTimeMillis(),
 
-    @ColumnInfo(name = "game_elaped_time")
+    @ColumnInfo(name = "game_elapsed_time")
     var elapsedTimeMilli: Long = 0,
 
     /**

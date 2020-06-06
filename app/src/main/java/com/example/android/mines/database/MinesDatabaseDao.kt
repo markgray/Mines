@@ -24,7 +24,7 @@ interface MinesDatabaseDao {
     @Query("SELECT * FROM mines_game_history ORDER BY gameId DESC LIMIT 1")
     fun getLatestEntry(): MinesDatum?
 
-    @Query("SELECT * FROM mines_game_history ORDER BY gameId DESC")
+    @Query("SELECT * FROM mines_game_history ORDER BY game_elapsed_time ASC")
     fun getAllGames(): LiveData<List<MinesDatum>>
 
 }
