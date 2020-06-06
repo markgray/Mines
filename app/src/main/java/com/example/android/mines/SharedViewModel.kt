@@ -17,16 +17,63 @@ import java.lang.StringBuilder
 
 class SharedViewModel: ViewModel() {
 
+    /**
+     * List of the [SectorContent] objects which make up our current game.
+     */
     lateinit var gameState: MutableList<SectorContent>
+
+    /**
+     * Each entry in this list decides whether the corresponding [SectorContent] in our [gameState]
+     * current game board list has a Mine in it or not: true if it has a mine, false if it does not.
+     */
     lateinit var haveMines: MutableList<Boolean>
+
+    /**
+     * Number of columns in our game board GridLayout.
+     */
     var numColumns: Int = 0
+
+    /**
+     * Number of rows in our game board GridLayout.
+     */
     var numRows: Int = 0
+
+    /**
+     * Total number of sectors in our game board GridLayout ([numColumns] times [numRows]).
+     */
     var numSectors: Int = 0
+
+    /**
+     * Number of sectors in our game board GridLayout which have a Mine in them
+     */
     var numMines: Int = 0
+
+    /**
+     * Total number of sectors on our game board which the user has correctly marked as Safe or Mine
+     */
     var numChecked: Int = 0
+
+    /**
+     * Total number of sectors on our game board which the user has correctly marked as Safe
+     */
     var numCheckedSafe: Int = 0
+
+    /**
+     * Total number of sectors on our game board which the user has correctly marked as Mine
+     */
     var numCheckedMine: Int = 0
+
+    /**
+     * This is the top "y" coordinate of the button in the ChooseFragment layout, which we then use
+     * in the GameFragment to decide how big the GridLayout it uses for the board can be (a bit of
+     * a kludge, but the height of a button is not readily known until it has been drawn as far as
+     * I could see).
+     */
     var buttonTop: Int = 0
+
+    /**
+     * Milliseconds since boot when the current game started to be played.
+     */
     var startTime: Long = 0
     var modeMine: Boolean = false
     var modeSafe: Boolean = true
