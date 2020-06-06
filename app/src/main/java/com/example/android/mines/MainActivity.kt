@@ -1,12 +1,10 @@
 package com.example.android.mines
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 
-@Suppress("MemberVisibilityCanBePrivate")
-@SuppressLint("SetTextI18n")
+@Suppress("MemberVisibilityCanBePrivate", "RemoveExplicitTypeArguments")
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: SharedViewModel
