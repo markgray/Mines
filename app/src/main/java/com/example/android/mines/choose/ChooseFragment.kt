@@ -62,7 +62,7 @@ class ChooseFragment : Fragment() {
 
     private fun onPlayClicked(view: View) {
         viewModel.buttonTop = view.top
-        if (!boardSizeChosen) viewModel.init(COLUMN_COUNT, ROW_COUNT, MINE_COUNT)
+        if (!boardSizeChosen) viewModel.randomGame(COLUMN_COUNT, ROW_COUNT, MINE_COUNT)
         findNavController().navigate(R.id.action_chooseFragment_to_gameFragment)
     }
 
@@ -70,16 +70,16 @@ class ChooseFragment : Fragment() {
         boardSizeChosen = true
         when (checkedId) {
             R.id.board8by8 -> {
-                viewModel.init(8, 8, 10)
+                viewModel.randomGame(8, 8, 10)
             }
             R.id.board12by16 -> {
-                viewModel.init(12, 16, 30)
+                viewModel.randomGame(12, 16, 30)
             }
             R.id.board16by16 -> {
-                viewModel.init(16, 16, 40)
+                viewModel.randomGame(16, 16, 40)
             }
             R.id.board16by30 -> {
-                viewModel.init(16, 30, 99)
+                viewModel.randomGame(16, 30, 99)
             }
         }
     }
