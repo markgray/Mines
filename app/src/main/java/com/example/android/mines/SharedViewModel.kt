@@ -223,6 +223,18 @@ class SharedViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Converts the current game to a [MinesDatum] representation and inserts that [MinesDatum] into
+     * the database. We construct a [MinesDatum] for our variable `val minesDatum` whose `numColumns`,
+     * `numRows` and `numMines` fields are the same as the current games properties, whose field
+     * `elapsedTimeMilli` is milliseconds since boot minus our [startTime] property and whose
+     * `haveMines` field is the string encoding of our [haveMines] property that our method
+     * [stringEncodeHaveMines] constructs. We launch a new coroutine without blocking the current
+     * thread on the [CoroutineScope] of our field [uiScope] which calls our [insertMinesDatum]
+     * suspend function to insert `minesDatum` in the database by executing a suspending block with
+     * the [Dispatchers.IO] coroutine context, suspending until it completes, and returning the
+     * result of calling the `insert` method of our [MinesDatabaseDao] field [minesDatabaseDao].
+     */
     fun toMinesDatum(): MinesDatum {
         val minesDatum = MinesDatum(
             numColumns = numColumns,
@@ -237,12 +249,28 @@ class SharedViewModel: ViewModel() {
         return minesDatum
     }
 
+    /**
+     * This method inserts its [MinesDatum] parameter [datum] in the game history database. It does
+     * this by calling the `insert` method of our [MinesDatabaseDao] field [minesDatabaseDao] in a
+     * lambda which is launched on the [Dispatchers.IO] coroutine context.
+     *
+     * @param datum the [MinesDatum] we are to insert in our game history database.
+     */
     private suspend fun insertMinesDatum(datum: MinesDatum) {
         withContext(Dispatchers.IO) {
             minesDatabaseDao?.insert(datum)
         }
     }
 
+    /**
+     * Encodes our [Boolean] array List [haveMines] into a [String] which it returns to the caller.
+     * We initialize our [StringBuilder] variable `val stringBuilder` sized to hold a [String] the
+     * size of [haveMines]. Then we loop through each of the [Boolean] `sectorHasMine` values in
+     * [haveMines] appending a '*' character if `sectorHasMine` is true, or a ' ' character if it
+     * is false. When done we return the [String] version of `stringBuilder` to the caller.
+     *
+     * @return a [String] which encodes the contents of our [Boolean] array list field [haveMines]
+     */
     fun stringEncodeHaveMines(): String {
         val stringBuilder = StringBuilder(haveMines.size)
         for (sectorHasMine in haveMines) {
@@ -254,6 +282,14 @@ class SharedViewModel: ViewModel() {
         return stringBuilder.toString()
     }
 
+    /**
+     * Returns the latest [MinesDatum] which has been inserted into our game history database. It
+     * does this by returning the value that the `getLatestEntry` method of our [MinesDatabaseDao]
+     * field [minesDatabaseDao] fetches when it is called from a lambda which is launched on the
+     * [Dispatchers.IO] coroutine context.
+     *
+     * @return the [MinesDatum] which was most recently inserted into our game history database.
+     */
     suspend fun retrieveLatestDatum(): MinesDatum {
         return withContext(Dispatchers.IO) {
             minesDatabaseDao!!.getLatestEntry()!!

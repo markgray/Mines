@@ -5,6 +5,13 @@ import android.text.format.DateUtils
 import com.example.android.mines.database.MinesDatum
 import java.text.SimpleDateFormat
 
+/**
+ * Formats the fields of its [MinesDatum] parameter [game] into a [String] suitable for display to
+ * the user. We allocate a [StringBuilder] for our variable `val sb`, then append the string values
+ * of the interesting fields of [game] to it. Finally we return the string value of `sb`.
+ *
+ * @return [String] displaying values of the interesting fields of our [MinesDatum] parameter [game]
+ */
 fun formatMinesDatum(game: MinesDatum): String {
     val sb = StringBuilder()
     sb.apply {

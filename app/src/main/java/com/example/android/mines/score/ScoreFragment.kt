@@ -58,6 +58,7 @@ class ScoreFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             latestDatum = viewModel.retrieveLatestDatum()
             textView.append(formatMinesDatum(latestDatum))
+            // TODO: save gameId of latestDatum in ViewModel for use by ViewHolder bind method
         }
 
         return binding.root

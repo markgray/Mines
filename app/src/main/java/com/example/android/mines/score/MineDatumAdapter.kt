@@ -84,6 +84,7 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
         fun bind(item: MinesDatum) {
             binding.gameBoard.setBackgroundColor(Color.GRAY)
             binding.gameStats.text = formatMinesDatum(item)
+            // TODO: binding.gameStats.setTextColor(Color.GREEN) if latest MinesDatum
             binding.gameBoard.text = formatGameBoard(item)
         }
 
