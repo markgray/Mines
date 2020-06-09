@@ -17,17 +17,50 @@ import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDataBase
 import com.example.android.mines.databinding.ChooseFragmentBinding
 
+/**
+ * This is the "app:startDestination" for our app and allows the user to choose the size of the
+ * game board which it then configures the [SharedViewModel] to represent before navigating to the
+ * `GameFragment` to begin playing the game.
+ * TODO: add Button to navigate to the ScoreFragment to replay an old game instead.
+ */
 class ChooseFragment : Fragment() {
 
     companion object {
+        /**
+         * Default number of columns if the user does not choose a game board size
+         */
         const val COLUMN_COUNT = 8
+
+        /**
+         * Default number of row if the user does not choose a game board size
+         */
         const val ROW_COUNT = 8
+
+        /**
+         * Default number of Mined sectors if the user does not choose a game board size
+         */
         const val MINE_COUNT = 10
+
+        /**
+         * Unused [ChooseFragment] factory method.
+         */
         fun newInstance() = ChooseFragment()
     }
 
+    /**
+     * The [SharedViewModel] instance we share with all our other fragments.
+     */
     private val viewModel: SharedViewModel by activityViewModels()
+
+    /**
+     * Our [Application] which we need to use as the context for our database when we first open or
+     * create it.
+     */
     private lateinit var application: Application
+
+    /**
+     * The [MinesDataBase] we store our game history in.
+     */
     private lateinit var minesDataBase: MinesDataBase
     private lateinit var radioGroup: RadioGroup
     private var boardSizeChosen: Boolean = false
@@ -54,7 +87,9 @@ class ChooseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         application = requireNotNull(this.activity).application
         minesDataBase  = MinesDataBase.getInstance(application)
-        if (viewModel.minesDatabaseDao == null) viewModel.minesDatabaseDao = minesDataBase.minesDatabaseDao
+        if (viewModel.minesDatabaseDao == null) {
+            viewModel.minesDatabaseDao = minesDataBase.minesDatabaseDao
+        }
         if (viewModel.gameHistory == null) {
             viewModel.gameHistory = viewModel.minesDatabaseDao!!.getAllGames()
         }
@@ -81,6 +116,7 @@ class ChooseFragment : Fragment() {
             R.id.board16by30 -> {
                 viewModel.randomGame(16, 30, 99)
             }
+            // TODO: add a custom choice which launches a dialog to allow user to specify size
         }
     }
 
