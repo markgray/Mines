@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDataBase
+import com.example.android.mines.database.MinesDatabaseDao
 import com.example.android.mines.databinding.ChooseFragmentBinding
 
 /**
@@ -62,15 +63,53 @@ class ChooseFragment : Fragment() {
      * The [MinesDataBase] we store our game history in.
      */
     private lateinit var minesDataBase: MinesDataBase
+
+    /**
+     * The [RadioGroup] which contains `RadioButton`'s to select different board sizes.
+     */
     private lateinit var radioGroup: RadioGroup
+
+    /**
+     * If false indicates we should use default board size.
+     */
     private var boardSizeChosen: Boolean = false
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onActivityCreated]. A default View can be returned by calling [Fragment]
+     * in your constructor. It is recommended to only inflate the layout in this method and move
+     * logic that operates on the returned View to [onViewCreated]. First we initialize our variable
+     * `val binding` to the [ChooseFragmentBinding] that the [DataBindingUtil.inflate] method
+     * returns when  it uses our [LayoutInflater] parameter [inflater] to inflate our layout file
+     * [R.layout.choose_fragment] using our [ViewGroup] parameter [container] for its LayoutParams
+     * without attaching to it. We set the `OnClickListener` of the `buttonPlay` `Button` in
+     * our layout to a lambda which calls our method [onPlayClicked] with the [View] clicked. We
+     * set our [RadioGroup] field [radioGroup] to the `boardChoice` [RadioGroup] in our layout file
+     * then set its `OnCheckedChangeListener` to a lambda which calls our [selectBoardSize] method
+     * with the ID of the `RadioButton` which was checked. Finally we return the outermost View in
+     * the layout file associated with the [ChooseFragmentBinding] variable `binding` (its `root`
+     * [View]).
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate any views
+     * @param container If non-null, this is the parent view that the fragment's UI will be attached
+     * to. The fragment should not add the view itself, but this can be used to generate the
+     * LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * saved state as given here.
+     *
+     * @return Return the [View] for the fragment's UI, or null.
+     */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: ChooseFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.choose_fragment, container, false)
+            inflater,
+            R.layout.choose_fragment,
+            container,
+            false
+        )
 
         binding.buttonPlay.setOnClickListener { view ->
             onPlayClicked(view)
@@ -83,6 +122,23 @@ class ChooseFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called when the fragment's activity has been created and this fragment's view hierarchy
+     * instantiated. It can be used to do final initialization once these pieces are in place,
+     * such as retrieving views or restoring state. This is called after [onCreateView] and before
+     * [onViewStateRestored]. First we call our super's implementation of `onActivityCreated`, then
+     * we set [Application] field [application] to the application that owns the `FragmentActivity`
+     * that our `Fragment` is currently attached to. We then use [application] in a call to the
+     * [MinesDataBase.getInstance] method to retrieve the [MinesDataBase] singleton (creating it
+     * if need be, or returning the previously opened instance) whose reference we save in our field
+     * [minesDataBase]. If the `minesDatabaseDao` field of our [SharedViewModel] field [viewModel]
+     * is null we set it to the [MinesDatabaseDao] field `minesDatabaseDao` of [minesDataBase],
+     * and if the `LiveData` field `gameHistory` of [viewModel] is null we set it to the result
+     * of calling the `getAllGames` method of the `minesDatabaseDao` field of [viewModel].
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state,
+     * this is the state.
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         application = requireNotNull(this.activity).application

@@ -16,11 +16,11 @@ fun formatMinesDatum(game: MinesDatum): String {
     val sb = StringBuilder()
     sb.apply {
         append("Game Id: ${game.gameId}\n")
-        append("Number of columns: ${game.numColumns}\n")
-        append("Number of rows: ${game.numRows}\n")
-        append("Number of mines: ${game.numMines}\n")
-        append("Start time: ${convertLongToDateString(game.startTimeMilli)}\n")
-        append("Elapsed Time: ${DateUtils.formatElapsedTime(game.elapsedTimeMilli/1_000L)}\n")
+        append("Columns: ${game.numColumns}\n")
+        append("Rows: ${game.numRows}\n")
+        append("Mines: ${game.numMines}\n")
+        append("Date: ${convertLongToDateString(game.startTimeMilli)}\n")
+        append("Time: ${DateUtils.formatElapsedTime(game.elapsedTimeMilli/1_000L)}\n")
         //append("Mine Locations: ${game.haveMines}\n")
     }
     return sb.toString()
