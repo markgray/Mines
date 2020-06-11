@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -151,15 +153,49 @@ class ChooseFragment : Fragment() {
         }
     }
 
+    /**
+     * Called when the `buttonPlay` `Button` (ID R.id.button_play) is clicked, we first initialize
+     * the `buttonTop` property of our [SharedViewModel] field [viewModel] to the `top` Y coordinate
+     * of the [View] parameter [view] that was clicked (a shameless kludge we use to calculate the
+     * height of the `GridLayout` in the layout file for `GameFragment` since we cannot easily know
+     * the height of a button until the button is drawn). If our [boardSizeChosen] flag is false the
+     * user has not selected a board size before clicking the Play button so we call the `randomGame`
+     * method of [viewModel] with the default values [COLUMN_COUNT], [ROW_COUNT], and [MINE_COUNT]
+     * before we call the `navigate` method of our `NavController` to navigate to `GameFragment`.
+     *
+     * @param view the [View] that was clicked.
+     */
     private fun onPlayClicked(view: View) {
         viewModel.buttonTop = view.top
         if (!boardSizeChosen) viewModel.randomGame(COLUMN_COUNT, ROW_COUNT, MINE_COUNT)
         findNavController().navigate(R.id.action_chooseFragment_to_gameFragment)
     }
 
+    /**
+     * Called by the `OnCheckedChangeListener` lambda of the [RadioGroup] field [radioGroup] when
+     * the user selects one of its `RadioButton`'s. We simply branch on the [checkedId] of the
+     * `RadioButton` selected calling the `randomGame` method of [SharedViewModel] field [viewModel]
+     * using hard coded values for its `columnCount`, `rowCount`, and `mines` parameters which
+     * correspond to the values specified by the `RadioButton` label.
+     *
+     * @param checkedId the resource ID of the `RadioButton` which was selected
+     */
     private fun selectBoardSize(checkedId: Int) {
         boardSizeChosen = true
         when (checkedId) {
+            R.id.boardcustom -> {
+                // TODO: add a way to allow user to specify size
+                val dialog : CustomSizeDialog = CustomSizeDialog()
+                findNavController().navigate(R.id.action_chooseFragment_to_customSizeDialog)
+//                val ft = supportFragmentManager.beginTransaction()
+//                val prev = supportFragmentManager.findFragmentByTag("dialog")
+//                if (prev != null) {
+//                    ft.remove(prev)
+//                }
+//                ft.addToBackStack(null)
+//
+//                dialog.show()
+            }
             R.id.board8by8 -> {
                 viewModel.randomGame(8, 8, 10)
             }
@@ -172,7 +208,6 @@ class ChooseFragment : Fragment() {
             R.id.board16by30 -> {
                 viewModel.randomGame(16, 30, 99)
             }
-            // TODO: add a custom choice which launches a dialog to allow user to specify size
         }
     }
 

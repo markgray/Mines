@@ -10,4 +10,5 @@
     <string name="board_12_by_16_30_mines">12 by 16, 30 Mines</string>
     <string name="board_16_by_16_40_mines">16 by 16, 40 Mines</string>
     <string name="board_16_by_30_99_mines">16 by 30, 99 Mines</string>
+    <string name="custom">Custom BROKEN DO NOT USE YET</string>
 </resources>
