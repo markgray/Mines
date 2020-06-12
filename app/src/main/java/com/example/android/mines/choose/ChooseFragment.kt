@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -177,7 +175,8 @@ class ChooseFragment : Fragment() {
      * `RadioButton` selected calling the `randomGame` method of [SharedViewModel] field [viewModel]
      * using hard coded values for its `columnCount`, `rowCount`, and `mines` parameters which
      * correspond to the values specified by the `RadioButton` label. If the `RadioButton` ID is
-     * R.id.boardcustom (the "Custom" button) we navi
+     * R.id.boardcustom (the "Custom" button) we navigate to `CustomSizeDialog` to allow the user
+     * to configure the game board however they want it.
      *
      * @param checkedId the resource ID of the `RadioButton` which was selected
      */
