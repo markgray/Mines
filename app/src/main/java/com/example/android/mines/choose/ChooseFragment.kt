@@ -176,7 +176,8 @@ class ChooseFragment : Fragment() {
      * the user selects one of its `RadioButton`'s. We simply branch on the [checkedId] of the
      * `RadioButton` selected calling the `randomGame` method of [SharedViewModel] field [viewModel]
      * using hard coded values for its `columnCount`, `rowCount`, and `mines` parameters which
-     * correspond to the values specified by the `RadioButton` label.
+     * correspond to the values specified by the `RadioButton` label. If the `RadioButton` ID is
+     * R.id.boardcustom (the "Custom" button) we navi
      *
      * @param checkedId the resource ID of the `RadioButton` which was selected
      */
@@ -184,17 +185,7 @@ class ChooseFragment : Fragment() {
         boardSizeChosen = true
         when (checkedId) {
             R.id.boardcustom -> {
-                // TODO: add a way to allow user to specify size
-                val dialog : CustomSizeDialog = CustomSizeDialog()
                 findNavController().navigate(R.id.action_chooseFragment_to_customSizeDialog)
-//                val ft = supportFragmentManager.beginTransaction()
-//                val prev = supportFragmentManager.findFragmentByTag("dialog")
-//                if (prev != null) {
-//                    ft.remove(prev)
-//                }
-//                ft.addToBackStack(null)
-//
-//                dialog.show()
             }
             R.id.board8by8 -> {
                 viewModel.randomGame(8, 8, 10)

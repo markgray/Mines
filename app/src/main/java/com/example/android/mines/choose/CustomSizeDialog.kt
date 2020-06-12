@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.isDigitsOnly
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -44,12 +45,40 @@ class CustomSizeDialog : DialogFragment()  {
             false
         )
         binding.dismissButton.setOnClickListener {
-            val columns: Int = binding.columnsNumber.text.toString().toInt()
-            val rows: Int = binding.rowsNumber.text.toString().toInt()
-            val mines: Int = binding.minesNumber.text.toString().toInt()
+            val columns: Int = sane(
+                binding.columnsNumber.text.toString(),
+                4,
+                32,
+                8
+            )
+            val rows: Int = sane(
+                binding.rowsNumber.text.toString(),
+                4,
+                32,
+                8
+            )
+            val mines: Int = sane(
+                binding.minesNumber.text.toString(),
+                1,
+                rows*columns/2,
+                rows*columns/10
+            )
             viewModel.randomGame(columns, rows, mines)
             dismiss()
         }
         return binding.root
+    }
+
+    private fun sane(old: String, low: Int, hi: Int, default: Int): Int {
+        val new: Int = if (old.isDigitsOnly() && old != "") {
+            old.toInt()
+        } else {
+            low
+        }
+        return if (new in low..hi) {
+            new
+        } else {
+            default
+        }
     }
 }
