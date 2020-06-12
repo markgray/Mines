@@ -6,24 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.example.android.mines.R
+import com.example.android.mines.SharedViewModel
 import com.example.android.mines.databinding.CustomSizeDialogBinding
 
 class CustomSizeDialog : DialogFragment()  {
     /**
-     * Called to do initial creation of a `DialogFragment`. This is called after `onAttach(Activity)`
-     * and before `onCreateView(LayoutInflater, ViewGroup, Bundle)`.
-     *
-     * First we call our super's implementation of `onCreate`, then we fetch from our arguments
-     * the [String] stored under the index "label" and save it in our field [mLabel], and we fetch
-     * the [String] stored under the index "text" and save it it our field [mText]. Finally we set
-     * the style of our `BibleDialog` `DialogFragment` to STYLE_NORMAL.
-     *
-     * @param savedInstanceState We do not override `onSaveInstanceState` so do not use.
+     * The [SharedViewModel] instance we share with all our other fragments.
      */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: SharedViewModel by activityViewModels()
 
     /**
      * Called to have the fragment instantiate its user interface view. This will be called between
@@ -52,6 +44,10 @@ class CustomSizeDialog : DialogFragment()  {
             false
         )
         binding.dismissButton.setOnClickListener {
+            val columns: Int = binding.columnsNumber.text.toString().toInt()
+            val rows: Int = binding.rowsNumber.text.toString().toInt()
+            val mines: Int = binding.minesNumber.text.toString().toInt()
+            viewModel.randomGame(columns, rows, mines)
             dismiss()
         }
         return binding.root

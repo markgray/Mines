@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="Autofill,HardcodedText,LabelFor">
 
         <TextView
             android:id="@+id/columnsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Columns:"
+            android:text="@string/columns"
             android:textSize="30sp"
             app:layout_constraintEnd_toStartOf="@+id/columnsNumber"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
+            android:text="6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/columnsLabel"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Rows:"
+            android:text="@string/rows"
             android:textSize="30sp"
             app:layout_constraintEnd_toStartOf="@+id/rowsNumber"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,9 +52,11 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
+            android:text="6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rowsLabel"
-            app:layout_constraintTop_toBottomOf="@+id/columnsNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/columnsNumber"
+            tools:ignore="LabelFor" />
 
         <TextView
             android:id="@+id/minesLabel"
@@ -72,6 +76,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
+            android:text="6"
             app:layout_constraintBottom_toTopOf="@+id/dismissButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/minesLabel"
