@@ -85,9 +85,21 @@ class CustomSizeDialog : DialogFragment()  {
         return binding.root
     }
 
-    private fun sane(old: String, low: Int, hi: Int, default: Int): Int {
-        val new: Int = if (old.isDigitsOnly() && old != "") {
-            old.toInt()
+    /**
+     * Verifies that the [String] parameter [inputString] is a number string between [low] and [hi]
+     * before converting it to an [Int] to return, but if it is not it returns [default] instread.
+     *
+     * @param inputString [String] entered into an `EditText` by the use.
+     * @param low the lowest value the caller want to accept
+     * @param hi the highest value the caller want to accept
+     * @param default the value to return if the [inputString] is unacceptable
+     *
+     * @return the [Int] value of [inputString] if [inputString] is a valid number string between
+     * [low] and [hi], otherwise [default]
+     */
+    private fun sane(inputString: String, low: Int, hi: Int, default: Int): Int {
+        val new: Int = if (inputString.isDigitsOnly() && inputString != "") {
+            inputString.toInt()
         } else {
             low
         }
