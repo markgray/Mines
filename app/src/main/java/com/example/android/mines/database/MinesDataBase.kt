@@ -31,7 +31,18 @@ abstract class MinesDataBase : RoomDatabase() {
         private var INSTANCE: MinesDataBase? = null
 
         /**
-         * Returns our singleton [MinesDataBase] instance, building it first if it null.
+         * Returns our singleton [MinesDataBase] instance, building it first if it is null.
+         * Synchronized on this `companion object` we set our [MinesDataBase] variable `var instance`
+         * to our field [INSTANCE]. If `instance` is *null* we construct a [RoomDatabase.Builder]
+         * using the [Context] of our parameter [context] (we are called from the `onActivityCreated`
+         * override of our `ChooseFragment` fragment only once with the application that owns the
+         * `FragmentActivity` as our parameter), using the [MinesDataBase] class as the abstract
+         * class which is annotated with `@Database` and extends [RoomDatabase], and "mines_game_history"
+         * as the name of the database file, we then call the `fallbackToDestructiveMigration`
+         * method of this `databaseBuilder` to allow Room to destructively recreate the database
+         * table, and finally build the `databaseBuilder` assigning the resulting [MinesDataBase] to
+         * `instance` which we cache in our field [INSTANCE]. Whether we had to build or could use
+         * a cached instance we return `instance` to the caller.
          *
          * @param context the [Context] of the application that owns our activity
          * @return reference to our singleton [MinesDataBase] instance
