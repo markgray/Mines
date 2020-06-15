@@ -25,19 +25,18 @@ class CustomSizeDialog : DialogFragment()  {
      * Called to have the fragment instantiate its user interface view. This will be called between
      * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
      * method and move logic that operates on the returned View to [onViewCreated]. First we
-     * initialize our variable `val binding` to the [CustomSizeDialogBinding] that the
-     * [DataBindingUtil.inflate] method returns when  it uses our [LayoutInflater] parameter
-     * [inflater] to inflate our layout file [R.layout.custom_size_dialog] using our [ViewGroup]
-     * parameter [container] for its LayoutParams without attaching to it. Then we set the
-     * `OnClickListener` of the `dismissButton` `Button` in our layout to a lambda which fetches
-     * the text in the `columnsNumber` `EditText` in our layout file in order to set `val columns`
-     * to the [Int] returned by our [sane] method after it verifies it, fetches the text in the
-     * `rowsNumber` `EditText` in our layout file in order to set `val rows` to the [Int] returned
-     * by our [sane] method after it verifies it, and fetches the text in the `minesNumber`
-     * `EditText` in our layout file in order to set `val mines` to the [Int] returned by our [sane]
-     * method after it verifies it. We then call the `randomGame` method of our [SharedViewModel]
-     * field [viewModel] to have it initialize the game state to `columns`, `rows`, and `mines`.
-     * Finally we dismiss this [DialogFragment].
+     * initialize our variable `val binding` to the [CustomSizeDialogBinding] that its
+     * `inflate` method returns when  it uses our [LayoutInflater] parameter  [inflater] to inflate
+     * our layout file [R.layout.custom_size_dialog] using our [ViewGroup] parameter [container] for
+     * its LayoutParams without attaching to it. Then we set the `OnClickListener` of the
+     * `dismissButton` `Button` in our layout to a lambda which fetches the text in the `columnsNumber`
+     * `EditText` in our layout file in order to set `val columns` to the [Int] returned by our
+     * [sane] method after it verifies it, fetches the text in the `rowsNumber` `EditText` in our
+     * layout file in order to set `val rows` to the [Int] returned by our [sane] method after it
+     * verifies it, and fetches the text in the `minesNumber` `EditText` in our layout file in order
+     * to set `val mines` to the [Int] returned by our [sane] method after it verifies it. We then
+     * call the `randomGame` method of our [SharedViewModel] field [viewModel] to have it initialize
+     * the game state to `columns`, `rows`, and `mines`. Finally we dismiss this [DialogFragment].
      *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment
@@ -54,9 +53,8 @@ class CustomSizeDialog : DialogFragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: CustomSizeDialogBinding = DataBindingUtil.inflate(
+        val binding: CustomSizeDialogBinding = CustomSizeDialogBinding.inflate(
             inflater,
-            R.layout.custom_size_dialog,
             container,
             false
         )

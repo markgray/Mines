@@ -1,4 +1,4 @@
-@file:Suppress("unused", "RedundantOverride")
+@file:Suppress( "RedundantOverride")
 
 package com.example.android.mines.score
 
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -26,6 +25,7 @@ import kotlinx.coroutines.launch
 class ScoreFragment : Fragment() {
 
     companion object {
+        @Suppress("unused")
         fun newInstance() = ScoreFragment()
     }
 
@@ -39,8 +39,11 @@ class ScoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: ScoreFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.score_fragment, container, false)
+        val binding: ScoreFragmentBinding = ScoreFragmentBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         buttonAgain = binding.buttonAgain
         buttonAgain.setOnClickListener {
             findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)

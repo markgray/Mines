@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate", "unused", "RedundantOverride")
+@file:Suppress("MemberVisibilityCanBePrivate", "RedundantOverride")
 
 package com.example.android.mines.game
 
@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.gridlayout.widget.GridLayout
@@ -24,9 +23,20 @@ import com.example.android.mines.SectorContent
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.databinding.GameFragmentBinding
 
+/**
+ * This is the [Fragment] which handles the UI for the actual playing of a game.
+ */
 class GameFragment : Fragment() {
 
+    /**
+     * The [GridLayout] with binding id `boardGrid` (resourse ID R.id.board_grid) which holds the
+     * [TextView]'s which represent our game board.
+     */
     private lateinit var board: GridLayout
+
+    /**
+     * The [Button] with binding id `buttonSafe`
+     */
     private lateinit var safe: Button
     private lateinit var mine: Button
     private var boardWidth: Int = 0
@@ -38,8 +48,11 @@ class GameFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: GameFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.game_fragment, container, false)
+        val binding: GameFragmentBinding = GameFragmentBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         board = binding.boardGrid
         safe = binding.buttonSafe

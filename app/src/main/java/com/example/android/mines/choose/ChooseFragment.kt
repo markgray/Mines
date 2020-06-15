@@ -1,4 +1,4 @@
-@file:Suppress("unused", "RedundantOverride", "UNUSED_PARAMETER")
+@file:Suppress( "RedundantOverride", "UNUSED_PARAMETER")
 
 package com.example.android.mines.choose
 
@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -45,6 +44,7 @@ class ChooseFragment : Fragment() {
         /**
          * Unused [ChooseFragment] factory method.
          */
+        @Suppress("unused")
         fun newInstance() = ChooseFragment()
     }
 
@@ -79,16 +79,15 @@ class ChooseFragment : Fragment() {
      * [onCreate] and [onActivityCreated]. A default View can be returned by calling [Fragment]
      * in your constructor. It is recommended to only inflate the layout in this method and move
      * logic that operates on the returned View to [onViewCreated]. First we initialize our variable
-     * `val binding` to the [ChooseFragmentBinding] that the [DataBindingUtil.inflate] method
-     * returns when  it uses our [LayoutInflater] parameter [inflater] to inflate our layout file
-     * [R.layout.choose_fragment] using our [ViewGroup] parameter [container] for its LayoutParams
-     * without attaching to it. We set the `OnClickListener` of the `buttonPlay` `Button` in
-     * our layout to a lambda which calls our method [onPlayClicked] with the [View] clicked. We
-     * set our [RadioGroup] field [radioGroup] to the `boardChoice` [RadioGroup] in our layout file
-     * then set its `OnCheckedChangeListener` to a lambda which calls our [selectBoardSize] method
-     * with the ID of the `RadioButton` which was checked. Finally we return the outermost View in
-     * the layout file associated with the [ChooseFragmentBinding] variable `binding` (its `root`
-     * [View]).
+     * `val binding` to the [ChooseFragmentBinding] that its `inflate` method returns when  it uses
+     * our [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.choose_fragment]
+     * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
+     * set the `OnClickListener` of the `buttonPlay` `Button` in our layout to a lambda which calls
+     * our method [onPlayClicked] with the [View] clicked. We set our [RadioGroup] field [radioGroup]
+     * to the `boardChoice` [RadioGroup] in our layout file then set its `OnCheckedChangeListener` to
+     * a lambda which calls our [selectBoardSize] method with the ID of the `RadioButton` which was
+     * checked. Finally we return the outermost View in the layout file associated with the
+     * [ChooseFragmentBinding] variable `binding` (its `root` [View]).
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate any views
      * @param container If non-null, this is the parent view that the fragment's UI will be attached
@@ -104,9 +103,8 @@ class ChooseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: ChooseFragmentBinding = DataBindingUtil.inflate(
+        val binding: ChooseFragmentBinding = ChooseFragmentBinding.inflate(
             inflater,
-            R.layout.choose_fragment,
             container,
             false
         )
