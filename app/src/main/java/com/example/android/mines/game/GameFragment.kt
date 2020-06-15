@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "RedundantOverride")
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.example.android.mines.game
 
@@ -35,14 +35,74 @@ class GameFragment : Fragment() {
     private lateinit var board: GridLayout
 
     /**
-     * The [Button] with binding id `buttonSafe`
+     * The [Button] with binding id `buttonSafe` (resourse ID R.id.button_safe) which the user uses
+     * to transition to "Safe" mode (clicking a sector on the game board in this mode marks the
+     * sector as a safe sector).
      */
     private lateinit var safe: Button
+
+    /**
+     * The [Button] with binding id `buttonMine` (resourse ID R.id.button_mine) which the user uses
+     * to transition to "Mine" mode (clicking a sector on the game board in this mode marks the
+     * sector as a mined sector).
+     */
     private lateinit var mine: Button
+
+    /**
+     * The width of the game board in pixels. We use the absolute width of the available display size
+     * in pixels. Our AndroidManifest uses android:screenOrientation="portrait" in order to avoid
+     * wasting screen space which would be hard to avoid for our app in "landscape" orientation.
+     */
     private var boardWidth: Int = 0
+
+    /**
+     * The height of the game board in pixels. We use the `buttonTop` property of our [SharedViewModel]
+     * field [viewModel]. It is set to the top Y coordinate of its "Play" button by `ChooseFragment`
+     * and we assume that that button is the same height as our "Safe" and "Mine" buttons since we
+     * cannot guess their height until after the View is drawn but need the value before our View is
+     * drawn.
+     */
     private var boardHeight: Int = 0
+
+    /**
+     * The [SharedViewModel] shared view model used by all of our fragments.
+     */
     private val viewModel: SharedViewModel by activityViewModels()
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onActivityCreated]. A default View can be returned by calling [Fragment]
+     * in your constructor. It is recommended to only inflate the layout in this method and move
+     * logic that operates on the returned View to [onViewCreated]. First we initialize our variable
+     * `val binding` to the [GameFragmentBinding] that its `inflate` method returns when  it uses
+     * our [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.game_fragment]
+     * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
+     * set our [GridLayout] field [board] to the `binding` property `boardGrid` (resource ID
+     * [R.id.board_grid] in our layout file), set our [Button] field [safe] to the `binding` property
+     * `buttonSafe` (resource ID [R.id.button_safe] in our layout file), and set our [Button] field
+     * [mine] to the `binding` property `buttonMine` (resource ID [R.id.button_mine] in our layout
+     * file). We set our [Int] field [boardWidth] to the absolute width of the available display size
+     * in pixels of the current display metrics that are in effect for our activity, and set our [Int]
+     * field [boardHeight] to the `buttonTop` property of our [SharedViewModel] field [viewModel]
+     * (which should have been set to the top Y coordinate of its "Play" button by `ChooseFragment`).
+     * We then call our [createBoard] method to fill our [GridLayout] game board with TextView's that
+     * correspond to the game board state which exists in the `gameState` list of [viewModel]. We
+     * set the background color of our [Button] field [safe] to RED, set the `OnClickListener` of
+     * [safe] to a lambda which calls our [onSafeClicked] method, and set the `OnClickListener` of
+     * [mine] to a lambda which calls our [onMineClicked] method. We initialize the `startTime`
+     * property of [viewModel] to the milliseconds since boot (it will be used to calculate the
+     * elapsed time when the game is finished). Finally we return the outermost View in the layout
+     * file associated with the [GameFragmentBinding] variable `binding` (its `root` [View]).
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate any views
+     * @param container If non-null, this is the parent view that the fragment's UI will be attached
+     * to. The fragment should not add the view itself, but this can be used to generate the
+     * LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * saved state as given here.
+     *
+     * @return Return the [View] for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -69,11 +129,6 @@ class GameFragment : Fragment() {
         }
         viewModel.startTime = SystemClock.elapsedRealtime()
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
     }
 
     @SuppressLint("SetTextI18n")

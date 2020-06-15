@@ -1,4 +1,4 @@
-@file:Suppress( "RedundantOverride", "UNUSED_PARAMETER")
+@file:Suppress( "UNUSED_PARAMETER")
 
 package com.example.android.mines.choose
 

@@ -1,5 +1,3 @@
-@file:Suppress( "RedundantOverride")
-
 package com.example.android.mines.score
 
 import android.os.Bundle
@@ -63,13 +61,6 @@ class ScoreFragment : Fragment() {
             textView.append(formatMinesDatum(latestDatum))
             // TODO: save gameId of latestDatum in ViewModel for use by ViewHolder bind method
         }
-
         return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
-    }
-
 }
