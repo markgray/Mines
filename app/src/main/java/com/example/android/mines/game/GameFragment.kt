@@ -131,6 +131,40 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Configures and fills our [GridLayout] game board field [board] so that it represents the game
+     * state which is present in our [SharedViewModel] field [viewModel]. First we set the number of
+     * columns of [board] (its `columnCount` property) to the `numColumns` property of [viewModel]
+     * and the number of rows of [board] to the `numRows` property of [viewModel]. We initialize our
+     * [Int] variable `val cellWidth` to [boardWidth] divided by the `numColumns` property of
+     * [viewModel], our [Int] variable `val cellHeight` to [boardHeight] divided by the `numRows`
+     * property of [viewModel], and our [Int] variable `val cellSize` to the smaller of `cellWidth`
+     * and `cellHeight`. We initialize our [Int] variable `var listIndex` to 0 then with an outer
+     * loop over `row` from 0 until the `numRows` property of [viewModel], and an inner loop over
+     * `column` from 0 until the `numColumns` property of [viewModel] we:
+     *
+     *  - Initialize our [SectorContent] variable `val contents` to the `listIndex` entry in the
+     *  `gameState` field of [viewModel] (post incrementing `listIndex` while we are at it)
+     *
+     *  - Initialize our [TextView] variable `val textView` to a new instance.
+     *
+     *  - Set the background of `textView` to the drawable [R.drawable.background_dark] (a gray
+     *  "rectangle")
+     *
+     *  - Set the `tag` of `textView` to `contents`, its `width` and `height` to `cellSize`, its
+     *  gravity to [Gravity.CENTER], its `textSize` to `cellSize` divided by the logical density of
+     *  the display minus 8.0f, and its padding to 4 pixel on each side.
+     *
+     *  - We then set the [View.OnClickListener] of `textView` to a lambda which calls our method
+     *  [onSectorClicked] with the [View] that was clicked.
+     *
+     *  - Finally we add `textView` to [board] and loop around for the next sector.
+     *
+     * When done adding all the sectors in our game board we return [board] to the caller (which is
+     * ignored at the moment).
+     *
+     * @return the [GridLayout] field [board] which we have filled with [TextView]'s
+     */
     @SuppressLint("SetTextI18n")
     private fun createBoard(): View {
 
@@ -157,7 +191,6 @@ class GameFragment : Fragment() {
                 textView.gravity = Gravity.CENTER
                 textView.textSize = cellSize.toFloat()/resources.displayMetrics.density - 8.0f
                 textView.setPadding(4, 4, 4, 4)
-//              textView.text = "\u2705\u274c\u2734"
                 textView.setOnClickListener { view ->
                     onSectorClicked(view)
                 }
@@ -168,6 +201,12 @@ class GameFragment : Fragment() {
         return board
     }
 
+    /**
+     * Called when one of the [TextView]'s in our [GridLayout] field [board] game board has been
+     * clicked with the [View] parameter [view] that was clicked.
+     *
+     * @param view the [View] that was clicked.
+     */
     fun onSectorClicked(view: View) {
         val sectorTag : SectorContent = (view.tag as SectorContent)
         val textView : TextView = view as TextView
