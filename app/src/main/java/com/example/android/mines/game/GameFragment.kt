@@ -203,7 +203,39 @@ class GameFragment : Fragment() {
 
     /**
      * Called when one of the [TextView]'s in our [GridLayout] field [board] game board has been
-     * clicked with the [View] parameter [view] that was clicked.
+     * clicked with the [View] parameter [view] that was clicked. We initialize our variable
+     * `val sectorTag` by retrieving the [SectorContent] that was stored in the [View] parameter
+     * [view] as a tag, and initialize our [TextView] variable `val textView` by casting [view]
+     * to a [TextView].
+     *
+     * If the `modeSafe` property of our [SharedViewModel] field [viewModel] is true (the user is
+     * clicking sectors he thinks are "Safe") we check whether the [SectorContent] property `hasMine`
+     * is true (indicates it actually has a mine) and if so we set the background of `textView` to
+     * the drawable with resource ID [R.drawable.bomb_icon] (a black circle) and the text of
+     * `textView` to a red X character. If `hasMine` is false we check whether the `hasBeenChecked`
+     * property of `sectorTag` is false (ignoring it if it is true -- the sector has already been
+     * marked as "Safe") before we call our [markSectorAsSafe] method with `sectorTag` and `textView`
+     * and if [markSectorAsSafe] returns 0 (indicating that the sector has no "Mined" neighbors) we
+     * call our [markNeighborsAsSafe] method with the `neighbors` List of `sectorTag` to have it
+     * mark all of the neighbors of the sector as safe as well.
+     *
+     * If the `modeMine` property of our [SharedViewModel] field [viewModel] is true (the user is
+     * clicking sectors he thinks are "Mined") we check whether the `hasMine` property of `sectorTag`
+     * is true (the sector has a "Mine" in it) we check whether the `hasBeenChecked` property of
+     * `sectorTag` is false (the sector has not been checked before) and if so we set it to true
+     * and increment the `numCheckedMine` property of [viewModel], then we set the background of
+     * `textView` to the drawable with resource ID [R.drawable.background_light] and set the text
+     * of `textView` to a red X character. If the `hasMine` property of `sectorTag` is false (there
+     * is no mine in the sector) we check whether the `hasBeenChecked` property of `sectorTag` is
+     * false and if so we set the background of `textView` to the drawable with resource ID
+     * [R.drawable.background_light] (since this should be the current background anyway, I am not
+     * sure why I bothered doing this TODO: Is this necessary?
+     *
+     * Having dealt with "checking" the [View] that was clicked we set the `numChecked` property of
+     * [viewModel] to the sum of its `numCheckedSafe` and `numCheckedMine` properties, and make a
+     * debug log. If the `numChecked` property of `viewModel` is equal to its `numSectors` property
+     * (all sectors have correctly been marked as "Safe" or "Mined") we display a Toast and call
+     * our [onFlippedAll] method to have it navigate to the `ScoreFragment`.
      *
      * @param view the [View] that was clicked.
      */

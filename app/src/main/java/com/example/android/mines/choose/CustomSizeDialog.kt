@@ -58,6 +58,7 @@ class CustomSizeDialog : DialogFragment()  {
             container,
             false
         )
+        // TODO: Save last custom settings to shared preferences
         binding.dismissButton.setOnClickListener {
             val columns: Int = sane(
                 binding.columnsNumber.text.toString(),
