@@ -19,6 +19,18 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
             notifyDataSetChanged()
         }
 
+    var newest : Long = 0L
+    @Suppress("unused")
+    fun newestGameId() : Long {
+        if (newest == 0L) {
+            for (datum in data) {
+                if (datum.gameId > newest) {
+                    newest = datum.gameId
+                }
+            }
+        }
+        return newest
+    }
     /**
      * Called when RecyclerView needs a new `ViewHolder` of the given type to represent
      * an item.
@@ -76,6 +88,7 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item)
+        // TODO: binding.gameStats.setTextColor(Color.GREEN) if newest
     }
 
     class ViewHolder private constructor(val binding: MineDatumViewBinding
