@@ -88,17 +88,25 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item)
-        // TODO: binding.gameStats.setTextColor(Color.GREEN) if newest
+        if (item.gameId == newestGameId()) {
+            holder.highLight(Color.GREEN)
+        } else {
+            holder.highLight(Color.BLACK)
+        }
     }
 
-    class ViewHolder private constructor(val binding: MineDatumViewBinding
-    ) : RecyclerView.ViewHolder(binding.root){
+    class ViewHolder private constructor(
+        val binding: MineDatumViewBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MinesDatum) {
             binding.gameBoard.setBackgroundColor(Color.GRAY)
             binding.gameStats.text = formatMinesDatum(item)
-            // TODO: binding.gameStats.setTextColor(Color.GREEN) if latest MinesDatum
             binding.gameBoard.text = formatGameBoard(item)
+        }
+
+        fun highLight(color: Int) {
+            binding.gameStats.setTextColor(color)
         }
 
         companion object {
