@@ -18,9 +18,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.gridlayout.widget.GridLayout
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import com.example.android.mines.R
 import com.example.android.mines.SectorContent
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.GameFragmentBinding
 
 /**
@@ -282,6 +284,24 @@ class GameFragment : Fragment() {
         }
     }
 
+    /**
+     * Does everything necessary to mark the sector corresponding to [SectorContent] parameter
+     * [sectorTag] and [TextView] parameter [textView] as a safe (unmined) sector. We set the
+     * `hasBeenChecked` property of [sectorTag] to true, increment the `numCheckedSafe` property
+     * of our [SharedViewModel] field [viewModel] to register that this sector has been correctly
+     * checked as "Safe", and change the background of [textView] to [R.drawable.background_light]
+     * (a light drawable which highlights the fact that the sector has been "checked"). We set our
+     * [MutableList] of [Int] variable `val neighborList` to the `neighbors` field of [sectorTag],
+     * and initialize our variable `var numberWithMines` to 0 (we will use this to count the number
+     * of neighboring sectors with mines in them). Then we loop over `index` for all of the [Int]'s
+     * in `neighborList` and if the `haveMines` field of [viewModel] at index `index` is true we
+     * increment `numberWithMines`. When done with the loop we set the text of [textView] to the
+     * [String] value of `numberWithMines` and return `numberWithMines` to the caller.
+     *
+     * @param sectorTag the [SectorContent] object containing the information about the sector
+     * @param textView the [TextView] on the game board which represents this sector.
+     * @return the number of neighboring sectors of this sector which have mines in them
+     */
     private fun markSectorAsSafe(
         sectorTag: SectorContent,
         textView: TextView
@@ -301,6 +321,18 @@ class GameFragment : Fragment() {
         return numberWithMines
     }
 
+    /**
+     * Marks all of the neighboring sectors of a safe sector with 0 neighboring mined sectors as
+     * safe also. We loop over `sectorIndex` for all or the [Int]'s in our list parameter
+     * [listOfNeighbors], setting our [SectorContent] variable `val sector` to the [SectorContent]
+     * at index `sectorIndex` in the `gameState` list of [SharedViewModel] field [viewModel]. Then
+     * if the `hasBeenChecked` property of `sector` is false we set our [TextView] variable
+     * `val view` to the [View] at position `sectorIndex` of our [GridLayout] field [board] and
+     * call our [markSectorAsSafe] method with `sector` and `view` to have it mark the sector as
+     * safe.
+     *
+     * @param listOfNeighbors a list of the indices of neighbors of the sector in question.
+     */
     private fun markNeighborsAsSafe(listOfNeighbors: MutableList<Int>) {
         for (sectorIndex in listOfNeighbors) {
             val sector = viewModel.gameState[sectorIndex]
@@ -311,6 +343,14 @@ class GameFragment : Fragment() {
         }
     }
 
+    /**
+     * Called by the `OnClickListener` of the [Button] field [safe]. We set the `modeSafe` property
+     * of our [SharedViewModel] field [viewModel] to true, and its `modeMine` property to false. We
+     * then set the background color of the [View] parameter [view] to RED and the background color
+     * of the [Button] field [mine] to GRAY.
+     *
+     * @param view the [View] that was clicked (always the "Safe" button in our case of course)
+     */
     fun onSafeClicked(view: View) {
         viewModel.modeSafe = true
         viewModel.modeMine = false
@@ -318,6 +358,14 @@ class GameFragment : Fragment() {
         mine.setBackgroundColor(Color.GRAY)
     }
 
+    /**
+     * Called by the `OnClickListener` of the [Button] field [mine]. We set the `modeSafe` property
+     * of our [SharedViewModel] field [viewModel] to false, and its `modeMine` property to true. We
+     * then set the background color of the [View] parameter [view] to RED and the background color
+     * of the [Button] field [safe] to GRAY.
+     *
+     * @param view the [View] that was clicked (always the "Mine" button in our case of course)
+     */
     fun onMineClicked(view: View) {
         viewModel.modeSafe = false
         viewModel.modeMine = true
@@ -325,6 +373,12 @@ class GameFragment : Fragment() {
         safe.setBackgroundColor(Color.GRAY)
     }
 
+    /**
+     * Called when all of the sectors on our game board have been correctly marked as "Safe" or
+     * "Mined". We call the [SharedViewModel.toMinesDatum] method of [viewModel] to translate the
+     * game state it models into a [MinesDatum] and have it insert that [MinesDatum] into our ROOM
+     * database. Then we find our [NavController] and use it to navigate to the `ScoreFragment`.
+     */
     fun onFlippedAll() {
         viewModel.toMinesDatum()
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)

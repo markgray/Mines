@@ -1,5 +1,9 @@
 package com.example.android.mines
 
+/**
+ * Class which holds all the information needed to describe the features of an individual sector
+ * on the game board.
+ */
 class SectorContent(
     /**
      * Row that this sector is in on the game board
