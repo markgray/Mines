@@ -11,8 +11,16 @@ import com.example.android.mines.databinding.MineDatumViewBinding
 import com.example.android.mines.formatGameBoard
 import com.example.android.mines.formatMinesDatum
 
+/**
+ * This is the [RecyclerView.Adapter] that we use to display the [MinesDatum] from our game history
+ * database.
+ */
 class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
 
+    /**
+     * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
+     * `SharedViewModel` which is a `LiveData` which is read from our game history ROOM database.
+     */
     var data = listOf<MinesDatum>()
         set(value) {
             field = value
@@ -20,7 +28,6 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
         }
 
     var newest : Long = 0L
-    @Suppress("unused")
     fun newestGameId() : Long {
         if (newest == 0L) {
             for (datum in data) {
@@ -32,22 +39,20 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
         return newest
     }
     /**
-     * Called when RecyclerView needs a new `ViewHolder` of the given type to represent
-     * an item.
-     *
+     * Called when RecyclerView needs a new `ViewHolder` of the given type to represent an item.
      * This new ViewHolder should be constructed with a new View that can represent the items
      * of the given type. You can either create a new View manually or inflate it from an XML
-     * layout file.
+     * layout file. The new ViewHolder will be used to display items of the adapter using
+     * [onBindViewHolder]. Since it will be re-used to display different items in the data set,
+     * it is a good idea to cache references to sub views of the View to avoid unnecessary
+     * `View.findViewById` calls. We just return the [ViewHolder] returned by the `from` static
+     * method of our [ViewHolder] nested class when it is passed our [ViewGroup] parameter [parent].
      *
-     * The new ViewHolder will be used to display items of the adapter using [onBindViewHolder].
-     * Since it will be re-used to display different items in the data set, it is a good idea to
-     * cache references to sub views of the View to avoid unnecessary `View.findViewById` calls.
-     *
-     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     * @param parent The [ViewGroup] into which the new View will be added after it is bound to
      * an adapter position.
      * @param viewType The view type of the new View.
      *
-     * @return A new ViewHolder that holds a View of the given view type.
+     * @return A new [ViewHolder] that holds a View of the given view type.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -55,33 +60,25 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
     }
 
     /**
-     * Returns the total number of items in the data set held by the adapter.
+     * Returns the total number of items in the data set held by the adapter. We just return the
+     * size of our dataset list [data].
      *
      * @return The total number of items in this adapter.
      */
     override fun getItemCount() = data.size
 
     /**
-     * Called by RecyclerView to display the data at the specified position. This method should
+     * Called by [RecyclerView] to display the data at the specified position. This method should
      * update the contents of the `ViewHolder.itemView` to reflect the item at the given position.
+     * We set our [MinesDatum] variable `val item` to the [MinesDatum] at position [position] in
+     * our dataset list [data], then call the `bind` method of [holder] to have it update the
+     * contents of its two `TextView`'s to display the [MinesDatum] in `item`. Then if the `gameId`
+     * field of `item` is equal to the game ID of the newest [MinesDatum] added to our game history
+     * ROOM database we call the `highLight` method of [holder] to have it set the color of the text
+     * to GREEN, otherwise we call the `highLight` method of [holder] to have it set the color of
+     * the text to BLACK.
      *
-     * Note that unlike [android.widget.ListView], RecyclerView will not call this method again if
-     * the position of the item changes in the data set unless the item itself is invalidated or
-     * the new position cannot be determined. For this reason, you should only use the `position`
-     * parameter while acquiring the related data item inside this method and should not keep a
-     * copy of it. If you need the position of an item later on (e.g. in a click listener), use
-     * `ViewHolder.getAdapterPosition` which will have the updated adapter position.
-     *
-     * Override `onBindViewHolder (VH holder, int position, List<Object> payloads)` instead if
-     * Adapter can handle efficient partial bind. The payloads List parameter is a merge list from
-     * notifyItemChanged(int, Object) or notifyItemRangeChanged(int, int, Object). If the payloads
-     * list is not empty, the ViewHolder is currently bound to old data and Adapter may run an
-     * efficient partial update using the payload info. If the payload is empty, Adapter must run
-     * a full bind. Adapter should not assume that the payload passed in notify methods will be
-     * received by onBindViewHolder(). For example when the view is not attached to the screen,
-     * the payload in notifyItemChange() will be simply dropped.
-     *
-     * @param holder The ViewHolder which should be updated to represent the contents of the
+     * @param holder The [ViewHolder] which should be updated to represent the contents of the
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
@@ -95,14 +92,31 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
         }
     }
 
+    /**
+     * The custom [RecyclerView.ViewHolder] this adapter uses to hold our views.
+     */
     class ViewHolder private constructor(
+        /**
+         * The [MineDatumViewBinding] for our layout file layout/mine_datum_view.xml
+         */
         val binding: MineDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item].
+         * at the given position. We set the background color of the `gameBoard` `TextView` to GRAY
+         * (the `TextView` with resource id `R.id.game_board`) and set its text to the [String]
+         * returned by our [formatGameBoard] method for [item] (a checkerboard where a safe sector
+         * is displayed as a green checkmark, and a mined sector as a red X). Then we set the text
+         * of the `gameStats` `TextView` to the [String] returned by our [formatMinesDatum] method
+         * for [item] (just a list of interesting properties of [item]).
+         *
+         * @param item the [MinesDatum] our views are supposed to display.
+         */
         fun bind(item: MinesDatum) {
             binding.gameBoard.setBackgroundColor(Color.GRAY)
-            binding.gameStats.text = formatMinesDatum(item)
             binding.gameBoard.text = formatGameBoard(item)
+            binding.gameStats.text = formatMinesDatum(item)
         }
 
         fun highLight(color: Int) {
