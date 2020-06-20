@@ -5,6 +5,7 @@ package com.example.android.mines.score
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.MineDatumViewBinding
@@ -109,7 +110,11 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
          * returned by our [formatGameBoard] method for [item] (a checkerboard where a safe sector
          * is displayed as a green checkmark, and a mined sector as a red X). Then we set the text
          * of the `gameStats` `TextView` to the [String] returned by our [formatMinesDatum] method
-         * for [item] (just a list of interesting properties of [item]).
+         * for [item] (just a list of interesting properties of [item]). In addition we set the
+         * `OnLongClickListener` of the `constraintViewGroup` view group holding both `TextView`s to
+         * a lambda Toast of the `gameId` of [item] (just a temporary stub while I ponder how best
+         * to replay a game from the game history).
+         * TODO: Have OnLongClickListener reload the MinesDatum to the ViewModel and replay the game
          *
          * @param item the [MinesDatum] our views are supposed to display.
          */
@@ -117,6 +122,10 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
             binding.gameBoard.setBackgroundColor(Color.GRAY)
             binding.gameBoard.text = formatGameBoard(item)
             binding.gameStats.text = formatMinesDatum(item)
+            binding.constraintViewGroup.setOnLongClickListener { view ->
+                Toast.makeText(view.context, "${item.gameId}", Toast.LENGTH_SHORT).show()
+                true
+            }
         }
 
         fun highLight(color: Int) {
