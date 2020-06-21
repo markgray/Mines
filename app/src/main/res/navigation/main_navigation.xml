@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_scoreFragment_to_chooseFragment"
             app:destination="@id/chooseFragment" />
+        <action
+            android:id="@+id/action_scoreFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
     <dialog
         android:id="@+id/customSizeDialog"

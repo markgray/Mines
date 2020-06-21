@@ -16,7 +16,7 @@ import com.example.android.mines.formatMinesDatum
  * This is the [RecyclerView.Adapter] that we use to display the [MinesDatum] from our game history
  * database.
  */
-class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
+class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
 
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
@@ -91,6 +91,7 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
         } else {
             holder.highLight(Color.BLACK)
         }
+        holder.setMinesDatumListener(minesDatumListener)
     }
 
     /**
@@ -102,6 +103,8 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
          */
         val binding: MineDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        lateinit var listener: MinesDatumListener
 
         /**
          * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item].
@@ -123,13 +126,17 @@ class MineDatumAdapter: RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
             binding.gameBoard.text = formatGameBoard(item)
             binding.gameStats.text = formatMinesDatum(item)
             binding.constraintViewGroup.setOnLongClickListener { view ->
-                Toast.makeText(view.context, "${item.gameId}", Toast.LENGTH_SHORT).show()
+                listener.reload(item)
                 true
             }
         }
 
         fun highLight(color: Int) {
             binding.gameStats.setTextColor(color)
+        }
+
+        fun setMinesDatumListener(minesDatumListener: MinesDatumListener) {
+            listener = minesDatumListener
         }
 
         companion object {

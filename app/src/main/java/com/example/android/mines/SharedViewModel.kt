@@ -168,6 +168,37 @@ class SharedViewModel: ViewModel() {
         }
     }
 
+    @Suppress("unused")
+    fun loadGameFromMinesDatum(minesDatum: MinesDatum) {
+        numColumns = minesDatum.numColumns
+        numRows = minesDatum.numRows
+        numSectors = numColumns * numRows
+        numMines = minesDatum.numMines
+        numChecked = 0
+        numCheckedSafe = 0
+        numCheckedMine = 0
+        modeMine = false
+        modeSafe = true
+
+        gameState = ArrayList(numSectors)
+        haveMines = ArrayList(numSectors)
+
+        for (index in minesDatum.haveMines.indices) {
+            haveMines.add(minesDatum.haveMines[index] != ' ')
+        }
+        var index = 0
+        for (rowNumber in 0 until numRows) {
+            for (columnNumber in 0 until numColumns) {
+                val newSectorContent = SectorContent(rowNumber, columnNumber)
+                newSectorContent.childNum = index
+                newSectorContent.hasMine = haveMines[index]
+                neighborSearch(newSectorContent)
+                gameState.add(newSectorContent)
+                index++
+            }
+        }
+    }
+
     /**
      * Calculates the indices of sectors which are adjacent to our [SectorContent] parameter
      * [theSectorContent] and adds them to the `neighbors` property of [theSectorContent].

@@ -48,7 +48,10 @@ class ScoreFragment : Fragment() {
         }
         textView = binding.textViewScore
         recyclerView = binding.gameHistoryList
-        val adapter = MineDatumAdapter()
+        val adapter = MineDatumAdapter(MinesDatumListener{ minesDatum ->
+            viewModel.loadGameFromMinesDatum(minesDatum)
+            findNavController().navigate(R.id.action_scoreFragment_to_gameFragment)
+        })
         recyclerView.adapter = adapter
         viewModel.gameHistory!!.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -62,5 +65,11 @@ class ScoreFragment : Fragment() {
             // TODO: save gameId of latestDatum in ViewModel for use by ViewHolder bind method
         }
         return binding.root
+    }
+}
+
+class MinesDatumListener(val listen: (minesDatum: MinesDatum) -> Unit){
+    fun reload(minesDatum: MinesDatum) {
+        listen(minesDatum)
     }
 }
