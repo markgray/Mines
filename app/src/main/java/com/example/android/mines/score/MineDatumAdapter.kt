@@ -5,7 +5,6 @@ package com.example.android.mines.score
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.MineDatumViewBinding
@@ -16,7 +15,13 @@ import com.example.android.mines.formatMinesDatum
  * This is the [RecyclerView.Adapter] that we use to display the [MinesDatum] from our game history
  * database.
  */
-class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
+class MineDatumAdapter(
+    /**
+     * The [MinesDatumListener] whose `reload` method the `OnLongClickListener` of our ViewHolder
+     * views should call to reload the [MinesDatum] it displays in order for the user to replay it.
+     */
+    val minesDatumListener: MinesDatumListener
+): RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
 
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
@@ -28,7 +33,15 @@ class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView
             notifyDataSetChanged()
         }
 
+    /**
+     * The `gameId` of the newest [MinesDatum] added to our database.
+     */
     var newest : Long = 0L
+
+    /**
+     * Searches the [MinesDatum] in our dataset [data] for the highest `gameId` field and caches
+     * that value in our field [newest].
+     */
     fun newestGameId() : Long {
         if (newest == 0L) {
             for (datum in data) {
@@ -39,6 +52,7 @@ class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView
         }
         return newest
     }
+
     /**
      * Called when RecyclerView needs a new `ViewHolder` of the given type to represent an item.
      * This new ViewHolder should be constructed with a new View that can represent the items
@@ -77,7 +91,8 @@ class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView
      * field of `item` is equal to the game ID of the newest [MinesDatum] added to our game history
      * ROOM database we call the `highLight` method of [holder] to have it set the color of the text
      * to GREEN, otherwise we call the `highLight` method of [holder] to have it set the color of
-     * the text to BLACK.
+     * the text to BLACK. Finally we call the `setMinesDatumListener` method of [holder] to have it
+     * set its `listener` field to our [MinesDatumListener] field [minesDatumListener].
      *
      * @param holder The [ViewHolder] which should be updated to represent the contents of the
      * item at the given position in the data set.
@@ -104,6 +119,11 @@ class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView
         val binding: MineDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * The [MinesDatumListener] whose `reload` method the `OnLongClickListener` of our View
+         * should call to reload the [MinesDatum] we display into the `SharedViewModel` in order
+         * to allow the user to replay that game.
+         */
         lateinit var listener: MinesDatumListener
 
         /**
@@ -115,9 +135,9 @@ class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView
          * of the `gameStats` `TextView` to the [String] returned by our [formatMinesDatum] method
          * for [item] (just a list of interesting properties of [item]). In addition we set the
          * `OnLongClickListener` of the `constraintViewGroup` view group holding both `TextView`s to
-         * a lambda Toast of the `gameId` of [item] (just a temporary stub while I ponder how best
-         * to replay a game from the game history).
-         * TODO: Have OnLongClickListener reload the MinesDatum to the ViewModel and replay the game
+         * a lambda which call the `reload` method of our [MinesDatumListener] field [listener] to
+         * have it reload the [MinesDatum] parameter [item] into the `SharedViewModel` in order to
+         * allow the user to replay that game.
          *
          * @param item the [MinesDatum] our views are supposed to display.
          */
@@ -125,21 +145,44 @@ class MineDatumAdapter(val minesDatumListener: MinesDatumListener): RecyclerView
             binding.gameBoard.setBackgroundColor(Color.GRAY)
             binding.gameBoard.text = formatGameBoard(item)
             binding.gameStats.text = formatMinesDatum(item)
-            binding.constraintViewGroup.setOnLongClickListener { view ->
+            binding.constraintViewGroup.setOnLongClickListener {
                 listener.reload(item)
                 true
             }
         }
 
+        /**
+         * Set the TextColor of the `gameStats` (resource ID `R.id.game_stats`) `TextView` to the
+         * color in our parameter [color].
+         */
         fun highLight(color: Int) {
             binding.gameStats.setTextColor(color)
         }
 
+        /**
+         * Sets our [MinesDatumListener] field [listener] to our parameter [minesDatumListener].
+         *
+         * @param minesDatumListener the [MinesDatumListener] whose `reload` method our view's
+         * `OnLongClickListener` should call to reload the [MinesDatum] it displays into the
+         * `SharedViewModel` in order to allow the user to replay that game.
+         */
         fun setMinesDatumListener(minesDatumListener: MinesDatumListener) {
             listener = minesDatumListener
         }
 
         companion object {
+            /**
+             * Static factory method used to construct a [ViewHolder] using a view inflated from our
+             * layout file layout/mine_datum_view.xml into a [MineDatumViewBinding]. We initialize
+             * our [LayoutInflater] variable `val layoutInflater` with an instance for the context
+             * of our [ViewGroup] parameter [parent]. Then we initialize our [MineDatumViewBinding]
+             * variable `val binding` by using the `inflate` method of [MineDatumViewBinding] to
+             * inflate itself using `layoutInflater`, and our [ViewGroup] parameter [parent] for
+             * the LayoutParams without attaching to it. Finally we return a [ViewHolder] instance
+             * constructed from `binding`.
+             *
+             * @param parent the [ViewGroup] our view will eventually be attached to.
+             */
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding =

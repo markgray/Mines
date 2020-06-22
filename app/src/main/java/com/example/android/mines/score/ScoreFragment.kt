@@ -20,14 +20,30 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * This is the [Fragment] which handles the UI for the display of the statistics of the last game
+ * played, as well as a [RecyclerView] displaying all of the games currently stored in our ROOM
+ * database sorted with the fastest time first.
+ */
 class ScoreFragment : Fragment() {
 
     companion object {
+        /**
+         * Boilerplate factory method added by Android Studio when we created this [Fragment]
+         */
         @Suppress("unused")
         fun newInstance() = ScoreFragment()
     }
 
+    /**
+     * The [SharedViewModel] shared view model used by all of our fragments.
+     */
     private val viewModel: SharedViewModel by activityViewModels()
+
+    /**
+     * The "Again" [Button] that the user clicks to navigate back to the `ChooseFragment` in order
+     * to choose game board size and play another random game.
+     */
     private lateinit var buttonAgain: Button
     private lateinit var textView: TextView
     private lateinit var latestDatum: MinesDatum

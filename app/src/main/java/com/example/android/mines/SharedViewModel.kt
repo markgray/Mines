@@ -168,7 +168,28 @@ class SharedViewModel: ViewModel() {
         }
     }
 
-    @Suppress("unused")
+    /**
+     * Loads a game board from a [MinesDatum] which has been retrieved from our ROOM database. First
+     * we set our game board geometry properties to those which were stored in our [MinesDatum]
+     * parameter [minesDatum], and initialize our game state properties to the beginning state for a
+     * game. We allocate an [ArrayList] of [SectorContent] objects for our field [gameState] large
+     * enough to hold [numSectors] sectors, and an [ArrayList] of [Boolean] objects for our field
+     * [haveMines] large enough to hold [numSectors] flags. We loop over `index` for all of the
+     * character indices in the `haveMines` [String] of [minesDatum] adding `true` to `haveMines`
+     * if the [Char] at index `index` is not a space character, and adding `false` if it is a
+     * space character. Now we populate the game board in [gameState] with [SectorContent] objects
+     * for each sector on the board. To do this we initialize our [Int] variable `var index` to 0
+     * then loop over `rowNumber` for the [numRows] rows and over `columnNumber` for the [numColumns]
+     * columns constructing a [SectorContent] for variable `val newSectorContent` located at
+     * `rowNumber` and `columnNumber` then setting its `childNum` property to `index`, its `hasMine`
+     * property to the [Boolean] stored at location `index` in [haveMines], and calling our
+     * [neighborSearch] method to have it set its `neighbors` property to a list of all the the
+     * indices of the adjacent sectors of that location. We then add the `newSectorContent` to our
+     * [gameState] list and increment `index`.
+     *
+     * @param minesDatum the [MinesDatum] read from our ROOM database which we are to reload for the
+     * user to replay.
+     */
     fun loadGameFromMinesDatum(minesDatum: MinesDatum) {
         numColumns = minesDatum.numColumns
         numRows = minesDatum.numRows
