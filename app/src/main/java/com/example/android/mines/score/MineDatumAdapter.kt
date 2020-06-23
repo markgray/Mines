@@ -26,10 +26,13 @@ class MineDatumAdapter(
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
      * `SharedViewModel` which is a `LiveData` which is read from our game history ROOM database.
+     * It also sets our field [newest] to 0 so that the dataset is once again searched for the
+     * newest [MinesDatum.gameId] in order to highlight it in green.
      */
     var data = listOf<MinesDatum>()
         set(value) {
             field = value
+            newest = 0L
             notifyDataSetChanged()
         }
 
