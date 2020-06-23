@@ -45,12 +45,55 @@ class ScoreFragment : Fragment() {
      * to choose game board size and play another random game.
      */
     private lateinit var buttonAgain: Button
+
+    /**
+     * The [TextView] we use to display the statistics about the latest game played.
+     */
     private lateinit var textView: TextView
+
+    /**
+     * The [MinesDatum] created from the latest game played, whose statistics we display in our
+     * [TextView] field [textView]. It is loaded in our [onCreateView] override by a call to the
+     * `retrieveLatestDatum` method of our [SharedViewModel] field [viewModel] which does so by
+     * launching a call to the `getLatestEntry` method of our ROOM database on the [Dispatchers.IO]
+     * context.
+     */
     private lateinit var latestDatum: MinesDatum
+
+    /**
+     * The [RecyclerView] in our layout which displays the list of old games which is read from our
+     * ROOM database.
+     */
     private lateinit var recyclerView: RecyclerView
 
+    /**
+     * Called to have the fragment instantiate its user interface view. First we initialize our
+     * [ScoreFragmentBinding] variable `val binding` by using the `inflate` method of
+     * [ScoreFragmentBinding] to have it inflate the layout file layout/score_fragment.xml which
+     * it was generated from using our [LayoutInflater] parameter [inflater], and our [ViewGroup]
+     * parameter [container] for the LayoutParams of the view without attaching to it. We initialize
+     * our [Button] field [buttonAgain] to the `buttonAgain` property of `binding` (resource ID
+     * R.id.button_again) then set its `OnClickListener` to a lambda which navigates to the
+     * `ChooseFragment`. We initialize our [TextView] field [textView] to the `textViewScore`
+     * property of `binding` (resource ID R.id.textViewScore), and we then launch a coroutine on the
+     * [Dispatchers.Main] `CoroutineContext` whose lambda loads [latestDatum] by calling the
+     * `retrieveLatestDatum` method of our [SharedViewModel] field [viewModel] and when that suspend
+     * method returns appends the [String] result of calling our [formatMinesDatum] method for
+     * [latestDatum].
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the [View] for the fragment's UI, or null.
+     */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: ScoreFragmentBinding = ScoreFragmentBinding.inflate(
@@ -62,9 +105,15 @@ class ScoreFragment : Fragment() {
         buttonAgain.setOnClickListener {
             findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)
         }
+
         textView = binding.textViewScore
+        CoroutineScope(Dispatchers.Main).launch {
+            latestDatum = viewModel.retrieveLatestDatum()
+            textView.append(formatMinesDatum(latestDatum))
+        }
+
         recyclerView = binding.gameHistoryList
-        val adapter = MineDatumAdapter(MinesDatumListener{ minesDatum ->
+        val adapter = MineDatumAdapter(MinesDatumListener { minesDatum ->
             viewModel.loadGameFromMinesDatum(minesDatum)
             findNavController().navigate(R.id.action_scoreFragment_to_gameFragment)
         })
@@ -75,11 +124,6 @@ class ScoreFragment : Fragment() {
             }
         })
 
-        CoroutineScope(Dispatchers.Main).launch {
-            latestDatum = viewModel.retrieveLatestDatum()
-            textView.append(formatMinesDatum(latestDatum))
-            // TODO: save gameId of latestDatum in ViewModel for use by ViewHolder bind method
-        }
         return binding.root
     }
 }
