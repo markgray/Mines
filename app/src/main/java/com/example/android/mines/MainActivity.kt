@@ -3,7 +3,6 @@ package com.example.android.mines
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-@Suppress("MemberVisibilityCanBePrivate", "RemoveExplicitTypeArguments")
 class MainActivity : AppCompatActivity() {
 
     /**

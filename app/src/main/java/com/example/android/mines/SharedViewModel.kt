@@ -11,6 +11,10 @@ import kotlinx.coroutines.*
 
 import java.lang.StringBuilder
 
+/**
+ * The [ViewModel] which is shared by all of our fragments. It contains almost all the information
+ * that the fragments need, and almost all of their business logic as well.
+ */
 class SharedViewModel: ViewModel() {
 
     /**
@@ -55,7 +59,7 @@ class SharedViewModel: ViewModel() {
     var numCheckedSafe: Int = 0
 
     /**
-     * Total number of sectors on our game board which the user has correctly marked as Mine
+     * Total number of sectors on our game board which the user has correctly marked as Mined
      */
     var numCheckedMine: Int = 0
 
@@ -73,7 +77,7 @@ class SharedViewModel: ViewModel() {
     var startTime: Long = 0
 
     /**
-     * The user is marking Mine sectors at the moment
+     * The user is marking Mined sectors at the moment
      */
     var modeMine: Boolean = false
 
@@ -175,7 +179,7 @@ class SharedViewModel: ViewModel() {
      * game. We allocate an [ArrayList] of [SectorContent] objects for our field [gameState] large
      * enough to hold [numSectors] sectors, and an [ArrayList] of [Boolean] objects for our field
      * [haveMines] large enough to hold [numSectors] flags. We loop over `index` for all of the
-     * character indices in the `haveMines` [String] of [minesDatum] adding `true` to `haveMines`
+     * character indices in the `haveMines` [String] of [minesDatum] adding `true` to [haveMines]
      * if the [Char] at index `index` is not a space character, and adding `false` if it is a
      * space character. Now we populate the game board in [gameState] with [SectorContent] objects
      * for each sector on the board. To do this we initialize our [Int] variable `var index` to 0
@@ -183,7 +187,7 @@ class SharedViewModel: ViewModel() {
      * columns constructing a [SectorContent] for variable `val newSectorContent` located at
      * `rowNumber` and `columnNumber` then setting its `childNum` property to `index`, its `hasMine`
      * property to the [Boolean] stored at location `index` in [haveMines], and calling our
-     * [neighborSearch] method to have it set its `neighbors` property to a list of all the the
+     * [neighborSearch] method to have it set its `neighbors` property to a list of all of the
      * indices of the adjacent sectors of that location. We then add the `newSectorContent` to our
      * [gameState] list and increment `index`.
      *
@@ -286,6 +290,10 @@ class SharedViewModel: ViewModel() {
      * suspend function to insert `minesDatum` in the database by executing a suspending block with
      * the [Dispatchers.IO] coroutine context, suspending until it completes, and returning the
      * result of calling the `insert` method of our [MinesDatabaseDao] field [minesDatabaseDao].
+     *
+     * Finally we return `minesDatum` to the caller (which it ignores at the moment)
+     *
+     * @return a [MinesDatum] holding the state variables of the current game.
      */
     fun toMinesDatum(): MinesDatum {
         val minesDatum = MinesDatum(

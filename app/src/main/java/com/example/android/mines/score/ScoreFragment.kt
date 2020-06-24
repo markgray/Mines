@@ -81,6 +81,18 @@ class ScoreFragment : Fragment() {
      * method returns appends the [String] result of calling our [formatMinesDatum] method for
      * [latestDatum].
      *
+     * We initialize our [RecyclerView] field [recyclerView] to the `gameHistoryList` property of
+     * `binding` (resource ID R.id.game_history_list in our layout file). We initialize our
+     * [MineDatumAdapter] variable `val adapter` to an instance constructed to use as its
+     * [MinesDatumListener] a lambda which calls the `loadGameFromMinesDatum` method of our
+     * [SharedViewModel] field [viewModel] to load the [MinesDatum] of the old game that was clicked
+     * and the to navigate to the `GameFragment` to replay the game. We set the adapter of
+     * [recyclerView] to `adapter`. We then add an observer to the `gameHistory` field of
+     * [viewModel] whose lambda sets the `data` dataset field of `adapter` to the observed [List]
+     * of [MinesDatum] whenever ROOM refreshes the `LiveData` of the `gameHistory` list from the
+     * database. Finally we return the outermost View in the layout file associated with the
+     * [ScoreFragmentBinding] variable `binding` (its `root` [View]).
+     *
      * @param inflater The [LayoutInflater] object that can be used to inflate
      * any views in the fragment.
      * @param container If non-null, this is the parent view that the fragment's
@@ -128,7 +140,12 @@ class ScoreFragment : Fragment() {
     }
 }
 
-class MinesDatumListener(val listen: (minesDatum: MinesDatum) -> Unit){
+/**
+ * This Listener class redirects a call to its [reload] method to the lambda which is used when it
+ * is constructed. (A bit of indirection which seemed called for at the time, but may not be all
+ * that necessary after all, although it does still make the code look cleaner.)
+ */
+class MinesDatumListener(val listen: (minesDatum: MinesDatum) -> Unit) {
     fun reload(minesDatum: MinesDatum) {
         listen(minesDatum)
     }

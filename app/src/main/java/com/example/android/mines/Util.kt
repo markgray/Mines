@@ -32,7 +32,7 @@ fun formatMinesDatum(game: MinesDatum): String {
  * marks. We initialize our [StringBuilder] variable `val sb` with a new instance, initialize our
  * [Int] variable `val numColumns` to the `numColumns` field of [game], our [Int] variable
  * `val numRows` to the `numRows` field of [game], and our [Int] variable `var index` to 0. We then
- * loop over `r` for the the `numRows` rows, and over `c` for the `numColumns` columns and it the
+ * loop over `r` for the the `numRows` rows, and over `c` for the `numColumns` columns and if the
  * character at `index` in the `haveMines` field of [game] is a ' ' character we append a green
  * check mark to `sb`, otherwise we append a red X to `sb` and in either case increment `index`.
  * At the end of every row except for the last we also append a newline character. When done with
@@ -67,10 +67,10 @@ fun formatGameBoard(game: MinesDatum): String {
  * Take the Long milliseconds returned by the system and stored in Room,
  * and convert it to a nicely formatted string for display.
  *
- * - EEEE - Display the long letter version of the weekday
- * - MMM - Display the letter abbreviation of the nmotny
- * - dd-yyyy - day in month and full year numerically
- * - HH:mm - Hours and minutes in 24hr format
+ *  - EEEE - Display the long letter version of the weekday
+ *  - MMM - Display the letter abbreviation of the nmotny
+ *  - dd-yyyy - day in month and full year numerically
+ *  - HH:mm - Hours and minutes in 24hr format
  */
 @SuppressLint("SimpleDateFormat")
 fun convertLongToDateString(systemTime: Long): String {
