@@ -164,6 +164,6 @@ class CustomSizeDialog : DialogFragment()  {
     companion object {
         const val CUSTOM_COLUMNS = "custom_columns"
         const val CUSTOM_ROWS = "custom_rows"
-        const val CUSTOM_MINES = "custom_rows"
+        const val CUSTOM_MINES = "custom_mines"
     }
 }
