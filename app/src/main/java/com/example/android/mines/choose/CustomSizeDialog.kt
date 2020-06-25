@@ -22,10 +22,30 @@ class CustomSizeDialog : DialogFragment()  {
      */
     private val viewModel: SharedViewModel by activityViewModels()
 
+    /**
+     * The [CustomSizeDialogBinding] binding that is created from the inflation of our layout file
+     * layout/custom_size_dialog.xml
+     */
     private lateinit var binding: CustomSizeDialogBinding
+
+    /**
+     * The [SharedPreferences] interface we use to access and modify our preference data
+     */
     private lateinit var preferences: SharedPreferences
+
+    /**
+     * The number of columns on the game board
+     */
     private var customColumns : Int = 6
+
+    /**
+     * The number of rows on the game board
+     */
     private var customRows : Int = 6
+
+    /**
+     * The number of sectors on the game board which have Mines in them.
+     */
     private var customMines : Int = 4
 
 
@@ -67,9 +87,11 @@ class CustomSizeDialog : DialogFragment()  {
             container,
             false
         )
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         restoreChoices()
-
         binding.dismissButton.setOnClickListener {
             customColumns = sane(
                 binding.columnsNumber.text.toString(),
@@ -94,7 +116,6 @@ class CustomSizeDialog : DialogFragment()  {
             viewModel.randomGame(customColumns, customRows, customMines)
             dismiss()
         }
-        return binding.root
     }
 
     /**
