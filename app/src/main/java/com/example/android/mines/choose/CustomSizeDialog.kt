@@ -1,11 +1,12 @@
 package com.example.android.mines.choose
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.isDigitsOnly
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.android.mines.R
@@ -20,6 +21,13 @@ class CustomSizeDialog : DialogFragment()  {
      * The [SharedViewModel] instance we share with all our other fragments.
      */
     private val viewModel: SharedViewModel by activityViewModels()
+
+    private lateinit var binding: CustomSizeDialogBinding
+    private lateinit var preferences: SharedPreferences
+    private var customColumns : Int = 6
+    private var customRows : Int = 6
+    private var customMines : Int = 4
+
 
     /**
      * Called to have the fragment instantiate its user interface view. This will be called between
@@ -53,32 +61,37 @@ class CustomSizeDialog : DialogFragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: CustomSizeDialogBinding = CustomSizeDialogBinding.inflate(
+        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        binding = CustomSizeDialogBinding.inflate(
             inflater,
             container,
             false
         )
-        // TODO: Save last custom settings to shared preferences
+
+        restoreChoices()
+
         binding.dismissButton.setOnClickListener {
-            val columns: Int = sane(
+            customColumns = sane(
                 binding.columnsNumber.text.toString(),
                 4,
                 32,
                 8
             )
-            val rows: Int = sane(
+            customRows = sane(
                 binding.rowsNumber.text.toString(),
                 4,
                 32,
                 8
             )
-            val mines: Int = sane(
+            customMines = sane(
                 binding.minesNumber.text.toString(),
                 1,
-                rows*columns/2,
-                rows*columns/10
+                customRows*customColumns/2,
+                customRows*customColumns/10
             )
-            viewModel.randomGame(columns, rows, mines)
+
+            saveChoices()
+            viewModel.randomGame(customColumns, customRows, customMines)
             dismiss()
         }
         return binding.root
@@ -107,5 +120,29 @@ class CustomSizeDialog : DialogFragment()  {
         } else {
             default
         }
+    }
+
+    private fun restoreChoices() {
+        customColumns = preferences.getInt(CUSTOM_COLUMNS, 6)
+        binding.columnsNumber.setText(customColumns.toString())
+        customRows = preferences.getInt(CUSTOM_ROWS, 6)
+        binding.rowsNumber.setText(customRows.toString())
+        customMines = preferences.getInt(CUSTOM_MINES, 6)
+        binding.minesNumber.setText(customMines.toString())
+    }
+
+    @Suppress("unused")
+    private fun saveChoices() {
+        val editor = preferences.edit()
+        editor.putInt(CUSTOM_COLUMNS, customColumns)
+        editor.putInt(CUSTOM_ROWS, customRows)
+        editor.putInt(CUSTOM_MINES, customMines)
+        editor.apply()
+    }
+
+    companion object {
+        const val CUSTOM_COLUMNS = "custom_columns"
+        const val CUSTOM_ROWS = "custom_rows"
+        const val CUSTOM_MINES = "custom_rows"
     }
 }
