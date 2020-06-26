@@ -50,21 +50,13 @@ class CustomSizeDialog : DialogFragment()  {
 
 
     /**
-     * Called to have the fragment instantiate its user interface view. This will be called between
-     * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
-     * method and move logic that operates on the returned View to [onViewCreated]. First we
-     * initialize our variable `val binding` to the [CustomSizeDialogBinding] that its
-     * `inflate` method returns when  it uses our [LayoutInflater] parameter  [inflater] to inflate
-     * our layout file [R.layout.custom_size_dialog] using our [ViewGroup] parameter [container] for
-     * its LayoutParams without attaching to it. Then we set the `OnClickListener` of the
-     * `dismissButton` `Button` in our layout to a lambda which fetches the text in the `columnsNumber`
-     * `EditText` in our layout file in order to set `val columns` to the [Int] returned by our
-     * [sane] method after it verifies it, fetches the text in the `rowsNumber` `EditText` in our
-     * layout file in order to set `val rows` to the [Int] returned by our [sane] method after it
-     * verifies it, and fetches the text in the `minesNumber` `EditText` in our layout file in order
-     * to set `val mines` to the [Int] returned by our [sane] method after it verifies it. We then
-     * call the `randomGame` method of our [SharedViewModel] field [viewModel] to have it initialize
-     * the game state to `columns`, `rows`, and `mines`. Finally we dismiss this [DialogFragment].
+     * Called to have the fragment instantiate its user interface view. First we initialize our
+     * [SharedPreferences] field [preferences] to a a [SharedPreferences] object for accessing
+     * preferences that are private to this activity. We then initialize our field [binding] to the
+     * [CustomSizeDialogBinding] that its `inflate` method returns when  it uses our [LayoutInflater]
+     * parameter [inflater] to inflate our layout file [R.layout.custom_size_dialog] using our
+     * [ViewGroup] parameter [container] for its LayoutParams without attaching to it. Finally we
+     * return the outermost [View] of the layout file associated with [binding].
      *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment
@@ -90,6 +82,28 @@ class CustomSizeDialog : DialogFragment()  {
         return binding.root
     }
 
+    /**
+     * Called immediately after [onCreateView] has returned, but before any saved state has been
+     * restored in to the view. This gives subclasses a chance to initialize themselves once they
+     * know their view hierarchy has been completely created. The fragment's view hierarchy is not
+     * however attached to its parent at this point. First we call our method [restoreChoices] to
+     * read the choices made for the previous custom game board from our [SharedPreferences] into
+     * our fields [customColumns], [customRows] and [customMines] and write them as the initial
+     * contents of EditTexts used by the user to select them. Then we set the `OnClickListener` of
+     * the `dismissButton` `Button` in our layout to a lambda which fetches the text in the
+     * `columnsNumber` `EditText` in our layout file in order to set [customColumns] to the [Int]
+     * returned by our [sane] method after it verifies it, fetches the text in the `rowsNumber`
+     * `EditText` in our layout file in order to set [customRows] to the [Int] returned by our
+     * [sane] method after it verifies it, and fetches the text in the `minesNumber` `EditText` in
+     * our layout file in order to set [customMines] to the [Int] returned by our [sane] method
+     * after it verifies it. We then call the `randomGame` method of our [SharedViewModel] field
+     * [viewModel] to have it initialize the game state to [customColumns], [customRows], and
+     * [customMines]. Finally it dismisses this [DialogFragment].
+     *
+     * @param view The View returned by [onCreateView]
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         restoreChoices()
         binding.dismissButton.setOnClickListener {
@@ -143,6 +157,11 @@ class CustomSizeDialog : DialogFragment()  {
         }
     }
 
+    /**
+     * Reads the choices made for the last custom game played from our [SharedPreferences] file,
+     * saves them in our fields and sets them as the initial text in the EditTexts used by the
+     * user to choose the game board size.
+     */
     private fun restoreChoices() {
         customColumns = preferences.getInt(CUSTOM_COLUMNS, 6)
         binding.columnsNumber.setText(customColumns.toString())
@@ -152,6 +171,10 @@ class CustomSizeDialog : DialogFragment()  {
         binding.minesNumber.setText(customMines.toString())
     }
 
+    /**
+     * Saves the choices made for game board size contained in our fields [customColumns],
+     * [customRows] and [customMines] in our [SharedPreferences] file.
+     */
     @Suppress("unused")
     private fun saveChoices() {
         val editor = preferences.edit()
@@ -162,8 +185,19 @@ class CustomSizeDialog : DialogFragment()  {
     }
 
     companion object {
+        /**
+         * The key in our [SharedPreferences] file for our [customColumns] field.
+         */
         const val CUSTOM_COLUMNS = "custom_columns"
+
+        /**
+         * The key in our [SharedPreferences] file for our [customRows] field.
+         */
         const val CUSTOM_ROWS = "custom_rows"
+
+        /**
+         * The key in our [SharedPreferences] file for our [customMines] field.
+         */
         const val CUSTOM_MINES = "custom_mines"
     }
 }

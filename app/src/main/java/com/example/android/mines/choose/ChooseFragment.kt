@@ -1,5 +1,3 @@
-@file:Suppress( "UNUSED_PARAMETER")
-
 package com.example.android.mines.choose
 
 import android.app.Application

@@ -1,5 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package com.example.android.mines.game
 
 import android.annotation.SuppressLint
@@ -231,7 +229,7 @@ class GameFragment : Fragment() {
      * is no mine in the sector) we check whether the `hasBeenChecked` property of `sectorTag` is
      * false and if so we set the background of `textView` to the drawable with resource ID
      * [R.drawable.background_light] (since this should be the current background anyway, I am not
-     * sure why I bothered doing this TODO: Is this necessary?
+     * sure why I bothered doing this)
      *
      * Having dealt with "checking" the [View] that was clicked we set the `numChecked` property of
      * [viewModel] to the sum of its `numCheckedSafe` and `numCheckedMine` properties, and make a
@@ -241,7 +239,7 @@ class GameFragment : Fragment() {
      *
      * @param view the [View] that was clicked.
      */
-    fun onSectorClicked(view: View) {
+    private fun onSectorClicked(view: View) {
         val sectorTag : SectorContent = (view.tag as SectorContent)
         val textView : TextView = view as TextView
         if (viewModel.modeSafe) {
@@ -351,7 +349,7 @@ class GameFragment : Fragment() {
      *
      * @param view the [View] that was clicked (always the "Safe" button in our case of course)
      */
-    fun onSafeClicked(view: View) {
+    private fun onSafeClicked(view: View) {
         viewModel.modeSafe = true
         viewModel.modeMine = false
         view.setBackgroundColor(Color.RED)
@@ -366,7 +364,7 @@ class GameFragment : Fragment() {
      *
      * @param view the [View] that was clicked (always the "Mine" button in our case of course)
      */
-    fun onMineClicked(view: View) {
+    private fun onMineClicked(view: View) {
         viewModel.modeSafe = false
         viewModel.modeMine = true
         view.setBackgroundColor(Color.RED)
@@ -379,7 +377,7 @@ class GameFragment : Fragment() {
      * game state it models into a [MinesDatum] and have it insert that [MinesDatum] into our ROOM
      * database. Then we find our [NavController] and use it to navigate to the `ScoreFragment`.
      */
-    fun onFlippedAll() {
+    private fun onFlippedAll() {
         viewModel.toMinesDatum()
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }

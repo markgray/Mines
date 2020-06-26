@@ -41,10 +41,10 @@ class ScoreFragment : Fragment() {
     private val viewModel: SharedViewModel by activityViewModels()
 
     /**
-     * The "Again" [Button] that the user clicks to navigate back to the `ChooseFragment` in order
-     * to choose game board size and play another random game.
+     * The "New Game" [Button] that the user clicks to navigate back to the `ChooseFragment` in
+     * order to choose game board size and play another random game.
      */
-    private lateinit var buttonAgain: Button
+    private lateinit var buttonNewGame: Button
 
     /**
      * The [TextView] we use to display the statistics about the latest game played.
@@ -72,8 +72,8 @@ class ScoreFragment : Fragment() {
      * [ScoreFragmentBinding] to have it inflate the layout file layout/score_fragment.xml which
      * it was generated from using our [LayoutInflater] parameter [inflater], and our [ViewGroup]
      * parameter [container] for the LayoutParams of the view without attaching to it. We initialize
-     * our [Button] field [buttonAgain] to the `buttonAgain` property of `binding` (resource ID
-     * R.id.button_again) then set its `OnClickListener` to a lambda which navigates to the
+     * our [Button] field [buttonNewGame] to the `buttonNewGame` property of `binding` (resource ID
+     * R.id.button_new_game) then set its `OnClickListener` to a lambda which navigates to the
      * `ChooseFragment`. We initialize our [TextView] field [textView] to the `textViewScore`
      * property of `binding` (resource ID R.id.textViewScore), and we then launch a coroutine on the
      * [Dispatchers.Main] `CoroutineContext` whose lambda loads [latestDatum] by calling the
@@ -113,8 +113,8 @@ class ScoreFragment : Fragment() {
             container,
             false
         )
-        buttonAgain = binding.buttonAgain
-        buttonAgain.setOnClickListener {
+        buttonNewGame = binding.buttonNewGame
+        buttonNewGame.setOnClickListener {
             findNavController().navigate(R.id.action_scoreFragment_to_chooseFragment)
         }
 
