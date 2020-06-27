@@ -42,5 +42,10 @@
     <dialog
         android:id="@+id/customSizeDialog"
         android:name="com.example.android.mines.choose.CustomSizeDialog"
-        android:label="CustomSizeDialog" />
+        android:label="CustomSizeDialog" >
+        <action
+            android:id="@+id/action_customSizeDialog_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:popUpTo="@id/chooseFragment" />
+    </dialog>
 </navigation>

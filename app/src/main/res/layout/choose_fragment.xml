@@ -20,7 +20,7 @@
             android:text="@string/choose_text"
             android:textAlignment="center"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/boardChoice"
+            app:layout_constraintBottom_toTopOf="@+id/button_custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,12 +32,6 @@
             app:layout_constraintBottom_toTopOf="@+id/button_play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
-            <RadioButton
-                android:id="@+id/boardcustom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/custom" />
 
             <RadioButton
                 android:id="@+id/board8by8"
@@ -71,6 +65,15 @@
             android:layout_height="wrap_content"
             android:text="@string/play"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_custom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/custom"
+            app:layout_constraintBottom_toTopOf="@+id/boardChoice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

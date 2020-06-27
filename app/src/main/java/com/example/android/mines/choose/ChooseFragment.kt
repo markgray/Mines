@@ -51,6 +51,8 @@ class ChooseFragment : Fragment() {
      */
     private val viewModel: SharedViewModel by activityViewModels()
 
+    lateinit var binding: ChooseFragmentBinding
+
     /**
      * Our [Application] which we need to use as the context for our database when we first open or
      * create it.
@@ -101,12 +103,15 @@ class ChooseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: ChooseFragmentBinding = ChooseFragmentBinding.inflate(
+        binding = ChooseFragmentBinding.inflate(
             inflater,
             container,
             false
         )
 
+        binding.buttonCustom.setOnClickListener { view ->
+            onCustomClicked(view)
+        }
         binding.buttonPlay.setOnClickListener { view ->
             onPlayClicked(view)
         }
@@ -165,6 +170,12 @@ class ChooseFragment : Fragment() {
         findNavController().navigate(R.id.action_chooseFragment_to_gameFragment)
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun onCustomClicked(view: View) {
+        viewModel.buttonTop = binding.buttonPlay.top
+        findNavController().navigate(R.id.action_chooseFragment_to_customSizeDialog)
+    }
+
     /**
      * Called by the `OnCheckedChangeListener` lambda of the [RadioGroup] field [radioGroup] when
      * the user selects one of its `RadioButton`'s. We simply branch on the [checkedId] of the
@@ -179,9 +190,6 @@ class ChooseFragment : Fragment() {
     private fun selectBoardSize(checkedId: Int) {
         boardSizeChosen = true
         when (checkedId) {
-            R.id.boardcustom -> {
-                findNavController().navigate(R.id.action_chooseFragment_to_customSizeDialog)
-            }
             R.id.board8by8 -> {
                 viewModel.randomGame(8, 8, 10)
             }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.databinding.CustomSizeDialogBinding
@@ -90,7 +91,7 @@ class CustomSizeDialog : DialogFragment()  {
      * read the choices made for the previous custom game board from our [SharedPreferences] into
      * our fields [customColumns], [customRows] and [customMines] and write them as the initial
      * contents of EditTexts used by the user to select them. Then we set the `OnClickListener` of
-     * the `dismissButton` `Button` in our layout to a lambda which fetches the text in the
+     * the `abortButton` `Button` in our layout to a lambda which fetches the text in the
      * `columnsNumber` `EditText` in our layout file in order to set [customColumns] to the [Int]
      * returned by our [sane] method after it verifies it, fetches the text in the `rowsNumber`
      * `EditText` in our layout file in order to set [customRows] to the [Int] returned by our
@@ -98,7 +99,7 @@ class CustomSizeDialog : DialogFragment()  {
      * our layout file in order to set [customMines] to the [Int] returned by our [sane] method
      * after it verifies it. We then call the `randomGame` method of our [SharedViewModel] field
      * [viewModel] to have it initialize the game state to [customColumns], [customRows], and
-     * [customMines]. Finally it dismisses this [DialogFragment].
+     * [customMines]. Finally it abortes this [DialogFragment].
      *
      * @param view The View returned by [onCreateView]
      * @param savedInstanceState If non-null, this fragment is being re-constructed
@@ -106,7 +107,10 @@ class CustomSizeDialog : DialogFragment()  {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         restoreChoices()
-        binding.dismissButton.setOnClickListener {
+        binding.abortButton.setOnClickListener {
+            dismiss()
+        }
+        binding.playGameButton.setOnClickListener {
             customColumns = sane(
                 binding.columnsNumber.text.toString(),
                 4,
@@ -125,10 +129,9 @@ class CustomSizeDialog : DialogFragment()  {
                 customRows*customColumns/2,
                 customRows*customColumns/10
             )
-
             saveChoices()
             viewModel.randomGame(customColumns, customRows, customMines)
-            dismiss()
+            findNavController().navigate(R.id.action_customSizeDialog_to_gameFragment)
         }
     }
 
