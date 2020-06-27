@@ -91,15 +91,19 @@ class CustomSizeDialog : DialogFragment()  {
      * read the choices made for the previous custom game board from our [SharedPreferences] into
      * our fields [customColumns], [customRows] and [customMines] and write them as the initial
      * contents of EditTexts used by the user to select them. Then we set the `OnClickListener` of
-     * the `abortButton` `Button` in our layout to a lambda which fetches the text in the
+     * the `abortButton` `Button` in our layout to a lambda which calls [dismiss] in order to return
+     * to the `ChooseFragment` without doing anything more. We set  the `OnClickListener` of
+     * the `playGameButton` `Button` in our layout to a lambda which fetches the text in the
      * `columnsNumber` `EditText` in our layout file in order to set [customColumns] to the [Int]
      * returned by our [sane] method after it verifies it, fetches the text in the `rowsNumber`
      * `EditText` in our layout file in order to set [customRows] to the [Int] returned by our
      * [sane] method after it verifies it, and fetches the text in the `minesNumber` `EditText` in
      * our layout file in order to set [customMines] to the [Int] returned by our [sane] method
-     * after it verifies it. We then call the `randomGame` method of our [SharedViewModel] field
+     * after it verifies it. It then calls our [saveChoices] method to write the choices out to our
+     * SharedPreferences file, calls the `randomGame` method of our [SharedViewModel] field
      * [viewModel] to have it initialize the game state to [customColumns], [customRows], and
-     * [customMines]. Finally it abortes this [DialogFragment].
+     * [customMines], and then calls the `navigate` method of our `NavController` to navigate to
+     * `GameFragment`.
      *
      * @param view The View returned by [onCreateView]
      * @param savedInstanceState If non-null, this fragment is being re-constructed

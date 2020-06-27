@@ -78,16 +78,18 @@ class ChooseFragment : Fragment() {
      * Called to have the fragment instantiate its user interface view. This will be called between
      * [onCreate] and [onActivityCreated]. A default View can be returned by calling [Fragment]
      * in your constructor. It is recommended to only inflate the layout in this method and move
-     * logic that operates on the returned View to [onViewCreated]. First we initialize our variable
-     * `val binding` to the [ChooseFragmentBinding] that its `inflate` method returns when  it uses
-     * our [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.choose_fragment]
+     * logic that operates on the returned View to [onViewCreated]. First we initialize our field
+     * [binding] to the [ChooseFragmentBinding] that its `inflate` method returns when it uses our
+     * [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.choose_fragment]
      * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
-     * set the `OnClickListener` of the `buttonPlay` `Button` in our layout to a lambda which calls
-     * our method [onPlayClicked] with the [View] clicked. We set our [RadioGroup] field [radioGroup]
-     * to the `boardChoice` [RadioGroup] in our layout file then set its `OnCheckedChangeListener` to
-     * a lambda which calls our [selectBoardSize] method with the ID of the `RadioButton` which was
-     * checked. Finally we return the outermost View in the layout file associated with the
-     * [ChooseFragmentBinding] variable `binding` (its `root` [View]).
+     * set the `OnClickListener` of the `buttonCustom` `Button` in our layout to a lambda which
+     * calls our method [onCustomClicked] with the [View] clicked. We set the `OnClickListener` of
+     * the `buttonPlay` `Button` in our layout to a lambda which calls our method [onPlayClicked]
+     * with the [View] clicked. We set our [RadioGroup] field [radioGroup] to the `boardChoice`
+     * [RadioGroup] in our layout file then set its `OnCheckedChangeListener` to a lambda which calls
+     * our [selectBoardSize] method with the ID of the `RadioButton` which was checked. Finally we
+     * return the outermost View in the layout file associated with the [ChooseFragmentBinding]
+     * field [binding] (its `root` [View]).
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate any views
      * @param container If non-null, this is the parent view that the fragment's UI will be attached
@@ -170,6 +172,12 @@ class ChooseFragment : Fragment() {
         findNavController().navigate(R.id.action_chooseFragment_to_gameFragment)
     }
 
+    /**
+     * Called when the `buttonCustom` `Button` (ID R.id.buttonCustom) is clicked, we first initialize
+     * the `buttonTop` property of our [SharedViewModel] field [viewModel] to the `top` Y coordinate
+     * of the `buttonPlay` button in our layout file, then we call the `navigate` method of our
+     * `NavController` to navigate to `CustomSizeDialog`.
+     */
     @Suppress("UNUSED_PARAMETER")
     private fun onCustomClicked(view: View) {
         viewModel.buttonTop = binding.buttonPlay.top
@@ -181,9 +189,7 @@ class ChooseFragment : Fragment() {
      * the user selects one of its `RadioButton`'s. We simply branch on the [checkedId] of the
      * `RadioButton` selected calling the `randomGame` method of [SharedViewModel] field [viewModel]
      * using hard coded values for its `columnCount`, `rowCount`, and `mines` parameters which
-     * correspond to the values specified by the `RadioButton` label. If the `RadioButton` ID is
-     * R.id.boardcustom (the "Custom" button) we navigate to `CustomSizeDialog` to allow the user
-     * to configure the game board however they want it.
+     * correspond to the values specified by the `RadioButton` label.
      *
      * @param checkedId the resource ID of the `RadioButton` which was selected
      */
