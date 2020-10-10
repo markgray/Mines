@@ -23,6 +23,9 @@ interface MinesDatabaseDao {
      * a method in a Dao annotated class as an insert method. The implementation of the method will
      * insert its parameters into the database. All of the parameters of the Insert method must
      * either be classes annotated with `@Entity` or collections/array of it.
+     *
+     * @param game the [MinesDatum] containing all the information about a game that is necessary to
+     * recreate it.
      */
     @Insert
     fun insert(game: MinesDatum)
@@ -34,6 +37,8 @@ interface MinesDatabaseDao {
      * already exist (checked by primary keys). If they don't already exist, this option will not
      * change the database. All of the parameters of the Update method must either be classes
      * annotated with `@Entity` or collections/array of it.
+     *
+     * @param game the [MinesDatum] whose entry in the database should be updated.
      */
     @Update
     fun update(game: MinesDatum)
@@ -44,6 +49,8 @@ interface MinesDatabaseDao {
      * method. The value of the annotation is the query that will be run when this method is called.
      * This query is verified at compile time by Room to ensure that it compiles fine against the
      * database. The arguments of the method will be bound to the bind arguments in the SQL statement.
+     *
+     * @param key the `gameId` primary key of the [MinesDatum] we are to retrieve.
      */
     @Query("SELECT * from mines_game_history WHERE gameId = :key")
     fun get(key: Long): MinesDatum?

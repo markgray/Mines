@@ -182,7 +182,6 @@ class CustomSizeDialog : DialogFragment()  {
      * Saves the choices made for game board size contained in our fields [customColumns],
      * [customRows] and [customMines] in our [SharedPreferences] file.
      */
-    @Suppress("unused")
     private fun saveChoices() {
         val editor = preferences.edit()
         editor.putInt(CUSTOM_COLUMNS, customColumns)

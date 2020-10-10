@@ -1,4 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.example.android.mines.score
 
@@ -20,7 +19,7 @@ class MineDatumAdapter(
      * The [MinesDatumListener] whose `reload` method the `OnLongClickListener` of our ViewHolder
      * views should call to reload the [MinesDatum] it displays in order for the user to replay it.
      */
-    val minesDatumListener: MinesDatumListener
+    private val minesDatumListener: MinesDatumListener
 ): RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
 
     /**
@@ -39,13 +38,13 @@ class MineDatumAdapter(
     /**
      * The `gameId` of the newest [MinesDatum] added to our database.
      */
-    var newest : Long = 0L
+    private var newest : Long = 0L
 
     /**
      * Searches the [MinesDatum] in our dataset [data] for the highest `gameId` field and caches
      * that value in our field [newest].
      */
-    fun newestGameId() : Long {
+    private fun newestGameId() : Long {
         if (newest == 0L) {
             for (datum in data) {
                 if (datum.gameId > newest) {
@@ -127,7 +126,7 @@ class MineDatumAdapter(
          * should call to reload the [MinesDatum] we display into the `SharedViewModel` in order
          * to allow the user to replay that game.
          */
-        lateinit var listener: MinesDatumListener
+        private lateinit var listener: MinesDatumListener
 
         /**
          * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item].

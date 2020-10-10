@@ -29,20 +29,20 @@ import com.example.android.mines.databinding.GameFragmentBinding
 class GameFragment : Fragment() {
 
     /**
-     * The [GridLayout] with binding id `boardGrid` (resourse ID R.id.board_grid) which holds the
+     * The [GridLayout] with binding id `boardGrid` (resource ID R.id.board_grid) which holds the
      * [TextView]'s which represent our game board.
      */
     private lateinit var board: GridLayout
 
     /**
-     * The [Button] with binding id `buttonSafe` (resourse ID R.id.button_safe) which the user uses
+     * The [Button] with binding id `buttonSafe` (resource ID R.id.button_safe) which the user uses
      * to transition to "Safe" mode (clicking a sector on the game board in this mode marks the
      * sector as a safe sector).
      */
     private lateinit var safe: Button
 
     /**
-     * The [Button] with binding id `buttonMine` (resourse ID R.id.button_mine) which the user uses
+     * The [Button] with binding id `buttonMine` (resource ID R.id.button_mine) which the user uses
      * to transition to "Mine" mode (clicking a sector on the game board in this mode marks the
      * sector as a mined sector).
      */
