@@ -130,6 +130,7 @@ class ScoreFragment : Fragment() {
             findNavController().navigate(R.id.action_scoreFragment_to_gameFragment)
         })
         recyclerView.adapter = adapter
+        @Suppress("RedundantSamConstructor")
         viewModel.gameHistory!!.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
