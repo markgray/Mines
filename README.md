@@ -14,8 +14,9 @@ up to date with recommended best practices
   of the navigation graph. From there you can navigate to GameFragment to begin playing, or to
   CustomSizeDialog to configure a custom size for the game board.
   
-  - CustomSizeDialog allows you to configure a custom size for the game board, and returns to the
-  ChooseFragment once you have done so.
+  - CustomSizeDialog allows you to configure a custom size for the game board, and once you have
+  done so you can navigate to the GameFragment, or return to the ChooseFragment by pressing the
+  back button.
   
   - GameFragment is where the actual game is played. From there you will navigate to ScoreFragment
   once you have correctly marked all of the mine locations, or you can use the back button to return
