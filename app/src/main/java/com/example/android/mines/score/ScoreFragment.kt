@@ -120,6 +120,7 @@ class ScoreFragment : Fragment() {
 
         textView = binding.textViewScore
         CoroutineScope(Dispatchers.Main).launch {
+            latestDatum = viewModel.latestDatum
             latestDatum = viewModel.retrieveLatestDatum()
             textView.append(formatMinesDatum(latestDatum))
         }

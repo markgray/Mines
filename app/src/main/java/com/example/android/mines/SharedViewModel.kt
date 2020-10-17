@@ -107,6 +107,11 @@ class SharedViewModel: ViewModel() {
     var minesDatabaseDao: MinesDatabaseDao? = null
 
     /**
+     * The [MinesDatum] created by our [toMinesDatum] method from the latest game played.
+     */
+    lateinit var latestDatum: MinesDatum
+
+    /**
      * This is the [LiveData] holding the results of calling the `getAllGames` method of our
      * [MinesDatabaseDao] field [minesDatabaseDao] to read the entire contents of our database
      * sorted in ascending order by the "game_elapsed_time" column. It is updated automatically
@@ -296,7 +301,7 @@ class SharedViewModel: ViewModel() {
      * @return a [MinesDatum] holding the state variables of the current game.
      */
     fun toMinesDatum(): MinesDatum {
-        val minesDatum = MinesDatum(
+        latestDatum = MinesDatum(
             numColumns = numColumns,
             numRows = numRows,
             numMines = numMines,
@@ -304,9 +309,9 @@ class SharedViewModel: ViewModel() {
             haveMines = stringEncodeHaveMines()
         )
         uiScope.launch {
-            insertMinesDatum(minesDatum)
+            insertMinesDatum(latestDatum)
         }
-        return minesDatum
+        return latestDatum
     }
 
     /**
