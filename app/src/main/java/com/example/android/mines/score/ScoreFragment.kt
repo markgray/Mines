@@ -122,7 +122,7 @@ class ScoreFragment : Fragment() {
         textView = binding.textViewScore
         CoroutineScope(Dispatchers.Main).launch {
             latestDatum = viewModel.latestDatum
-            latestDatum = viewModel.retrieveLatestDatum()
+//          latestDatum = viewModel.retrieveLatestDatum() // This crashes emulator null pointer?
             textView.append(formatMinesDatum(latestDatum))
         }
 
