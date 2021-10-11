@@ -15,7 +15,9 @@ import java.text.SimpleDateFormat
 fun formatMinesDatum(game: MinesDatum): String {
     val sb = StringBuilder()
     sb.apply {
-        append("Game Id: ${game.gameId}\n")
+        if (game.gameId != 0L) {
+            append("Game Id: ${game.gameId}\n")
+        }
         append("Columns: ${game.numColumns}\n")
         append("Rows: ${game.numRows}\n")
         append("Mines: ${game.numMines}\n")

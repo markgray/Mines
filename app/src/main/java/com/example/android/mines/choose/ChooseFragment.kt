@@ -127,24 +127,25 @@ class ChooseFragment : Fragment() {
     }
 
     /**
-     * Called when the fragment's activity has been created and this fragment's view hierarchy
-     * instantiated. It can be used to do final initialization once these pieces are in place,
-     * such as retrieving views or restoring state. This is called after [onCreateView] and before
-     * [onViewStateRestored]. First we call our super's implementation of `onActivityCreated`, then
-     * we set [Application] field [application] to the application that owns the `FragmentActivity`
-     * that our `Fragment` is currently attached to. We then use [application] in a call to the
-     * [MinesDataBase.getInstance] method to retrieve the [MinesDataBase] singleton (creating it
-     * if need be, or returning the previously opened instance) whose reference we save in our field
-     * [minesDataBase]. If the `minesDatabaseDao` field of our [SharedViewModel] field [viewModel]
-     * is null we set it to the [MinesDatabaseDao] field `minesDatabaseDao` of [minesDataBase],
-     * and if the `LiveData` field `gameHistory` of [viewModel] is null we set it to the result
-     * of calling the `getAllGames` method of the `minesDatabaseDao` field of [viewModel].
+     * Called when all saved state has been restored into the view hierarchy of the fragment. This
+     * can be used to do initialization based on saved state that you are letting the view hierarchy
+     * track itself, such as whether check box widgets are currently checked. This is called after
+     * [onViewCreated] and before [onStart].
+     *
+     * First we call our super's implementation of `onViewStateRestored`, then we set [Application]
+     * field [application] to the application that owns the `FragmentActivity` that our `Fragment`
+     * is currently attached to. We then use [application] in a call to the [MinesDataBase.getInstance]
+     * method to retrieve the [MinesDataBase] singleton (creating it if need be, or returning the
+     * previously opened instance) whose reference we save in our field is null we set it to the
+     * [MinesDatabaseDao] field `minesDatabaseDao` of [minesDataBase], and if the `LiveData` field
+     * `gameHistory` of [viewModel] is `null` we set it to the result of calling the `getAllGames`
+     * method of the `minesDatabaseDao` field of [viewModel].
      *
      * @param savedInstanceState If the fragment is being re-created from a previous saved state,
      * this is the state.
      */
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         application = requireNotNull(this.activity).application
         minesDataBase  = MinesDataBase.getInstance(application)
         if (viewModel.minesDatabaseDao == null) {
