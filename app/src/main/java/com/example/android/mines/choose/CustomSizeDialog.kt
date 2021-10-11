@@ -142,7 +142,7 @@ class CustomSizeDialog : DialogFragment()  {
 
     /**
      * Verifies that the [String] parameter [inputString] is a number string between [low] and [hi]
-     * before converting it to an [Int] to return, but if it is not it returns [default] instread.
+     * before converting it to an [Int] to return, but if it is not it returns [default] instead.
      *
      * @param inputString [String] entered into an `EditText` by the use.
      * @param low the lowest value the caller want to accept

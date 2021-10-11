@@ -1,6 +1,7 @@
 
 package com.example.android.mines.score
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class MineDatumAdapter(
      * newest [MinesDatum.gameId] in order to highlight it in green.
      */
     var data = listOf<MinesDatum>()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             newest = 0L

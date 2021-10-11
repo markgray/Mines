@@ -355,6 +355,7 @@ class SharedViewModel: ViewModel() {
      *
      * @return the [MinesDatum] which was most recently inserted into our game history database.
      */
+    @Suppress("unused")
     suspend fun retrieveLatestDatum(): MinesDatum {
         return withContext(Dispatchers.IO) {
             minesDatabaseDao!!.getLatestEntry()!!
