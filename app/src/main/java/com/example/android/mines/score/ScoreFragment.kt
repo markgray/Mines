@@ -76,10 +76,9 @@ class ScoreFragment : Fragment() {
      * R.id.button_new_game) then set its `OnClickListener` to a lambda which navigates to the
      * `ChooseFragment`. We initialize our [TextView] field [textView] to the `textViewScore`
      * property of `binding` (resource ID R.id.textViewScore), and we then launch a coroutine on the
-     * [Dispatchers.Main] `CoroutineContext` whose lambda loads [latestDatum] by calling the
-     * `retrieveLatestDatum` method of our [SharedViewModel] field [viewModel] and when that suspend
-     * method returns appends the [String] result of calling our [formatMinesDatum] method for
-     * [latestDatum].
+     * [Dispatchers.Main] `CoroutineContext` whose lambda sets [latestDatum] to the value of the
+     * [SharedViewModel.latestDatum] field of [viewModel] and appends the [String] result of calling
+     * our [formatMinesDatum] method for [latestDatum].
      *
      * We initialize our [RecyclerView] field [recyclerView] to the `gameHistoryList` property of
      * `binding` (resource ID R.id.game_history_list in our layout file). We initialize our
@@ -122,7 +121,6 @@ class ScoreFragment : Fragment() {
         textView = binding.textViewScore
         CoroutineScope(Dispatchers.Main).launch {
             latestDatum = viewModel.latestDatum
-//          latestDatum = viewModel.retrieveLatestDatum() // This crashes emulator null pointer?
             textView.append(formatMinesDatum(latestDatum))
         }
 
