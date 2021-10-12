@@ -37,25 +37,34 @@
                 android:id="@+id/board8by8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/board_8_by_8_10_mines" />
+                android:layout_marginTop="8dp"
+                android:text="@string/board_8_by_8_10_mines"
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/board12by16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/board_12_by_16_30_mines" />
+                android:layout_marginTop="8dp"
+                android:text="@string/board_12_by_16_30_mines"
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/board16by16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/board_16_by_16_40_mines" />
+                android:layout_marginTop="8dp"
+                android:text="@string/board_16_by_16_40_mines"
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/board16by30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/board_16_by_30_99_mines" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/board_16_by_30_99_mines"
+                android:textSize="20sp" />
 
         </RadioGroup>
 
