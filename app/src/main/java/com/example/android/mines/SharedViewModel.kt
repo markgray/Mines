@@ -2,8 +2,12 @@
 
 package com.example.android.mines
 
+import android.app.Application
+import android.content.Context
 import android.os.SystemClock
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.android.mines.database.MinesDatabaseDao
 import com.example.android.mines.database.MinesDatum
@@ -15,7 +19,21 @@ import java.lang.StringBuilder
  * The [ViewModel] which is shared by all of our fragments. It contains almost all the information
  * that the fragments need, and almost all of their business logic as well.
  */
-class SharedViewModel: ViewModel() {
+class SharedViewModel(
+    application: Application,
+    private val savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application) {
+
+    /**
+     * The [Context] of our [Application].
+     */
+    private val context: Context
+        get() = getApplication()
+
+    /**
+     * The [Narrator] instance that does our text to speech.
+     */
+    val narrator = Narrator(context)
 
     /**
      * List of the [SectorContent] objects which make up our current game.
@@ -360,5 +378,16 @@ class SharedViewModel: ViewModel() {
         return withContext(Dispatchers.IO) {
             minesDatabaseDao!!.getLatestEntry()!!
         }
+    }
+
+    /**
+     * This method will be called when this ViewModel is no longer used and will be destroyed.
+     * It is useful when ViewModel observes some data and you need to clear this subscription to
+     * prevent a leak of this ViewModel. First we call our super's implementation of `onCleared`,
+     * then we call the [Narrator.shutDown] method of our [narrator] field.
+     */
+    override fun onCleared() {
+        super.onCleared()
+        narrator.shutDown()
     }
 }

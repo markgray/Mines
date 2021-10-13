@@ -247,6 +247,7 @@ class GameFragment : Fragment() {
             if (sectorTag.hasMine) {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
                 textView.text = "\u274c"
+                viewModel.narrator.tellUser("So sorry but this sector has a mine in it")
             } else if(!sectorTag.hasBeenChecked) {
                 if (markSectorAsSafe(sectorTag, textView) == 0) {
                     markNeighborsAsSafe(sectorTag.neighbors)
