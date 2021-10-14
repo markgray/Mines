@@ -5,6 +5,7 @@ package com.example.android.mines
 import android.app.Application
 import android.content.Context
 import android.os.SystemClock
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
@@ -24,9 +25,23 @@ import kotlinx.coroutines.withContext
  */
 class SharedViewModel(
     application: Application,
-    @Suppress("unused")
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
+
+    companion object {
+        /**
+         * TAG used for logging.
+         */
+        const val TAG: String = "SharedViewModel"
+    }
+
+    init {
+        Log.i(TAG, "Listing contents of savedStateHandle")
+        for (key: String in savedStateHandle.keys()) {
+            Log.i(TAG, "Value of $key in savedStateHandle is $savedStateHandle[key]")
+        }
+        Log.i(TAG, "End of list of contents of savedStateHandle")
+    }
 
     /**
      * The [Context] of our [Application].
