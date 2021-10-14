@@ -11,9 +11,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.android.mines.database.MinesDatabaseDao
 import com.example.android.mines.database.MinesDatum
-import kotlinx.coroutines.*
-
-import java.lang.StringBuilder
+import kotlinx.coroutines.CompletableJob
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * The [ViewModel] which is shared by all of our fragments. It contains almost all the information
@@ -21,6 +24,7 @@ import java.lang.StringBuilder
  */
 class SharedViewModel(
     application: Application,
+    @Suppress("unused")
     private val savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
 
@@ -34,6 +38,15 @@ class SharedViewModel(
      * The [Narrator] instance that does our text to speech.
      */
     val narrator = Narrator(context)
+
+    /**
+     * Convenience function for calling the [Narrator.tellUser] method of our [narrator] field.
+     *
+     * @param text the text that is to be spoken.
+     */
+    fun sayIt(text: String) {
+        narrator.tellUser(text)
+    }
 
     /**
      * List of the [SectorContent] objects which make up our current game.

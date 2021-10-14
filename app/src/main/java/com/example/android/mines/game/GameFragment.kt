@@ -213,12 +213,20 @@ class GameFragment : Fragment() {
      * clicking sectors he thinks are "Safe") we check whether the [SectorContent] property `hasMine`
      * is true (indicates it actually has a mine) and if so we set the background of `textView` to
      * the drawable with resource ID [R.drawable.bomb_icon] (a black circle) and the text of
-     * `textView` to a red X character. If `hasMine` is false we check whether the `hasBeenChecked`
-     * property of `sectorTag` is false (ignoring it if it is true -- the sector has already been
-     * marked as "Safe") before we call our [markSectorAsSafe] method with `sectorTag` and `textView`
-     * and if [markSectorAsSafe] returns 0 (indicating that the sector has no "Mined" neighbors) we
-     * call our [markNeighborsAsSafe] method with the `neighbors` List of `sectorTag` to have it
-     * mark all of the neighbors of the sector as safe as well.
+     * `textView` to a red X character. Then we call the [SharedViewModel.sayIt] method of [viewModel]
+     * to have the tts engine tell the user: "So sorry but this sector has a mine in it".
+     *
+     * If `hasMine` is false we check whether the `hasBeenChecked` property of `sectorTag` is `false`
+     * (ignoring it if it is `true` -- the sector has already been marked as "Safe") before we call
+     * our [markSectorAsSafe] method with `sectorTag` and `textView` saving the number of mined
+     * neighbors that it returns in our variable `val neighborsWithMines`. If `neighborsWithMines`
+     * is (indicating that the sector has no "Mined" neighbors) we call our [markNeighborsAsSafe]
+     * method with the `neighbors` List of `sectorTag` to have it mark all of the neighbors of the
+     * sector as safe as well. Then we do some english grammar calculations to generate the [String]
+     * "This sector is safe and has 1 neighbor with a mine" if `neighborsWithMines` is 1 or "This
+     * sector is safe and has neighborsWithMines neighbors with mines" for other values and call the
+     * [SharedViewModel.sayIt] method of [viewModel] to have the tts engine announce this [String]
+     * to the user.
      *
      * If the `modeMine` property of our [SharedViewModel] field [viewModel] is true (the user is
      * clicking sectors he thinks are "Mined") we check whether the `hasMine` property of `sectorTag`
@@ -230,7 +238,8 @@ class GameFragment : Fragment() {
      * is no mine in the sector) we check whether the `hasBeenChecked` property of `sectorTag` is
      * false and if so we set the background of `textView` to the drawable with resource ID
      * [R.drawable.background_light] (since this should be the current background anyway, I am not
-     * sure why I bothered doing this)
+     * sure why I bothered doing this). Then we call the [SharedViewModel.sayIt] method of
+     * [viewModel] to have the tts engine tell the user: "Wrong, this sector does not have a mine".
      *
      * Having dealt with "checking" the [View] that was clicked we set the `numChecked` property of
      * [viewModel] to the sum of its `numCheckedSafe` and `numCheckedMine` properties, and make a
@@ -247,11 +256,20 @@ class GameFragment : Fragment() {
             if (sectorTag.hasMine) {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
                 textView.text = "\u274c"
-                viewModel.narrator.tellUser("So sorry but this sector has a mine in it")
+                viewModel.sayIt("So sorry but this sector has a mine in it")
             } else if(!sectorTag.hasBeenChecked) {
-                if (markSectorAsSafe(sectorTag, textView) == 0) {
+                val neighborsWithMines = markSectorAsSafe(sectorTag, textView)
+                if (neighborsWithMines == 0) {
                     markNeighborsAsSafe(sectorTag.neighbors)
                 }
+                val plural: String = if ( neighborsWithMines == 1) {
+                    "neighbor with a mine"
+                } else {
+                    "neighbors with mines"
+                }
+                viewModel.sayIt(
+                    "This sector is safe and has $neighborsWithMines $plural"
+                )
             }
         } else if (viewModel.modeMine) {
             if (sectorTag.hasMine) {
@@ -265,6 +283,7 @@ class GameFragment : Fragment() {
                 if (!sectorTag.hasBeenChecked) {
                     textView.setBackgroundResource(R.drawable.background_dark)
                 }
+                viewModel.sayIt("Wrong, this sector does not have a mine")
             }
         }
 
