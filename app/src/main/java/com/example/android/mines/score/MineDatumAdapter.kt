@@ -40,13 +40,13 @@ class MineDatumAdapter(
     /**
      * The `gameId` of the newest [MinesDatum] added to our database.
      */
-    private var newest : Long = 0L
+    var newest : Long = 0L
 
     /**
      * Searches the [MinesDatum] in our dataset [data] for the highest `gameId` field and caches
      * that value in our field [newest].
      */
-    private fun newestGameId() : Long {
+    fun newestGameId() : Long {
         if (newest == 0L) {
             for (datum in data) {
                 if (datum.gameId > newest) {

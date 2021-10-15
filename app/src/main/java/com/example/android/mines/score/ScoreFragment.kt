@@ -134,9 +134,13 @@ class ScoreFragment : Fragment() {
         viewModel.gameHistory!!.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
+                viewModel.saveNewestId(adapter.newestGameId())
             }
         })
 
+        viewModel.newestID.observe(viewLifecycleOwner, {
+            viewModel.sayIt("There are $it entries in our history")
+        })
         return binding.root
     }
 }

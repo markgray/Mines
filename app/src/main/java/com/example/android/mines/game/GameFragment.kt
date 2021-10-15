@@ -257,12 +257,12 @@ class GameFragment : Fragment() {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
                 textView.text = "\u274c"
                 viewModel.sayIt("So sorry but this sector has a mine in it")
-            } else if(!sectorTag.hasBeenChecked) {
+            } else if (!sectorTag.hasBeenChecked) {
                 val neighborsWithMines = markSectorAsSafe(sectorTag, textView)
                 if (neighborsWithMines == 0) {
                     markNeighborsAsSafe(sectorTag.neighbors)
                 }
-                val plural: String = if ( neighborsWithMines == 1) {
+                val plural: String = if (neighborsWithMines == 1) {
                     "neighbor with a mine"
                 } else {
                     "neighbors with mines"
@@ -270,6 +270,8 @@ class GameFragment : Fragment() {
                 viewModel.sayIt(
                     "This sector is safe and has $neighborsWithMines $plural"
                 )
+            } else {
+                viewModel.sayIt("This sector has already been marked as safe")
             }
         } else if (viewModel.modeMine) {
             if (sectorTag.hasMine) {
@@ -279,6 +281,7 @@ class GameFragment : Fragment() {
                 }
                 textView.setBackgroundResource(R.drawable.background_light)
                 textView.text = "\u274c"
+                viewModel.sayIt("Correct, this sector does have a mine")
             } else {
                 if (!sectorTag.hasBeenChecked) {
                     textView.setBackgroundResource(R.drawable.background_dark)
@@ -400,6 +403,7 @@ class GameFragment : Fragment() {
      */
     private fun onFlippedAll() {
         viewModel.toMinesDatum()
+        viewModel.sayIt("Congratulations, you have won")
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }
 

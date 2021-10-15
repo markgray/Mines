@@ -8,6 +8,7 @@ import android.os.SystemClock
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.android.mines.database.MinesDatabaseDao
@@ -25,7 +26,7 @@ import kotlinx.coroutines.withContext
  */
 class SharedViewModel(
     application: Application,
-    savedStateHandle: SavedStateHandle
+    val savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
 
     companion object {
@@ -156,6 +157,25 @@ class SharedViewModel(
      * The [MinesDatum] created by our [toMinesDatum] method from the latest game played.
      */
     lateinit var latestDatum: MinesDatum
+
+    /**
+     * This is an experiment in the use of the [SavedStateHandle] our constructor is passed. This
+     * [MutableLiveData] exposes the entry with the key "newest_id" to the UI
+     */
+    @Suppress("unused")
+    val newestID: MutableLiveData<Long> =
+        savedStateHandle.getLiveData("newest_id")
+    /**
+     * This method saves its [Long] parameter [id] in our [SavedStateHandle] field [savedStateHandle]
+     * under the key "newest_id".
+     *
+     * @param id the [Long] value to store in our [SavedStateHandle] field [savedStateHandle]
+     * under the key "newest_id".
+     */
+    @Suppress("unused")
+    fun saveNewestId(id: Long) {
+        savedStateHandle["newest_id"] = id
+    }
 
     /**
      * This is the [LiveData] holding the results of calling the `getAllGames` method of our

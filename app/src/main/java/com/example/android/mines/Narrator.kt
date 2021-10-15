@@ -43,7 +43,7 @@ class Narrator(context: Context): OnInitListener {
         val dummyBundle: Bundle? = null
         mTts?.speak(
             text,
-            TextToSpeech.QUEUE_ADD,
+            TextToSpeech.QUEUE_FLUSH,
             dummyBundle,
             null
         )
