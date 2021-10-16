@@ -28,5 +28,17 @@
 ## The report of kept entry points
 #-printseeds /home/markgray/tmp/seeds.txt
 #
-#-keepattributes LineNumberTable,SourceFile
-#-renamesourcefileattribute SourceFile
+
+# Allows you to specify supported Java attributes for R8 to retain in the code
+# The LineNumberTable attribute is needed for disambiguating between optimized positions inside
+# methods. The SourceFile attribute is necessary for getting line numbers printed in a stack trace
+# on a virtual machine or device. -renamesourcefileattribute will set the source file in stack
+# traces to just SourceFile. The actual original source file name is not required when retracing as
+# the mapping file contains the original source file.
+-keepattributes LineNumberTable,SourceFile
+# Specifies a constant string to be put in the SourceFile attributes (and SourceDir attributes) of
+# the class files. Note that the attribute has to be present to start with, so it also has to be
+# preserved explicitly using the -keepattributes directive. For example, you may want to have your
+# processed libraries and applications produce useful obfuscated stack traces. Only applicable when
+# obfuscating.
+-renamesourcefileattribute SourceFile
