@@ -13,4 +13,5 @@
     <string name="custom">Custom</string>
     <string name="columns">Columns:</string>
     <string name="rows">Rows:</string>
+    <string name="silence">SILENCE</string>
 </resources>
