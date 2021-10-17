@@ -21,13 +21,30 @@
 #-renamesourcefileattribute SourceFile
 
 ### These files can all be found in Mines/app/build/outputs/mapping/release/ after building
-## To output a full report of all the rules that R8 applies when building your project,
-#-printconfiguration /home/markgray/tmp/full-r8-config.txt
-## Generate a report of removed (or kept) code
+#
+## Specifies to write out the entire configuration that has been parsed, with included files and
+# replaced variables. The structure is printed to the standard output or to the given file.
+# This can sometimes be useful to debug configurations, or to convert XML configurations into
+# a more readable format.
+#-printconfiguration /home/markgray/tmp/configuration.txt
+#
+## Specifies to list dead code of the input class files. The list is printed to the standard output
+# or to the given file. For example, you can list the unused code of an application. Only applicable
+# when shrinking.
 #-printusage /home/markgray/tmp/usage.txt
-## The report of kept entry points
+#
+## The report of kept entry points Specifies to exhaustively list classes and class members matched
+# by the various -keep options. The list is printed to the standard output or to the given file.
+# The list can be useful to verify if the intended class members are really found, especially if
+# you're using wildcards. For example, you may want to list all the applications or all the applets
+# that you are keeping.
 #-printseeds /home/markgray/tmp/seeds.txt
 #
+## Specifies to print the mapping from old names to new names for classes and class members that
+# have been renamed. The mapping is printed to the standard output or to the given file.
+# For example, it is required for subsequent incremental obfuscation, or if you ever want to make
+# sense again of obfuscated stack traces. Only applicable when obfuscating.
+#-printmapping /home/markgray/tmp/mapping.txt
 
 # Allows you to specify supported Java attributes for R8 to retain in the code
 # The LineNumberTable attribute is needed for disambiguating between optimized positions inside
