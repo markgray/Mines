@@ -53,15 +53,25 @@ class SharedViewModel(
     /**
      * The [Narrator] instance that does our text to speech.
      */
-    val narrator = Narrator(context)
+    var narrator: Narrator? = Narrator(context)
 
     /**
-     * Convenience function for calling the [Narrator.tellUser] method of our [narrator] field.
+     * Flag indicating whether the [Narrator.tellUser] method should be called by our [sayIt] method
+     * or not. It is set to `false` by the `onClickListener` of the "SILENCE" button in the UI of
+     * `ChooseFragement`.
+     */
+    var talkEnabled: Boolean = true
+
+    /**
+     * Convenience function for calling the [Narrator.tellUser] method of our [narrator] field if
+     * and only if our [Boolean] property [talkEnabled] is `true`
      *
      * @param text the text that is to be spoken.
      */
     fun sayIt(text: String) {
-        narrator.tellUser(text)
+        if (talkEnabled) {
+            narrator?.tellUser(text)
+        }
     }
 
     /**
@@ -432,10 +442,12 @@ class SharedViewModel(
      * This method will be called when this ViewModel is no longer used and will be destroyed.
      * It is useful when ViewModel observes some data and you need to clear this subscription to
      * prevent a leak of this ViewModel. First we call our super's implementation of `onCleared`,
-     * then we call the [Narrator.shutDown] method of our [narrator] field.
+     * then we call the [Narrator.shutDown] method of our [narrator] field if it is not `null` and
+     * set [narrator] to `null`.
      */
     override fun onCleared() {
         super.onCleared()
-        narrator.shutDown()
+        narrator?.shutDown()
+        narrator = null
     }
 }

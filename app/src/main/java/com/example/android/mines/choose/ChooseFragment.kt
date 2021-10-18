@@ -82,7 +82,10 @@ class ChooseFragment : Fragment() {
      * [binding] to the [ChooseFragmentBinding] that its `inflate` method returns when it uses our
      * [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.choose_fragment]
      * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
-     * set the `OnClickListener` of the `buttonCustom` `Button` in our layout to a lambda which
+     * set the `OnClickListener` of the quietOrTalkative `Button` in our layout to a lambda which
+     * sets the [SharedViewModel.talkEnabled] property of [viewModel] to `false`.
+     * TODO: enhance this to a toggle of the property with appropriate change of button label
+     * We set the `OnClickListener` of the `buttonCustom` `Button` in our layout to a lambda which
      * calls our method [onCustomClicked] with the [View] clicked. We set the `OnClickListener` of
      * the `buttonPlay` `Button` in our layout to a lambda which calls our method [onPlayClicked]
      * with the [View] clicked. We set our [RadioGroup] field [radioGroup] to the `boardChoice`
@@ -111,6 +114,10 @@ class ChooseFragment : Fragment() {
             container,
             false
         )
+
+        binding.quietOrTalkative.setOnClickListener {
+            viewModel.talkEnabled = false
+        }
 
         binding.buttonCustom.setOnClickListener { view ->
             onCustomClicked(view)
