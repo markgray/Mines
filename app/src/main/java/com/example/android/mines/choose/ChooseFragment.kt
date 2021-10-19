@@ -83,8 +83,15 @@ class ChooseFragment : Fragment() {
      * [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.choose_fragment]
      * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
      * set the `OnClickListener` of the quietOrTalkative `Button` in our layout to a lambda which
-     * sets the [SharedViewModel.talkEnabled] property of [viewModel] to `false`.
-     * TODO: enhance this to a toggle of the property with appropriate change of button label
+     * branches on whether the [SharedViewModel.talkEnabled] property of [viewModel] to is `true`
+     * or `false`:
+     *  - `true`: it sets the [SharedViewModel.talkEnabled] property of [viewModel] to `false` and
+     *  and sets the text  of the `Button` to the [String] with resource ID [R.string.clickForTalkativeMode]
+     *  ("CLICK FOR TALKATIVE MODE").
+     *  - `false`: it sets the [SharedViewModel.talkEnabled] property of [viewModel] to `true` and
+     *  and sets the text  of the `Button` to the [String] with resource ID [R.string.clickForQuietMode]
+     *  ("CLICK FOR SILENT MODE").
+     *
      * We set the `OnClickListener` of the `buttonCustom` `Button` in our layout to a lambda which
      * calls our method [onCustomClicked] with the [View] clicked. We set the `OnClickListener` of
      * the `buttonPlay` `Button` in our layout to a lambda which calls our method [onPlayClicked]
@@ -116,7 +123,13 @@ class ChooseFragment : Fragment() {
         )
 
         binding.quietOrTalkative.setOnClickListener {
-            viewModel.talkEnabled = false
+            if (viewModel.talkEnabled) {
+                viewModel.talkEnabled = false
+                binding.quietOrTalkative.text = getString(R.string.clickForTalkativeMode)
+            } else {
+                viewModel.talkEnabled = true
+                binding.quietOrTalkative.text = getString(R.string.clickForQuietMode)
+            }
         }
 
         binding.buttonCustom.setOnClickListener { view ->
@@ -141,9 +154,17 @@ class ChooseFragment : Fragment() {
      *
      * First we call our super's implementation of `onViewStateRestored`, then we set [Application]
      * field [application] to the application that owns the `FragmentActivity` that our `Fragment`
-     * is currently attached to. We then use [application] in a call to the [MinesDataBase.getInstance]
+     * is currently attached to. We then branch on whether the [SharedViewModel.talkEnabled] property
+     * of [viewModel] to is `true` or `false`:
+     *  - `true`: sets the text  of the `quietOrTalkative` `Button` in our layout to the [String]
+     *  with resource ID [R.string.clickForQuietMode] ("CLICK FOR SILENT MODE").
+     *  - `false`: sets the text  of the `quietOrTalkative` `Button` in our layout to the [String]
+     *  with resource ID [R.string.clickForTalkativeMode] ("CLICK FOR TALKATIVE MODE").
+     *
+     * We then use [application] in a call to the [MinesDataBase.getInstance]
      * method to retrieve the [MinesDataBase] singleton (creating it if need be, or returning the
-     * previously opened instance) whose reference we save in our field is null we set it to the
+     * previously opened instance) whose reference we save in our field [minesDataBase]. If the
+     * [SharedViewModel.minesDatabaseDao] field of [viewModel] is `null` we set it to the
      * [MinesDatabaseDao] field `minesDatabaseDao` of [minesDataBase], and if the `LiveData` field
      * `gameHistory` of [viewModel] is `null` we set it to the result of calling the `getAllGames`
      * method of the `minesDatabaseDao` field of [viewModel].
@@ -154,6 +175,13 @@ class ChooseFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         application = requireNotNull(this.activity).application
+
+        if (viewModel.talkEnabled) {
+            binding.quietOrTalkative.text = getString(R.string.clickForQuietMode)
+        } else {
+            binding.quietOrTalkative.text = getString(R.string.clickForTalkativeMode)
+        }
+
         minesDataBase  = MinesDataBase.getInstance(application)
         if (viewModel.minesDatabaseDao == null) {
             viewModel.minesDatabaseDao = minesDataBase.minesDatabaseDao
