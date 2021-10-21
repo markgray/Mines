@@ -15,4 +15,6 @@
     <string name="rows">Rows:</string>
     <string name="clickForQuietMode">CLICK FOR SILENT MODE</string>
     <string name="clickForTalkativeMode">CLICK FOR TALKATIVE MODE</string>
+    <string name="hello_blank_fragment">Click Me to return</string>
+    <string name="edit_history">Edit History</string>
 </resources>

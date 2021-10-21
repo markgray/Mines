@@ -51,7 +51,7 @@ class ChooseFragment : Fragment() {
      */
     private val viewModel: SharedViewModel by activityViewModels()
 
-    lateinit var binding: ChooseFragmentBinding
+    private lateinit var binding: ChooseFragmentBinding
 
     /**
      * Our [Application] which we need to use as the context for our database when we first open or
@@ -130,6 +130,10 @@ class ChooseFragment : Fragment() {
                 viewModel.talkEnabled = true
                 binding.quietOrTalkative.text = getString(R.string.clickForQuietMode)
             }
+        }
+
+        binding.editHistory.setOnClickListener {
+            findNavController().navigate(R.id.action_chooseFragment_to_editFragment)
         }
 
         binding.buttonCustom.setOnClickListener { view ->

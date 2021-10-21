@@ -17,6 +17,9 @@
             android:id="@+id/action_chooseFragment_to_customSizeDialog"
             app:destination="@id/customSizeDialog"
             app:popUpTo="@id/chooseFragment" />
+        <action
+            android:id="@+id/action_chooseFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -48,4 +51,13 @@
             app:destination="@id/gameFragment"
             app:popUpTo="@id/chooseFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.android.mines.edit.EditFragment"
+        android:label="edit_fragment"
+        tools:layout="@layout/edit_fragment" >
+        <action
+            android:id="@+id/action_editFragment_to_chooseFragment"
+            app:destination="@id/chooseFragment" />
+    </fragment>
 </navigation>
