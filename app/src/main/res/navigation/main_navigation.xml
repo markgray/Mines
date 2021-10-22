@@ -59,5 +59,16 @@
         <action
             android:id="@+id/action_editFragment_to_chooseFragment"
             app:destination="@id/chooseFragment" />
+        <action
+            android:id="@+id/action_editFragment_to_editHistoryDialog"
+            app:destination="@id/editHistoryDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/editHistoryDialog"
+        android:name="com.example.android.mines.edit.EditHistoryDialog"
+        android:label="EditHistoryDialog" >
+        <action
+            android:id="@+id/action_editHistoryDialog_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
 </navigation>
