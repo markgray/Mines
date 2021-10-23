@@ -15,7 +15,7 @@
     <string name="rows">Rows:</string>
     <string name="clickForQuietMode">CLICK FOR SILENT MODE</string>
     <string name="clickForTalkativeMode">CLICK FOR TALKATIVE MODE</string>
-    <string name="hello_blank_fragment">This will one day display game history</string>
+    <string name="no_history_yet">No game history exists</string>
     <string name="edit_history">Edit History</string>
     <string name="launch_dialog">Launch Dialog</string>
     <string name="abort_edit_history">Abort Edit History</string>
