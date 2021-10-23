@@ -63,6 +63,7 @@
             android:id="@+id/action_editFragment_to_editHistoryDialog"
             app:destination="@id/editHistoryDialog" />
     </fragment>
+<!-- TODO: Make this a dialog   -->
     <fragment
         android:id="@+id/editHistoryDialog"
         android:name="com.example.android.mines.edit.EditHistoryDialog"

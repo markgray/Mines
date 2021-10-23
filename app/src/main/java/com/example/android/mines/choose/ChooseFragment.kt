@@ -19,7 +19,7 @@ import com.example.android.mines.databinding.ChooseFragmentBinding
  * This is the "app:startDestination" for our app and allows the user to choose the size of the
  * game board which it then configures the [SharedViewModel] to represent before navigating to the
  * `GameFragment` to begin playing the game.
- * TODO: add Button to navigate to the ScoreFragment to replay an old game instead.
+ * TODO: Make EditHistoryFragment allow user to replay a game
  */
 class ChooseFragment : Fragment() {
 

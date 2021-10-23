@@ -61,6 +61,14 @@ interface MinesDatabaseDao {
     @Query("DELETE FROM mines_game_history")
     fun clear()
 
+    /* TODO: add this functionality for EditHistoryFragment and EditHistoryDialog
+    @Query("DELETE FROM mines_game_history where id = :id")
+    fun deleteSingleID(id: Int)
+
+    @Query("DELETE FROM mines_game_history where id in (:idList)")
+    fun deleteMultipleIDs(idList: List<Int>)
+     */
+
     /**
      * Returns only the latest [MinesDatum] from the database. The SQLite statement selects all entries
      * in the "mines_game_history" table, sorts by the `gameId` column in descending order and returns
