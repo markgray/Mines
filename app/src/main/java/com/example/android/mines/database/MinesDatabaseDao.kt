@@ -61,13 +61,23 @@ interface MinesDatabaseDao {
     @Query("DELETE FROM mines_game_history")
     fun clear()
 
-    /* TODO: add this functionality for EditHistoryFragment and EditHistoryDialog
-    @Query("DELETE FROM mines_game_history where id = :id")
-    fun deleteSingleID(id: Int)
-
-    @Query("DELETE FROM mines_game_history where id in (:idList)")
-    fun deleteMultipleIDs(idList: List<Int>)
+    /**
+     * Deletes the [MinesDatum] in the database whose [MinesDatum.gameId] property is our parameter
+     * [id].
+     *
+     * @param id the [MinesDatum.gameId] of the [MinesDatum] in our database to be deleted.
      */
+    @Suppress("unused")
+    @Query("DELETE FROM mines_game_history where gameId = :id")
+    fun deleteSingleID(id: Long)
+
+    /**
+     * Deletes all the [MinesDatum] in the database whose [MinesDatum.gameId] property matches one
+     * of the entries in our [List] of [Int] parameter [idList].
+     */
+    @Suppress("unused")
+    @Query("DELETE FROM mines_game_history where gameId in (:idList)")
+    fun deleteMultipleIDs(idList: List<Long>)
 
     /**
      * Returns only the latest [MinesDatum] from the database. The SQLite statement selects all entries

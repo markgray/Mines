@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.R
@@ -130,8 +129,7 @@ class ScoreFragment : Fragment() {
             findNavController().navigate(R.id.action_scoreFragment_to_gameFragment)
         })
         recyclerView.adapter = adapter
-        @Suppress("RedundantSamConstructor")
-        viewModel.gameHistory!!.observe(viewLifecycleOwner, Observer {
+        viewModel.gameHistory!!.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.data = it
                 viewModel.saveNewestId(adapter.newestGameId())
@@ -139,7 +137,7 @@ class ScoreFragment : Fragment() {
         })
 
         viewModel.newestID.observe(viewLifecycleOwner, {
-            viewModel.sayIt("There are $it entries in our history")
+            viewModel.sayIt("There are ${adapter.itemCount} entries in our history")
         })
         return binding.root
     }

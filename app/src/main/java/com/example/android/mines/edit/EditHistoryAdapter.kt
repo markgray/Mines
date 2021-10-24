@@ -5,12 +5,25 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.MineDatumViewBinding
 import com.example.android.mines.formatGameBoard
 import com.example.android.mines.formatMinesDatum
 
-class EditHistoryAdapter(): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>() {
+/**
+ * This is the [RecyclerView.Adapter] that we use to display the [MinesDatum] from our game history
+ * database in our [EditFragment] recycler view.
+ */
+class EditHistoryAdapter(
+    /**
+     * This is the listener which should be called with the [MinesDatum] it is displaying when the
+     * view of a [ViewHolder] is long clicked. In our case it is a lambda which calls the method
+     * [SharedViewModel.deleteMinesDatum] with the [MinesDatum] it is passed to have the viewmodel
+     * delete the entry from the database.
+     */
+    private val listener: (minesDatum: MinesDatum) -> Unit
+): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>() {
 
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
@@ -57,11 +70,8 @@ class EditHistoryAdapter(): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>(
      * update the contents of the `ViewHolder.itemView` to reflect the item at the given position.
      * We set our [MinesDatum] variable `val item` to the [MinesDatum] at position [position] in
      * our dataset list [data], then call the `bind` method of [holder] to have it update the
-     * contents of its two `TextView`'s to display the [MinesDatum] in `item`. Then if the `gameId`
-     * field of `item` is equal to the game ID of the newest [MinesDatum] added to our game history
-     * ROOM database we call the `highLight` method of [holder] to have it set the color of the text
-     * to GREEN, otherwise we call the `highLight` method of [holder] to have it set the color of
-     * the text to BLACK.
+     * contents of its two `TextView`'s to display the [MinesDatum] in `item`. Finally we set the
+     * [ViewHolder.listener] property to our [listener] field.
      *
      * @param holder The [ViewHolder] which should be updated to represent the contents of the
      * item at the given position in the data set.
@@ -70,6 +80,7 @@ class EditHistoryAdapter(): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item)
+        holder.listener = this.listener
     }
 
 
@@ -84,6 +95,12 @@ class EditHistoryAdapter(): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         /**
+         * The listener which is called with the [MinesDatum] we are holding when our view is
+         * long clicked.
+         */
+        lateinit var listener: (MinesDatum) -> Unit
+
+        /**
          * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item].
          * at the given position. We set the background color of the `gameBoard` `TextView` to GRAY
          * (the `TextView` with resource id `R.id.game_board`) and set its text to the [String]
@@ -92,8 +109,8 @@ class EditHistoryAdapter(): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>(
          * of the `gameStats` `TextView` to the [String] returned by our [formatMinesDatum] method
          * for [item] (just a list of interesting properties of [item]). In addition we set the
          * `OnLongClickListener` of the `constraintViewGroup` view group holding both `TextView`s to
-         * a lambda which will launch a dialog to delete or replay the game in the ViewHolder
-         * (Eventually) TODO: write delete or re-play dialog.
+         * a lambda which calls our [listener] field with the [MinesDatum] parameter [item] and
+         * returns `true` to consume the event.
          *
          * @param item the [MinesDatum] our views are supposed to display.
          */
@@ -102,7 +119,7 @@ class EditHistoryAdapter(): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>(
             binding.gameBoard.text = formatGameBoard(item)
             binding.gameStats.text = formatMinesDatum(item)
             binding.constraintViewGroup.setOnLongClickListener {
-                // TODO: Here we want to set the OnLongClickListener to launch a "delete" dialog
+                listener(item)
                 true
             }
         }

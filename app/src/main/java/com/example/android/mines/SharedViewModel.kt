@@ -403,6 +403,18 @@ class SharedViewModel(
         }
     }
 
+    fun deleteMinesDatum(datum: MinesDatum) {
+        uiScope.launch {
+            deleteMinesDatumByGameId(datum.gameId)
+        }
+    }
+
+    private suspend fun deleteMinesDatumByGameId(id: Long) {
+        withContext(Dispatchers.IO) {
+            minesDatabaseDao?.deleteSingleID(id)
+        }
+    }
+
     /**
      * Encodes our [Boolean] array List [haveMines] into a [String] which it returns to the caller.
      * We initialize our [StringBuilder] variable `val stringBuilder` sized to hold a [String] the

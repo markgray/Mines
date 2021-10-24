@@ -42,7 +42,9 @@ class EditFragment : Fragment() {
             findNavController().navigate(R.id.action_editFragment_to_chooseFragment)
         }
         recyclerView = binding.historyRecyclerView
-        val adapter = EditHistoryAdapter()
+        val adapter = EditHistoryAdapter {
+            viewModel.deleteMinesDatum(it)
+        }
         recyclerView.adapter = adapter
         viewModel.gameHistory!!.observe(viewLifecycleOwner, {
             it?.let {

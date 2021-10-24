@@ -13,7 +13,7 @@ import com.example.android.mines.formatMinesDatum
 
 /**
  * This is the [RecyclerView.Adapter] that we use to display the [MinesDatum] from our game history
- * database.
+ * database in our [ScoreFragment] recycler view.
  */
 class MineDatumAdapter(
     /**
