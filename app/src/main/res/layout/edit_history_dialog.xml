@@ -15,22 +15,22 @@
         tools:ignore="Autofill,HardcodedText,LabelFor">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/generate_fake_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="Generate Fake games"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="Done"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/generate_fake_games" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

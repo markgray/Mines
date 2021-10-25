@@ -1,11 +1,14 @@
 package com.example.android.mines.edit
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.databinding.EditHistoryDialogBinding
 
@@ -42,6 +45,14 @@ class EditHistoryDialog : DialogFragment() {
             container,
             false
         )
+        binding.done.setOnClickListener {
+            findNavController().navigate(R.id.action_editHistoryDialog_to_editFragment)
+        }
+        binding.generateFakeGames.setOnClickListener {
+            viewModel.randomGame(8, 8, 10)
+            viewModel.startTime = SystemClock.elapsedRealtime() - 1_000_000L
+            viewModel.toMinesDatum()
+        }
         return binding.root
     }
 }
