@@ -8,15 +8,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.choose.ChooseFragment
 import com.example.android.mines.databinding.EditFragmentBinding
 
 /**
- * A simple [Fragment] subclass.
+ * A simple [Fragment] subclass which allows the user to view and edit the game history database. It
+ * is launched by [ChooseFragment] when the user clicks on the "Edit History" button in its UI.
  */
 class EditFragment : Fragment() {
 
+    /**
+     * The [ViewBinding] generated from our layout file [R.layout.edit_fragment].
+     */
     private lateinit var binding: EditFragmentBinding
     /**
      * The [SharedViewModel] shared view model used by all of our fragments.
@@ -29,6 +35,26 @@ class EditFragment : Fragment() {
      */
     private lateinit var recyclerView: RecyclerView
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onViewCreated]. It is recommended to ONLY inflate the layout in this method
+     * and move logic that operates on the returned [View] to [onViewCreated].
+     *
+     * First we initialize our [EditFragmentBinding] field [binding] by having the
+     * [EditFragmentBinding.inflate] method inflate its associated layout file
+     * [R.layout.edit_fragment] using our [LayoutInflater] parameter [inflater], with
+     * our [ViewGroup] parameter [container] supplying the layout params without the
+     * view being attached to it.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the `LayoutParams` of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     * @return Return the [View] for the fragment's UI.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
