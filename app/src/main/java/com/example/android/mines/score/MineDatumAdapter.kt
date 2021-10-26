@@ -40,7 +40,7 @@ class MineDatumAdapter(
     /**
      * The `gameId` of the newest [MinesDatum] added to our database.
      */
-    var newest : Long = 0L
+    private var newest : Long = 0L
 
     /**
      * Searches the [MinesDatum] in our dataset [data] for the highest `gameId` field and caches

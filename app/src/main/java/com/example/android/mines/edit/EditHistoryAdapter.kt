@@ -3,11 +3,13 @@ package com.example.android.mines.edit
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
-import com.example.android.mines.databinding.MineDatumViewBinding
+import com.example.android.mines.databinding.MineEditDatumViewBinding
+import com.example.android.mines.edit.EditHistoryAdapter.ViewHolder
 import com.example.android.mines.formatGameBoard
 import com.example.android.mines.formatMinesDatum
 
@@ -22,8 +24,9 @@ class EditHistoryAdapter(
      * [SharedViewModel.deleteMinesDatum] with the [MinesDatum] it is passed to have the viewmodel
      * delete the entry from the database.
      */
-    private val listener: (minesDatum: MinesDatum) -> Unit
-): RecyclerView.Adapter<EditHistoryAdapter.ViewHolder>() {
+    private val deleteListener: (minesDatum: MinesDatum) -> Unit,
+    private val playAgainListener: (minesDatum: MinesDatum) -> Unit
+) : RecyclerView.Adapter<ViewHolder>() {
 
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
@@ -71,7 +74,7 @@ class EditHistoryAdapter(
      * We set our [MinesDatum] variable `val item` to the [MinesDatum] at position [position] in
      * our dataset list [data], then call the `bind` method of [holder] to have it update the
      * contents of its two `TextView`'s to display the [MinesDatum] in `item`. Finally we set the
-     * [ViewHolder.listener] property to our [listener] field.
+     * [ViewHolder.deleteListener] property to our [deleteListener] field.
      *
      * @param holder The [ViewHolder] which should be updated to represent the contents of the
      * item at the given position in the data set.
@@ -80,7 +83,8 @@ class EditHistoryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item)
-        holder.listener = this.listener
+        holder.deleteListener = this.deleteListener
+        holder.playAgainListener = this.playAgainListener
     }
 
 
@@ -89,16 +93,17 @@ class EditHistoryAdapter(
      */
     class ViewHolder private constructor(
         /**
-         * The [MineDatumViewBinding] for our layout file layout/mine_datum_view.xml
+         * The [MineEditDatumViewBinding] for our layout file layout/mine_datum_view.xml
          */
-        val binding: MineDatumViewBinding
+        val binding: MineEditDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         /**
          * The listener which is called with the [MinesDatum] we are holding when our view is
          * long clicked.
          */
-        lateinit var listener: (MinesDatum) -> Unit
+        lateinit var deleteListener: (MinesDatum) -> Unit
+        lateinit var playAgainListener: (MinesDatum) -> Unit
 
         /**
          * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item].
@@ -109,7 +114,7 @@ class EditHistoryAdapter(
          * of the `gameStats` `TextView` to the [String] returned by our [formatMinesDatum] method
          * for [item] (just a list of interesting properties of [item]). In addition we set the
          * `OnLongClickListener` of the `constraintViewGroup` view group holding both `TextView`s to
-         * a lambda which calls our [listener] field with the [MinesDatum] parameter [item] and
+         * a lambda which calls our [deleteListener] field with the [MinesDatum] parameter [item] and
          * returns `true` to consume the event.
          *
          * @param item the [MinesDatum] our views are supposed to display.
@@ -118,19 +123,33 @@ class EditHistoryAdapter(
             binding.gameBoard.setBackgroundColor(Color.GRAY)
             binding.gameBoard.text = formatGameBoard(item)
             binding.gameStats.text = formatMinesDatum(item)
-            binding.constraintViewGroup.setOnLongClickListener {
-                listener(item)
+            binding.rootView.setOnLongClickListener {
+                binding.buttonGroup.visibility = View.VISIBLE
                 true
+            }
+            binding.rootView.setOnClickListener {
+                if (binding.buttonGroup.visibility == View.VISIBLE) {
+                    binding.buttonGroup.visibility = View.GONE
+                }
+            }
+            binding.deleteButton.setOnClickListener {
+                if (binding.buttonGroup.visibility == View.VISIBLE) {
+                    binding.buttonGroup.visibility = View.GONE
+                }
+                deleteListener(item)
+            }
+            binding.playAgainButton.setOnClickListener {
+                playAgainListener(item)
             }
         }
 
         companion object {
             /**
              * Static factory method used to construct a [ViewHolder] using a view inflated from our
-             * layout file layout/mine_datum_view.xml into a [MineDatumViewBinding]. We initialize
+             * layout file layout/mine_datum_view.xml into a [MineEditDatumViewBinding]. We initialize
              * our [LayoutInflater] variable `val layoutInflater` with an instance for the context
-             * of our [ViewGroup] parameter [parent]. Then we initialize our [MineDatumViewBinding]
-             * variable `val binding` by using the `inflate` method of [MineDatumViewBinding] to
+             * of our [ViewGroup] parameter [parent]. Then we initialize our [MineEditDatumViewBinding]
+             * variable `val binding` by using the `inflate` method of [MineEditDatumViewBinding] to
              * inflate itself using `layoutInflater`, and our [ViewGroup] parameter [parent] for
              * the LayoutParams without attaching to it. Finally we return a [ViewHolder] instance
              * constructed from `binding`.
@@ -140,7 +159,7 @@ class EditHistoryAdapter(
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding =
-                    MineDatumViewBinding.inflate(layoutInflater, parent, false)
+                    MineEditDatumViewBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }

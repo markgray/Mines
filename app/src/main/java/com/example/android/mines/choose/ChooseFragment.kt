@@ -133,14 +133,17 @@ class ChooseFragment : Fragment() {
         }
 
         binding.editHistory.setOnClickListener {
+            viewModel.buttonTop = binding.buttonPlay.top
             findNavController().navigate(R.id.action_chooseFragment_to_editFragment)
         }
 
         binding.buttonCustom.setOnClickListener { view ->
+            viewModel.buttonTop = binding.buttonPlay.top
             onCustomClicked(view)
         }
-        binding.buttonPlay.setOnClickListener { view ->
-            onPlayClicked(view)
+        binding.buttonPlay.setOnClickListener {
+            viewModel.buttonTop = binding.buttonPlay.top
+            onPlayClicked()
         }
         radioGroup = binding.boardChoice
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -196,19 +199,13 @@ class ChooseFragment : Fragment() {
     }
 
     /**
-     * Called when the `buttonPlay` `Button` (ID R.id.button_play) is clicked, we first initialize
-     * the `buttonTop` property of our [SharedViewModel] field [viewModel] to the `top` Y coordinate
-     * of the [View] parameter [view] that was clicked (a shameless kludge we use to calculate the
-     * height of the `GridLayout` in the layout file for `GameFragment` since we cannot easily know
-     * the height of a button until the button is drawn). If our [boardSizeChosen] flag is false the
-     * user has not selected a board size before clicking the Play button so we call the `randomGame`
-     * method of [viewModel] with the default values [COLUMN_COUNT], [ROW_COUNT], and [MINE_COUNT]
-     * before we call the `navigate` method of our `NavController` to navigate to `GameFragment`.
-     *
-     * @param view the [View] that was clicked.
+     * Called when the `buttonPlay` `Button` (ID R.id.button_play) is clicked. If our [boardSizeChosen]
+     * flag is false the user has not selected a board size before clicking the Play button so we call
+     * the `randomGame` method of [viewModel] with the default values [COLUMN_COUNT], [ROW_COUNT], and
+     * [MINE_COUNT] before we call the `navigate` method of our `NavController` to navigate to
+     * `GameFragment`.
      */
-    private fun onPlayClicked(view: View) {
-        viewModel.buttonTop = view.top
+    private fun onPlayClicked() {
         if (!boardSizeChosen) viewModel.randomGame(COLUMN_COUNT, ROW_COUNT, MINE_COUNT)
         findNavController().navigate(R.id.action_chooseFragment_to_gameFragment)
     }
@@ -221,7 +218,6 @@ class ChooseFragment : Fragment() {
      */
     @Suppress("UNUSED_PARAMETER")
     private fun onCustomClicked(view: View) {
-        viewModel.buttonTop = binding.buttonPlay.top
         findNavController().navigate(R.id.action_chooseFragment_to_customSizeDialog)
     }
 

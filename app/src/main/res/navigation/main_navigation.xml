@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_editFragment_to_editHistoryDialog"
             app:destination="@id/editHistoryDialog" />
+        <action
+            android:id="@+id/action_editFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
     <dialog
         android:id="@+id/editHistoryDialog"

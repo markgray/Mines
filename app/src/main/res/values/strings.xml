@@ -19,4 +19,6 @@
     <string name="edit_history">Edit History</string>
     <string name="launch_dialog">Launch Dialog</string>
     <string name="abort_edit_history">Abort Edit History</string>
+    <string name="play_again">Play Again</string>
+    <string name="delete">Delete</string>
 </resources>

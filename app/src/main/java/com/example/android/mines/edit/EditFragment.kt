@@ -24,6 +24,7 @@ class EditFragment : Fragment() {
      * The [ViewBinding] generated from our layout file [R.layout.edit_fragment].
      */
     private lateinit var binding: EditFragmentBinding
+
     /**
      * The [SharedViewModel] shared view model used by all of our fragments.
      */
@@ -68,9 +69,15 @@ class EditFragment : Fragment() {
             findNavController().navigate(R.id.action_editFragment_to_chooseFragment)
         }
         recyclerView = binding.historyRecyclerView
-        val adapter = EditHistoryAdapter {
-            viewModel.deleteMinesDatum(it)
-        }
+        val adapter = EditHistoryAdapter(
+            {
+                viewModel.deleteMinesDatum(it)
+            },
+            {
+                viewModel.loadGameFromMinesDatum(it)
+                findNavController().navigate(R.id.action_editFragment_to_gameFragment)
+            }
+        )
         recyclerView.adapter = adapter
         viewModel.gameHistory!!.observe(viewLifecycleOwner, {
             it?.let {
