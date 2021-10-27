@@ -8,18 +8,20 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDataBase
 import com.example.android.mines.database.MinesDatabaseDao
 import com.example.android.mines.databinding.ChooseFragmentBinding
+import com.example.android.mines.edit.EditFragment
+import com.example.android.mines.game.GameFragment
 
 /**
  * This is the "app:startDestination" for our app and allows the user to choose the size of the
  * game board which it then configures the [SharedViewModel] to represent before navigating to the
  * `GameFragment` to begin playing the game.
- * TODO: Make EditHistoryFragment allow user to replay a game
  */
 class ChooseFragment : Fragment() {
 
@@ -51,6 +53,10 @@ class ChooseFragment : Fragment() {
      */
     private val viewModel: SharedViewModel by activityViewModels()
 
+    /**
+     * The [ChooseFragmentBinding] which is inflated from its associated layout file
+     * layout/choose_fragment.xml (resource ID [R.layout.choose_fragment]) and bound to.
+     */
     private lateinit var binding: ChooseFragmentBinding
 
     /**
@@ -79,12 +85,12 @@ class ChooseFragment : Fragment() {
      * [onCreate] and [onActivityCreated]. A default View can be returned by calling [Fragment]
      * in your constructor. It is recommended to only inflate the layout in this method and move
      * logic that operates on the returned View to [onViewCreated]. First we initialize our field
-     * [binding] to the [ChooseFragmentBinding] that its `inflate` method returns when it uses our
-     * [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.choose_fragment]
-     * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
-     * set the `OnClickListener` of the quietOrTalkative `Button` in our layout to a lambda which
-     * branches on whether the [SharedViewModel.talkEnabled] property of [viewModel] to is `true`
-     * or `false`:
+     * [binding] to the [ChooseFragmentBinding] that the [ChooseFragmentBinding.inflate] method
+     * returns when it uses our [LayoutInflater] parameter [inflater] to inflate our layout file
+     * [R.layout.choose_fragment] using our [ViewGroup] parameter [container] for its `LayoutParams`
+     * without attaching to it. We set the `OnClickListener` of the quietOrTalkative `Button` in our
+     * layout to a lambda which branches on whether the [SharedViewModel.talkEnabled] property of
+     * [viewModel] to is `true` or `false`:
      *  - `true`: it sets the [SharedViewModel.talkEnabled] property of [viewModel] to `false` and
      *  and sets the text  of the `Button` to the [String] with resource ID [R.string.clickForTalkativeMode]
      *  ("CLICK FOR TALKATIVE MODE").
@@ -92,20 +98,31 @@ class ChooseFragment : Fragment() {
      *  and sets the text  of the `Button` to the [String] with resource ID [R.string.clickForQuietMode]
      *  ("CLICK FOR SILENT MODE").
      *
-     * We set the `OnClickListener` of the `buttonCustom` `Button` in our layout to a lambda which
-     * calls our method [onCustomClicked] with the [View] clicked. We set the `OnClickListener` of
-     * the `buttonPlay` `Button` in our layout to a lambda which calls our method [onPlayClicked]
-     * with the [View] clicked. We set our [RadioGroup] field [radioGroup] to the `boardChoice`
-     * [RadioGroup] in our layout file then set its `OnCheckedChangeListener` to a lambda which calls
-     * our [selectBoardSize] method with the ID of the `RadioButton` which was checked. Finally we
-     * return the outermost View in the layout file associated with the [ChooseFragmentBinding]
-     * field [binding] (its `root` [View]).
+     * We set the `OnClickListener` of the [ChooseFragmentBinding.editHistory] `Button` in our layout
+     * to a lambda which sets the [SharedViewModel.buttonTop] property of [viewModel] to the top
+     * position of the [ChooseFragmentBinding.buttonPlay] button in our UI relative to its parent (a
+     * shameless hack so that the [GameFragment] knows how much vertical space it has available for
+     * its game board). Then it finds a [NavController] for our fragment and calls its
+     * [NavController.navigate] method to navigate to the [EditFragment]
+     *
+     * We set the `OnClickListener` of the [ChooseFragmentBinding.buttonCustom] `Button` in our
+     * layout to a lambda which sets the [SharedViewModel.buttonTop] property of [viewModel] to the top
+     * position of the [ChooseFragmentBinding.buttonPlay] button in our UI relative to its parent and
+     * then calls our method [onCustomClicked] with the [View] clicked. We set the `OnClickListener`
+     * of the `buttonPlay` `Button` in our layout to a lambda which sets the [SharedViewModel.buttonTop]
+     * property of [viewModel] to the top position of the [ChooseFragmentBinding.buttonPlay] button
+     * in our UI relative to its parent and then calls our method [onPlayClicked] with the [View]
+     * clicked. We set our [RadioGroup] field [radioGroup] to the `boardChoice` [RadioGroup] in our
+     * layout file then set its `OnCheckedChangeListener` to a lambda which calls our [selectBoardSize]
+     * method with the ID of the `RadioButton` which was checked. Finally we return the outermost
+     * [View] in the layout file associated with the [ChooseFragmentBinding] field [binding] (its
+     * `root` [View]).
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate any views
-     * @param container If non-null, this is the parent view that the fragment's UI will be attached
-     * to. The fragment should not add the view itself, but this can be used to generate the
-     * LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * @param container If non-`null`, this is the parent view that the fragment's UI will be
+     * attached to. The fragment should not add the view itself, but this can be used to generate
+     * the `LayoutParams` of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed from a previous
      * saved state as given here.
      *
      * @return Return the [View] for the fragment's UI, or null.
