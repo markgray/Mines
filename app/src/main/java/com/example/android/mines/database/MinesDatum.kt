@@ -3,6 +3,7 @@ package com.example.android.mines.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.android.mines.SharedViewModel
 
 /**
  * This is the data class representing a game that is inserted into the "mines_game_history" table
@@ -15,7 +16,7 @@ data class MinesDatum
     (
     /**
      * The primary key of our database table. The `@PrimaryKey` annotation marks a field in an Entity
-     * as the primary key. The `autoGenerate` field of [PrimaryKey] is set to *true* to let SQLite
+     * as the primary key. The `autoGenerate` field of [PrimaryKey] is set to `true` to let SQLite
      * generate the unique id (starts at 1, 0 is treated as not-set). Name of the column in the
      * database defaults to "gameId"
      */
@@ -59,7 +60,7 @@ data class MinesDatum
     var elapsedTimeMilli: Long = 0,
 
     /**
-     * Each character in this [String] field represents a sector in the SharedViewModel.haveMines
+     * Each character in this [String] field represents a sector in the [SharedViewModel.haveMines]
      * list. Sectors with Mines are encoded as a "*" character, safe sectors are encoded as a blank
      * character. The name of the column in the database is "sectors_with_mines".
      */
