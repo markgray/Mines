@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -154,9 +155,9 @@ class ChooseFragment : Fragment() {
             findNavController().navigate(R.id.action_chooseFragment_to_editFragment)
         }
 
-        binding.buttonCustom.setOnClickListener { view ->
+        binding.buttonCustom.setOnClickListener {
             viewModel.buttonTop = binding.buttonPlay.top
-            onCustomClicked(view)
+            onCustomClicked()
         }
         binding.buttonPlay.setOnClickListener {
             viewModel.buttonTop = binding.buttonPlay.top
@@ -185,13 +186,13 @@ class ChooseFragment : Fragment() {
      *  - `false`: sets the text  of the `quietOrTalkative` `Button` in our layout to the [String]
      *  with resource ID [R.string.clickForTalkativeMode] ("CLICK FOR TALKATIVE MODE").
      *
-     * We then use [application] in a call to the [MinesDataBase.getInstance]
-     * method to retrieve the [MinesDataBase] singleton (creating it if need be, or returning the
-     * previously opened instance) whose reference we save in our field [minesDataBase]. If the
-     * [SharedViewModel.minesDatabaseDao] field of [viewModel] is `null` we set it to the
-     * [MinesDatabaseDao] field `minesDatabaseDao` of [minesDataBase], and if the `LiveData` field
-     * `gameHistory` of [viewModel] is `null` we set it to the result of calling the `getAllGames`
-     * method of the `minesDatabaseDao` field of [viewModel].
+     * We then use [application] in a call to the [MinesDataBase.getInstance] method to retrieve the
+     * [MinesDataBase] singleton (creating it if need be, or returning the previously opened instance)
+     * whose reference we save in our field [minesDataBase]. If the [SharedViewModel.minesDatabaseDao]
+     * field of [viewModel] is `null` we set it to the [MinesDatabaseDao] field `minesDatabaseDao` of
+     * [minesDataBase], and if the `LiveData` field `gameHistory` of [viewModel] is `null` we set it
+     * to the result of calling the `getAllGames` method of the `minesDatabaseDao` field of
+     * [viewModel].
      *
      * @param savedInstanceState If the fragment is being re-created from a previous saved state,
      * this is the state.
@@ -216,11 +217,11 @@ class ChooseFragment : Fragment() {
     }
 
     /**
-     * Called when the `buttonPlay` `Button` (ID R.id.button_play) is clicked. If our [boardSizeChosen]
+     * Called when the `buttonPlay` `Button` (ID [R.id.button_play]) is clicked. If our [boardSizeChosen]
      * flag is false the user has not selected a board size before clicking the Play button so we call
      * the `randomGame` method of [viewModel] with the default values [COLUMN_COUNT], [ROW_COUNT], and
-     * [MINE_COUNT] before we call the `navigate` method of our `NavController` to navigate to
-     * `GameFragment`.
+     * [MINE_COUNT] before we call the [NavController.navigate] method of the [NavController] of our
+     * fragment to navigate to the [GameFragment] fragment.
      */
     private fun onPlayClicked() {
         if (!boardSizeChosen) viewModel.randomGame(COLUMN_COUNT, ROW_COUNT, MINE_COUNT)
@@ -228,22 +229,20 @@ class ChooseFragment : Fragment() {
     }
 
     /**
-     * Called when the `buttonCustom` `Button` (ID R.id.buttonCustom) is clicked, we first initialize
-     * the `buttonTop` property of our [SharedViewModel] field [viewModel] to the `top` Y coordinate
-     * of the `buttonPlay` button in our layout file, then we call the `navigate` method of our
-     * `NavController` to navigate to `CustomSizeDialog`.
+     * Called when the `buttonCustom` `Button` (ID [R.id.button_custom]) is clicked. Then we call
+     * the [NavController.navigate] method of the [NavController] of our fragment to navigate to the
+     * [CustomSizeDialog] dialog fragment.
      */
-    @Suppress("UNUSED_PARAMETER")
-    private fun onCustomClicked(view: View) {
+    private fun onCustomClicked() {
         findNavController().navigate(R.id.action_chooseFragment_to_customSizeDialog)
     }
 
     /**
-     * Called by the `OnCheckedChangeListener` lambda of the [RadioGroup] field [radioGroup] when
-     * the user selects one of its `RadioButton`'s. We simply branch on the [checkedId] of the
-     * `RadioButton` selected calling the `randomGame` method of [SharedViewModel] field [viewModel]
+     * Called by the [RadioGroup.OnCheckedChangeListener] lambda of the [RadioGroup] field [radioGroup]
+     * when the user selects one of its [RadioButton]'s. We simply branch on the [checkedId] of the
+     * [RadioButton] selected calling the `randomGame` method of [SharedViewModel] field [viewModel]
      * using hard coded values for its `columnCount`, `rowCount`, and `mines` parameters which
-     * correspond to the values specified by the `RadioButton` label.
+     * correspond to the values specified by the [RadioButton] label.
      *
      * @param checkedId the resource ID of the `RadioButton` which was selected
      */
