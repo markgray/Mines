@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.android.mines.choose.ChooseFragment
 
 /**
  * The [RoomDatabase] we use to store the [MinesDatum] entries describing our game history (in its
- * table "mines_game_history"). The `Database` annotation marks the class as a RoomDatabase and the
+ * table "mines_game_history"). The `@Database` annotation marks the class as a RoomDatabase and the
  * `entities` parameter is the list of entities included in the database. Each entity turns into a
  * table in the database. Our only table is the "mines_game_history" table defined by our [MinesDatum]
  * data class. Our database `version` is 1, and the `exportSchema` false parameter disables the
@@ -18,7 +19,7 @@ import androidx.room.RoomDatabase
 abstract class MinesDataBase : RoomDatabase() {
 
     /**
-     * The `DAO` class used to access our database table.
+     * The `@Dao` class used to access our database table.
      */
     abstract val minesDatabaseDao: MinesDatabaseDao
 
@@ -33,9 +34,9 @@ abstract class MinesDataBase : RoomDatabase() {
         /**
          * Returns our singleton [MinesDataBase] instance, building it first if it is null.
          * Synchronized on this `companion object` we set our [MinesDataBase] variable `var instance`
-         * to our field [INSTANCE]. If `instance` is *null* we construct a [RoomDatabase.Builder]
+         * to our field [INSTANCE]. If `instance` is `null` we construct a [RoomDatabase.Builder]
          * using the [Context] of our parameter [context] (we are called from the `onActivityCreated`
-         * override of our `ChooseFragment` fragment only once with the application that owns the
+         * override of our [ChooseFragment] fragment only once with the application that owns the
          * `FragmentActivity` as our parameter), using the [MinesDataBase] class as the abstract
          * class which is annotated with `@Database` and extends [RoomDatabase], and "mines_game_history"
          * as the name of the database file, we then call the `fallbackToDestructiveMigration`
