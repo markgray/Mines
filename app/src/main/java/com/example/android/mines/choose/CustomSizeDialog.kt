@@ -6,13 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.databinding.CustomSizeDialogBinding
+import com.example.android.mines.game.GameFragment
 
 /**
  * This [DialogFragment] allows the user to configure the game board however they want it.
@@ -25,7 +29,7 @@ class CustomSizeDialog : DialogFragment()  {
 
     /**
      * The [CustomSizeDialogBinding] binding that is created from the inflation of our layout file
-     * layout/custom_size_dialog.xml
+     * layout/custom_size_dialog.xml (resource ID [R.layout.custom_size_dialog])
      */
     private lateinit var binding: CustomSizeDialogBinding
 
@@ -59,15 +63,15 @@ class CustomSizeDialog : DialogFragment()  {
      * [ViewGroup] parameter [container] for its LayoutParams without attaching to it. Finally we
      * return the outermost [View] of the layout file associated with [binding].
      *
-     * @param inflater The LayoutInflater object that can be used to inflate
+     * @param inflater The [LayoutInflater] object that can be used to inflate
      * any views in the fragment
-     * @param container If non-null, this is the parent view that the fragment's
-     * UI should be attached to. The fragment should not add the view itself,
-     * but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * @param container If non-`null`, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the `LayoutParams` of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
-     * @return Return the View for the fragment's UI, or null.
+     * @return Return the [View] for the fragment's UI, or `null`.
      */
     @Suppress("RedundantNullableReturnType")
     override fun onCreateView(
@@ -91,20 +95,20 @@ class CustomSizeDialog : DialogFragment()  {
      * however attached to its parent at this point. First we call our method [restoreChoices] to
      * read the choices made for the previous custom game board from our [SharedPreferences] into
      * our fields [customColumns], [customRows] and [customMines] and write them as the initial
-     * contents of EditTexts used by the user to select them. Then we set the `OnClickListener` of
-     * the `abortButton` `Button` in our layout to a lambda which calls [dismiss] in order to return
-     * to the `ChooseFragment` without doing anything more. We set  the `OnClickListener` of
-     * the `playGameButton` `Button` in our layout to a lambda which fetches the text in the
-     * `columnsNumber` `EditText` in our layout file in order to set [customColumns] to the [Int]
+     * contents of [EditText]'s used by the user to modify them. Then we set the [View.OnClickListener]
+     * of the `abortButton` [Button] in our layout to a lambda which calls [dismiss] in order to return
+     * to the [ChooseFragment] without doing anything more. We set  the [View.OnClickListener] of
+     * the `playGameButton` [Button] in our layout to a lambda which fetches the text in the
+     * `columnsNumber` [EditText] in our layout file in order to set [customColumns] to the [Int]
      * returned by our [sane] method after it verifies it, fetches the text in the `rowsNumber`
-     * `EditText` in our layout file in order to set [customRows] to the [Int] returned by our
-     * [sane] method after it verifies it, and fetches the text in the `minesNumber` `EditText` in
+     * [EditText] in our layout file in order to set [customRows] to the [Int] returned by our
+     * [sane] method after it verifies it, and fetches the text in the `minesNumber` [EditText] in
      * our layout file in order to set [customMines] to the [Int] returned by our [sane] method
      * after it verifies it. It then calls our [saveChoices] method to write the choices out to our
-     * SharedPreferences file, calls the `randomGame` method of our [SharedViewModel] field
-     * [viewModel] to have it initialize the game state to [customColumns], [customRows], and
-     * [customMines], and then calls the `navigate` method of our `NavController` to navigate to
-     * `GameFragment`.
+     * [SharedPreferences] file, calls the [SharedViewModel.randomGame] method of our [SharedViewModel]
+     * field [viewModel] to have it initialize the game state to [customColumns], [customRows], and
+     * [customMines], and then calls the [NavController.navigate] method of the [NavController] for
+     * our fragment  to navigate to [GameFragment].
      *
      * @param view The View returned by [onCreateView]
      * @param savedInstanceState If non-null, this fragment is being re-constructed
@@ -167,7 +171,7 @@ class CustomSizeDialog : DialogFragment()  {
 
     /**
      * Reads the choices made for the last custom game played from our [SharedPreferences] file,
-     * saves them in our fields and sets them as the initial text in the EditTexts used by the
+     * saves them in our fields and sets them as the initial text in the [EditText]'s used by the
      * user to choose the game board size.
      */
     private fun restoreChoices() {
@@ -181,7 +185,8 @@ class CustomSizeDialog : DialogFragment()  {
 
     /**
      * Saves the choices made for game board size contained in our fields [customColumns],
-     * [customRows] and [customMines] in our [SharedPreferences] file.
+     * [customRows] and [customMines] in our [SharedPreferences] file under the keys [CUSTOM_COLUMNS],
+     * [CUSTOM_ROWS] and [CUSTOM_MINES] respectively.
      */
     private fun saveChoices() {
         val editor = preferences.edit()
