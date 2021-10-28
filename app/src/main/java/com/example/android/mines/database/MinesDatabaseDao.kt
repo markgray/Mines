@@ -20,8 +20,8 @@ interface MinesDatabaseDao {
 
     /**
      * Inserts the [MinesDatum] parameter [game] into the database. The `@Insert` annotation marks
-     * a method in a Dao annotated class as an insert method. The implementation of the method will
-     * insert its parameters into the database. All of the parameters of the Insert method must
+     * a method in a `@Dao` annotated class as an insert method. The implementation of the method
+     * will insert its parameters into the database. All of the parameters of the Insert method must
      * either be classes annotated with `@Entity` or collections/array of it.
      *
      * @param game the [MinesDatum] containing all the information about a game that is necessary to
@@ -32,7 +32,7 @@ interface MinesDatabaseDao {
 
     /**
      * Updates the [MinesDatum] with the same primary key as our [MinesDatum] parameter [game] in
-     * the database. The `@Update` annotation marks a method in a Dao annotated class as an update
+     * the database. The `@Update` annotation marks a method in a `@Dao` annotated class as an update
      * method. The implementation of the method will update its parameters in the database if they
      * already exist (checked by primary keys). If they don't already exist, this option will not
      * change the database. All of the parameters of the Update method must either be classes
@@ -45,7 +45,7 @@ interface MinesDatabaseDao {
 
     /**
      * Retrieves the [MinesDatum] from the database whose primary key `gameId` is equal to our [Long]
-     * parameter [key]. The `@Query` annotation marks a method in a Dao annotated class as a query
+     * parameter [key]. The `@Query` annotation marks a method in a `@Dao` annotated class as a query
      * method. The value of the annotation is the query that will be run when this method is called.
      * This query is verified at compile time by Room to ensure that it compiles fine against the
      * database. The arguments of the method will be bound to the bind arguments in the SQL statement.
@@ -67,13 +67,14 @@ interface MinesDatabaseDao {
      *
      * @param id the [MinesDatum.gameId] of the [MinesDatum] in our database to be deleted.
      */
-    @Suppress("unused")
     @Query("DELETE FROM mines_game_history where gameId = :id")
     fun deleteSingleID(id: Long)
 
     /**
      * Deletes all the [MinesDatum] in the database whose [MinesDatum.gameId] property matches one
      * of the entries in our [List] of [Int] parameter [idList].
+     *
+     * @param idList the [List] of [MinesDatum.gameId] primary keys whose entries are to be deleted.
      */
     @Suppress("unused")
     @Query("DELETE FROM mines_game_history where gameId in (:idList)")
@@ -83,13 +84,20 @@ interface MinesDatabaseDao {
      * Returns only the latest [MinesDatum] from the database. The SQLite statement selects all entries
      * in the "mines_game_history" table, sorts by the `gameId` column in descending order and returns
      * only the first [MinesDatum] (thanks to the LIMIT 1 clause).
+     *
+     * @return the last [MinesDatum] added to our database.
      */
     @Query("SELECT * FROM mines_game_history ORDER BY gameId DESC LIMIT 1")
     fun getLatestEntry(): MinesDatum?
 
     /**
-     * Returns a [LiveData] list of all of the [MinesDatum] in the "mines_game_history" table sorted
-     * by the `game_elapsed_time` column in ascending order.
+     * Returns a [LiveData] wrapped list of all of the [MinesDatum] in the "mines_game_history" table
+     * sorted by the `game_elapsed_time` column in ascending order.
+     *
+     * @return a [LiveData] wrapped list of all of the [MinesDatum] in the "mines_game_history" table
+     * sorted by the `game_elapsed_time` column in ascending order. The [LiveData] will be reloaded
+     * every time there is a change to the database so an observer of the [LiveData] will receive a
+     * callback whenever a [MinesDatum] is inserted or deleted from the database.
      */
     @Query("SELECT * FROM mines_game_history ORDER BY game_elapsed_time ASC")
     fun getAllGames(): LiveData<List<MinesDatum>>
