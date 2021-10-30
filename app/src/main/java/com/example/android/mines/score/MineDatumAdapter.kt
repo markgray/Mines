@@ -4,8 +4,10 @@ package com.example.android.mines.score
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.MineDatumViewBinding
 import com.example.android.mines.formatGameBoard
@@ -14,20 +16,21 @@ import com.example.android.mines.formatMinesDatum
 /**
  * This is the [RecyclerView.Adapter] that we use to display the [MinesDatum] from our game history
  * database in our [ScoreFragment] recycler view.
+ *
+ * @param minesDatumListener The [MinesDatumListener] whose `reload` method the `OnLongClickListener`
+ * of our [ViewHolder] views should call to reload the [MinesDatum] it displays in order for the user
+ * to replay it.
  */
 class MineDatumAdapter(
-    /**
-     * The [MinesDatumListener] whose `reload` method the `OnLongClickListener` of our ViewHolder
-     * views should call to reload the [MinesDatum] it displays in order for the user to replay it.
-     */
     private val minesDatumListener: MinesDatumListener
 ): RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
 
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
-     * `SharedViewModel` which is a `LiveData` which is read from our game history ROOM database.
-     * It also sets our field [newest] to 0 so that the dataset is once again searched for the
-     * newest [MinesDatum.gameId] in order to highlight it in green.
+     * [SharedViewModel] which is a `LiveData` which is read from our game history ROOM database
+     * and is updated everytime there is a change to the database. The setter sets our field
+     * [newest] to 0 so that the dataset is once again searched for the newest [MinesDatum.gameId]
+     * in order to highlight it in green.
      */
     var data = listOf<MinesDatum>()
         @SuppressLint("NotifyDataSetChanged")
@@ -38,13 +41,17 @@ class MineDatumAdapter(
         }
 
     /**
-     * The `gameId` of the newest [MinesDatum] added to our database.
+     * The [MinesDatum.gameId] property of the newest [MinesDatum] added to our database (valid IDs
+     * start at 1).
      */
     private var newest : Long = 0L
 
     /**
-     * Searches the [MinesDatum] in our dataset [data] for the highest `gameId` field and caches
-     * that value in our field [newest].
+     * Searches the [MinesDatum] in our dataset [data] for the highest [MinesDatum.gameId] property
+     * and caches that value in our field [newest].
+     *
+     * @return the highest [MinesDatum.gameId] property of the [MinesDatum] in our dataset (ie. the
+     * newest entry).
      */
     fun newestGameId() : Long {
         if (newest == 0L) {
@@ -58,13 +65,12 @@ class MineDatumAdapter(
     }
 
     /**
-     * Called when RecyclerView needs a new `ViewHolder` of the given type to represent an item.
-     * This new ViewHolder should be constructed with a new View that can represent the items
+     * Called when [RecyclerView] needs a new [ViewHolder] of the given type to represent an item.
+     * This new [ViewHolder] should be constructed with a new [View] that can represent the items
      * of the given type. You can either create a new View manually or inflate it from an XML
-     * layout file. The new ViewHolder will be used to display items of the adapter using
-     * [onBindViewHolder]. Since it will be re-used to display different items in the data set,
-     * it is a good idea to cache references to sub views of the View to avoid unnecessary
-     * `View.findViewById` calls. We just return the [ViewHolder] returned by the `from` static
+     * layout file. The new [ViewHolder] will be used to display items of the adapter using
+     * [onBindViewHolder]. (Our [ViewHolder] uses the view binding [MineDatumViewBinding] to avoid
+     * [View.findViewById] calls). We just return the [ViewHolder] returned by the `from` static
      * method of our [ViewHolder] nested class when it is passed our [ViewGroup] parameter [parent].
      *
      * @param parent The [ViewGroup] into which the new View will be added after it is bound to
