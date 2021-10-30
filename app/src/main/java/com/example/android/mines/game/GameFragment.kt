@@ -20,8 +20,10 @@ import androidx.navigation.NavController
 import com.example.android.mines.R
 import com.example.android.mines.SectorContent
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.choose.ChooseFragment
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.GameFragmentBinding
+import com.example.android.mines.score.ScoreFragment
 
 /**
  * This is the [Fragment] which handles the UI for the actual playing of a game.
@@ -29,20 +31,20 @@ import com.example.android.mines.databinding.GameFragmentBinding
 class GameFragment : Fragment() {
 
     /**
-     * The [GridLayout] with binding id `boardGrid` (resource ID R.id.board_grid) which holds the
+     * The [GridLayout] with binding id `boardGrid` (resource ID [R.id.board_grid]) which holds the
      * [TextView]'s which represent our game board.
      */
     private lateinit var board: GridLayout
 
     /**
-     * The [Button] with binding id `buttonSafe` (resource ID R.id.button_safe) which the user uses
+     * The [Button] with binding id `buttonSafe` (resource ID [R.id.button_safe]) which the user uses
      * to transition to "Safe" mode (clicking a sector on the game board in this mode marks the
      * sector as a safe sector).
      */
     private lateinit var safe: Button
 
     /**
-     * The [Button] with binding id `buttonMine` (resource ID R.id.button_mine) which the user uses
+     * The [Button] with binding id `buttonMine` (resource ID [R.id.button_mine]) which the user uses
      * to transition to "Mine" mode (clicking a sector on the game board in this mode marks the
      * sector as a mined sector).
      */
@@ -57,7 +59,7 @@ class GameFragment : Fragment() {
 
     /**
      * The height of the game board in pixels. We use the `buttonTop` property of our [SharedViewModel]
-     * field [viewModel]. It is set to the top Y coordinate of its "Play" button by `ChooseFragment`
+     * field [viewModel]. It is set to the top Y coordinate of its "Play" button by [ChooseFragment]
      * and we assume that that button is the same height as our "Safe" and "Mine" buttons since we
      * cannot guess their height until after the View is drawn but need the value before our View is
      * drawn.
@@ -71,37 +73,38 @@ class GameFragment : Fragment() {
 
     /**
      * Called to have the fragment instantiate its user interface view. This will be called between
-     * [onCreate] and [onActivityCreated]. A default View can be returned by calling [Fragment]
-     * in your constructor. It is recommended to only inflate the layout in this method and move
-     * logic that operates on the returned View to [onViewCreated]. First we initialize our variable
-     * `val binding` to the [GameFragmentBinding] that its `inflate` method returns when  it uses
-     * our [LayoutInflater] parameter [inflater] to inflate our layout file [R.layout.game_fragment]
-     * using our [ViewGroup] parameter [container] for its LayoutParams without attaching to it. We
-     * set our [GridLayout] field [board] to the `binding` property `boardGrid` (resource ID
-     * [R.id.board_grid] in our layout file), set our [Button] field [safe] to the `binding` property
-     * `buttonSafe` (resource ID [R.id.button_safe] in our layout file), and set our [Button] field
-     * [mine] to the `binding` property `buttonMine` (resource ID [R.id.button_mine] in our layout
-     * file). We set our [Int] field [boardWidth] to the absolute width of the available display size
-     * in pixels of the current display metrics that are in effect for our activity, and set our [Int]
-     * field [boardHeight] to the `buttonTop` property of our [SharedViewModel] field [viewModel]
-     * (which should have been set to the top Y coordinate of its "Play" button by `ChooseFragment`).
-     * We then call our [createBoard] method to fill our [GridLayout] game board with TextView's that
-     * correspond to the game board state which exists in the `gameState` list of [viewModel]. We
-     * set the background color of our [Button] field [safe] to RED, set the `OnClickListener` of
-     * [safe] to a lambda which calls our [onSafeClicked] method, and set the `OnClickListener` of
-     * [mine] to a lambda which calls our [onMineClicked] method. We initialize the `startTime`
-     * property of [viewModel] to the milliseconds since boot (it will be used to calculate the
-     * elapsed time when the game is finished). Finally we return the outermost View in the layout
-     * file associated with the [GameFragmentBinding] variable `binding` (its `root` [View]).
+     * [onCreate] and [onActivityCreated]. It is recommended to only inflate the layout in this method
+     * and move logic that operates on the returned View to [onViewCreated].
+     *
+     * First we initialize our variable `val binding` to the [GameFragmentBinding] that its `inflate`
+     * static method returns when  it uses our [LayoutInflater] parameter [inflater] to inflate our
+     * layout file [R.layout.game_fragment] using our [ViewGroup] parameter [container] for its
+     * `LayoutParams` without attaching to it. We set our [GridLayout] field [board] to the `binding`
+     * property `boardGrid` (resource ID [R.id.board_grid] in our layout file), set our [Button] field
+     * [safe] to the `binding` property `buttonSafe` (resource ID [R.id.button_safe] in our layout
+     * file), and set our [Button] field [mine] to the `binding` property `buttonMine` (resource ID
+     * [R.id.button_mine] in our layout file). We set our [Int] field [boardWidth] to the absolute
+     * width of the available display size in pixels of the current display metrics that are in effect
+     * for our activity, and set our [Int] field [boardHeight] to the `buttonTop` property of our
+     * [SharedViewModel] field [viewModel] (which should have been set to the top Y coordinate of
+     * its "Play" button by `ChooseFragment`). We then call our [createBoard] method to fill our
+     * [GridLayout] game board with TextView's that correspond to the game board state which exists
+     * in the `gameState` list of [viewModel]. We set the background color of our [Button] field
+     * [safe] to RED, set the `OnClickListener` of [safe] to a lambda which calls our [onSafeClicked]
+     * method, and set the `OnClickListener` of [mine] to a lambda which calls our [onMineClicked]
+     * method. We initialize the `startTime` property of [viewModel] to the milliseconds since boot
+     * (it will be used to calculate the elapsed time when the game is finished). Finally we return
+     * the outermost View in the layout file associated with the [GameFragmentBinding] variable
+     * `binding` (its `root` [View]).
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate any views
-     * @param container If non-null, this is the parent view that the fragment's UI will be attached
+     * @param container If non-`null`, this is the parent view that the fragment's UI will be attached
      * to. The fragment should not add the view itself, but this can be used to generate the
-     * LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * `LayoutParams` of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed from a previous
      * saved state as given here.
      *
-     * @return Return the [View] for the fragment's UI, or null.
+     * @return Return the [View] for the fragment's UI, or `null`.
      */
     @Suppress("RedundantNullableReturnType")
     override fun onCreateView(
@@ -136,33 +139,27 @@ class GameFragment : Fragment() {
      * Configures and fills our [GridLayout] game board field [board] so that it represents the game
      * state which is present in our [SharedViewModel] field [viewModel]. First we set the number of
      * columns of [board] (its `columnCount` property) to the `numColumns` property of [viewModel]
-     * and the number of rows of [board] to the `numRows` property of [viewModel]. We initialize our
-     * [Int] variable `val cellWidth` to [boardWidth] divided by the `numColumns` property of
-     * [viewModel], our [Int] variable `val cellHeight` to [boardHeight] divided by the `numRows`
-     * property of [viewModel], and our [Int] variable `val cellSize` to the smaller of `cellWidth`
-     * and `cellHeight`. We initialize our [Int] variable `var listIndex` to 0 then with an outer
-     * loop over `row` from 0 until the `numRows` property of [viewModel], and an inner loop over
-     * `column` from 0 until the `numColumns` property of [viewModel] we:
-     *
+     * and the number of rows of [board] (its `rowCount` property) to the `numRows` property of
+     * [viewModel]. We initialize our [Int] variable `val cellWidth` to [boardWidth] divided by the
+     * `numColumns` property of [viewModel], our [Int] variable `val cellHeight` to [boardHeight]
+     * divided by the `numRows` property of [viewModel], and our [Int] variable `val cellSize` to
+     * the smaller of `cellWidth` and `cellHeight`. We initialize our [Int] variable `var listIndex`
+     * to 0 then with an outer loop over `row` from 0 until the `numRows` property of [viewModel],
+     * and an inner loop over `column` from 0 until the `numColumns` property of [viewModel] we:
      *  - Initialize our [SectorContent] variable `val contents` to the `listIndex` entry in the
      *  `gameState` field of [viewModel] (post incrementing `listIndex` while we are at it)
-     *
      *  - Initialize our [TextView] variable `val textView` to a new instance.
-     *
      *  - Set the background of `textView` to the drawable [R.drawable.background_dark] (a gray
      *  "rectangle")
-     *
      *  - Set the `tag` of `textView` to `contents`, its `width` and `height` to `cellSize`, its
      *  gravity to [Gravity.CENTER], its `textSize` to `cellSize` divided by the logical density of
      *  the display minus 8.0f, and its padding to 4 pixel on each side.
-     *
      *  - We then set the [View.OnClickListener] of `textView` to a lambda which calls our method
      *  [onSectorClicked] with the [View] that was clicked.
-     *
      *  - Finally we add `textView` to [board] and loop around for the next sector.
      *
-     * When done adding all the sectors in our game board we return [board] to the caller (which is
-     * ignored at the moment).
+     * When done adding all the sectors to our game board we return [board] to the caller (which is
+     * ignored at the moment since [board] is also a field).
      *
      * @return the [GridLayout] field [board] which we have filled with [TextView]'s
      */
@@ -183,7 +180,7 @@ class GameFragment : Fragment() {
         var listIndex = 0
         for (row in 0 until viewModel.numRows) {
             for (column in 0 until viewModel.numColumns) {
-                val contents = viewModel.gameState[listIndex++]
+                val contents: SectorContent = viewModel.gameState[listIndex++]
                 val textView = TextView(activity)
                 textView.setBackgroundResource(R.drawable.background_dark)
                 textView.tag = contents
@@ -211,35 +208,40 @@ class GameFragment : Fragment() {
      *
      * If the `modeSafe` property of our [SharedViewModel] field [viewModel] is true (the user is
      * clicking sectors he thinks are "Safe") we check whether the [SectorContent] property `hasMine`
-     * is true (indicates it actually has a mine) and if so we set the background of `textView` to
+     * is `true` (indicates it actually has a mine) and if so we set the background of `textView` to
      * the drawable with resource ID [R.drawable.bomb_icon] (a black circle) and the text of
      * `textView` to a red X character. Then we call the [SharedViewModel.sayIt] method of [viewModel]
      * to have the tts engine tell the user: "So sorry but this sector has a mine in it".
      *
-     * If `hasMine` is false we check whether the `hasBeenChecked` property of `sectorTag` is `false`
-     * (ignoring it if it is `true` -- the sector has already been marked as "Safe") before we call
-     * our [markSectorAsSafe] method with `sectorTag` and `textView` saving the number of mined
-     * neighbors that it returns in our variable `val neighborsWithMines`. If `neighborsWithMines`
-     * is (indicating that the sector has no "Mined" neighbors) we call our [markNeighborsAsSafe]
-     * method with the `neighbors` List of `sectorTag` to have it mark all of the neighbors of the
-     * sector as safe as well. Then we do some english grammar calculations to generate the [String]
-     * "This sector is safe and has 1 neighbor with a mine" if `neighborsWithMines` is 1 or "This
-     * sector is safe and has neighborsWithMines neighbors with mines" for other values and call the
-     * [SharedViewModel.sayIt] method of [viewModel] to have the tts engine announce this [String]
-     * to the user.
+     * If `hasMine` is false we branch on whether the `hasBeenChecked` property of `sectorTag` is
+     * `true` or `false`:
+     *  - if it is `true` we call the [SharedViewModel.sayIt] method of [viewModel] to have the tts
+     *  engine tell the user: "This sector has already been marked as safe")
+     *  - if it is `false` we call our [markSectorAsSafe] method with `sectorTag` and `textView`
+     *  saving the number of mined neighbors that it returns in our variable `val neighborsWithMines`.
      *
-     * If the `modeMine` property of our [SharedViewModel] field [viewModel] is true (the user is
+     * If `neighborsWithMines` is 0 (indicating that the sector has no "Mined" neighbors) we call our
+     * [markNeighborsAsSafe] method with the `neighbors` List of `sectorTag` to have it mark all of
+     * the neighbors of the sector as safe as well. Then we do some english grammar calculations to
+     * generate the [String] "This sector is safe and has 1 neighbor with a mine" if `neighborsWithMines`
+     * is 1 or "This sector is safe and has `neighborsWithMines` neighbors with mines" for other values
+     * and call the [SharedViewModel.sayIt] method of [viewModel] to have the tts engine announce this
+     * [String] to the user.
+     *
+     * If the `modeMine` property of our [SharedViewModel] field [viewModel] is `true` (the user is
      * clicking sectors he thinks are "Mined") we check whether the `hasMine` property of `sectorTag`
-     * is true (the sector has a "Mine" in it) we check whether the `hasBeenChecked` property of
-     * `sectorTag` is false (the sector has not been checked before) and if so we set it to true
-     * and increment the `numCheckedMine` property of [viewModel], then we set the background of
-     * `textView` to the drawable with resource ID [R.drawable.background_light] and set the text
-     * of `textView` to a red X character. If the `hasMine` property of `sectorTag` is false (there
-     * is no mine in the sector) we check whether the `hasBeenChecked` property of `sectorTag` is
-     * false and if so we set the background of `textView` to the drawable with resource ID
-     * [R.drawable.background_light] (since this should be the current background anyway, I am not
-     * sure why I bothered doing this). Then we call the [SharedViewModel.sayIt] method of
-     * [viewModel] to have the tts engine tell the user: "Wrong, this sector does not have a mine".
+     * is `true` (the sector has a "Mine" in it) and if so we check whether the `hasBeenChecked`
+     * property of `sectorTag` is `false` (the sector has not been checked before) and if so we set
+     * it to `true` and increment the `numCheckedMine` property of [viewModel], then we set the
+     * background of `textView` to the drawable with resource ID [R.drawable.background_light] and
+     * set the text of `textView` to a red X character, then we call the [SharedViewModel.sayIt]
+     * method of [viewModel] to have the tts engine tell the user: "Correct, this sector does have a
+     * mine". If the `hasMine` property of `sectorTag` is `false` (there is no mine in the sector)
+     * we check whether the `hasBeenChecked` property of `sectorTag` is `false` and if so we set the
+     * background of `textView` to the drawable with resource ID [R.drawable.background_light] (since
+     * this should be the current background anyway, I am not sure why I bothered doing this). Then
+     * we call the [SharedViewModel.sayIt] method of [viewModel] to have the tts engine tell the user:
+     * "Wrong, this sector does not have a mine".
      *
      * Having dealt with "checking" the [View] that was clicked we set the `numChecked` property of
      * [viewModel] to the sum of its `numCheckedSafe` and `numCheckedMine` properties, and make a
@@ -399,7 +401,9 @@ class GameFragment : Fragment() {
      * Called when all of the sectors on our game board have been correctly marked as "Safe" or
      * "Mined". We call the [SharedViewModel.toMinesDatum] method of [viewModel] to translate the
      * game state it models into a [MinesDatum] and have it insert that [MinesDatum] into our ROOM
-     * database. Then we find our [NavController] and use it to navigate to the `ScoreFragment`.
+     * database. Next we call the [SharedViewModel.sayIt] method of [viewModel] to have the tts
+     * engine tell the user: "Congratulations, you have won". Then we find our [NavController] and
+     * use it to navigate to the [ScoreFragment].
      */
     private fun onFlippedAll() {
         viewModel.toMinesDatum()
