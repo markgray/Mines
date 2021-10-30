@@ -51,8 +51,8 @@ class EditHistoryDialog : DialogFragment() {
      * [View.OnClickListener] of the [EditHistoryDialogBinding.generateFakeGames] button in
      * [binding] to a lambda which calls the [SharedViewModel.randomGame] method of our [viewModel]
      * field to have it generate a random game, whose [SharedViewModel.startTime] start time property
-     * we set to 1,000,000 seconds ago, and then call the [SharedViewModel.toMinesDatum] method to
-     * have it encode the game into a [MinesDatum] and write it to the game history database.
+     * we set to 1,000,000 milliseconds ago, and then call the [SharedViewModel.toMinesDatum] method
+     * to have it encode the game into a [MinesDatum] and write it to the game history database.
      *
      * Finally we return the outermost [View] in the layout file associated with [binding] to have it
      * used as the [View] for the fragment's UI.
