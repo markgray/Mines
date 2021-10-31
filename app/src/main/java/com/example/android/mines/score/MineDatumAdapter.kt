@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.MineDatumViewBinding
@@ -121,23 +123,22 @@ class MineDatumAdapter(
 
     /**
      * The custom [RecyclerView.ViewHolder] this adapter uses to hold our views.
+     *
+     * @param binding The [MineDatumViewBinding] for our layout file layout/mine_datum_view.xml
      */
     class ViewHolder private constructor(
-        /**
-         * The [MineDatumViewBinding] for our layout file layout/mine_datum_view.xml
-         */
         val binding: MineDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         /**
          * The [MinesDatumListener] whose `reload` method the `OnLongClickListener` of our View
-         * should call to reload the [MinesDatum] we display into the `SharedViewModel` in order
+         * should call to reload the [MinesDatum] we display into the [SharedViewModel] in order
          * to allow the user to replay that game.
          */
         private lateinit var listener: MinesDatumListener
 
         /**
-         * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item].
+         * Updates the contents of our two `TextView`'s to reflect the [MinesDatum] parameter [item]
          * at the given position. We set the background color of the `gameBoard` `TextView` to GRAY
          * (the `TextView` with resource id `R.id.game_board`) and set its text to the [String]
          * returned by our [formatGameBoard] method for [item] (a checkerboard where a safe sector
@@ -145,9 +146,9 @@ class MineDatumAdapter(
          * of the `gameStats` `TextView` to the [String] returned by our [formatMinesDatum] method
          * for [item] (just a list of interesting properties of [item]). In addition we set the
          * `OnLongClickListener` of the `constraintViewGroup` view group holding both `TextView`s to
-         * a lambda which call the `reload` method of our [MinesDatumListener] field [listener] to
+         * a lambda which calls the `reload` method of our [MinesDatumListener] field [listener] to
          * have it reload the [MinesDatum] parameter [item] into the `SharedViewModel` in order to
-         * allow the user to replay that game.
+         * allow the user to replay that game, and then returns `true` to consume the event.
          *
          * @param item the [MinesDatum] our views are supposed to display.
          */
@@ -162,8 +163,10 @@ class MineDatumAdapter(
         }
 
         /**
-         * Set the TextColor of the `gameStats` (resource ID `R.id.game_stats`) `TextView` to the
-         * color in our parameter [color].
+         * Set the TextColor of the [MineDatumViewBinding.gameStats] (resource ID [R.id.game_stats])
+         * [TextView] in [binding] to the color of our parameter [color].
+         *
+         * @param color a color value in the form 0xAARRGGBB.
          */
         fun highLight(color: Int) {
             binding.gameStats.setTextColor(color)
@@ -174,7 +177,7 @@ class MineDatumAdapter(
          *
          * @param minesDatumListener the [MinesDatumListener] whose `reload` method our view's
          * `OnLongClickListener` should call to reload the [MinesDatum] it displays into the
-         * `SharedViewModel` in order to allow the user to replay that game.
+         * [SharedViewModel] in order to allow the user to replay that game.
          */
         fun setMinesDatumListener(minesDatumListener: MinesDatumListener) {
             listener = minesDatumListener
@@ -182,16 +185,17 @@ class MineDatumAdapter(
 
         companion object {
             /**
-             * Static factory method used to construct a [ViewHolder] using a view inflated from our
-             * layout file layout/mine_datum_view.xml into a [MineDatumViewBinding]. We initialize
-             * our [LayoutInflater] variable `val layoutInflater` with an instance for the context
-             * of our [ViewGroup] parameter [parent]. Then we initialize our [MineDatumViewBinding]
-             * variable `val binding` by using the `inflate` method of [MineDatumViewBinding] to
-             * inflate itself using `layoutInflater`, and our [ViewGroup] parameter [parent] for
-             * the LayoutParams without attaching to it. Finally we return a [ViewHolder] instance
-             * constructed from `binding`.
+             * Static factory method used to construct a [ViewHolder] holding a [MineDatumViewBinding]
+             * inflated from our layout file layout/mine_datum_view.xml into a [MineDatumViewBinding].
+             * We initialize our [LayoutInflater] variable `val layoutInflater` with an instance for
+             * the context of our [ViewGroup] parameter [parent]. Then we initialize our
+             * [MineDatumViewBinding] variable `val binding` by using the `inflate` method of
+             * [MineDatumViewBinding] to inflate its associated layout file using `layoutInflater`,
+             * and our [ViewGroup] parameter [parent] for the LayoutParams without attaching to it.
+             * Finally we return a [ViewHolder] instance constructed from `binding`.
              *
              * @param parent the [ViewGroup] our view will eventually be attached to.
+             * @return a new instance of [ViewHolder]
              */
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
