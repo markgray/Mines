@@ -16,6 +16,7 @@ import com.example.android.mines.choose.ChooseFragment
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.ScoreFragmentBinding
 import com.example.android.mines.formatMinesDatum
+import com.example.android.mines.game.GameFragment
 
 /**
  * This is the [Fragment] which handles the UI for the display of the statistics of the last game
@@ -66,32 +67,32 @@ class ScoreFragment : Fragment() {
      * [ScoreFragmentBinding] variable `val binding` by using the `inflate` method of
      * [ScoreFragmentBinding] to have it inflate the layout file layout/score_fragment.xml which
      * it was generated from using our [LayoutInflater] parameter [inflater], and our [ViewGroup]
-     * parameter [container] for the LayoutParams of the view without attaching to it. We initialize
+     * parameter [container] for the LayoutParams of the views without attaching to it. We initialize
      * our [Button] field [buttonNewGame] to the `buttonNewGame` property of `binding` (resource ID
-     * R.id.button_new_game) then set its `OnClickListener` to a lambda which navigates to the
-     * `ChooseFragment`. We initialize our [TextView] field [textView] to the `textViewScore`
-     * property of `binding` (resource ID R.id.textViewScore), and we then set [latestDatum] to the
-     * value of the [SharedViewModel.latestDatum] field of [viewModel] and appends the [String] result
-     * of calling our [formatMinesDatum] method for [latestDatum].
+     * [R.id.button_new_game]) then set its `OnClickListener` to a lambda which navigates to the
+     * [ChooseFragment]. We initialize our [TextView] field [textView] to the `textViewScore`
+     * property of `binding` (resource ID [R.id.textViewScore]), and we then set [latestDatum] to the
+     * value of the [SharedViewModel.latestDatum] field of [viewModel] and append the [String] result
+     * of calling our [formatMinesDatum] method for [latestDatum] to the text of [textView].
      *
      * We initialize our [RecyclerView] field [recyclerView] to the `gameHistoryList` property of
-     * `binding` (resource ID R.id.game_history_list in our layout file). We initialize our
+     * `binding` (resource ID [R.id.game_history_list] in our layout file). We initialize our
      * [MineDatumAdapter] variable `val adapter` to an instance constructed to use as its
      * [MinesDatumListener] a lambda which calls the `loadGameFromMinesDatum` method of our
-     * [SharedViewModel] field [viewModel] to load the [MinesDatum] of the old game that was clicked
-     * and the to navigate to the `GameFragment` to replay the game. We set the adapter of
+     * [SharedViewModel] field [viewModel] to load the [MinesDatum] of the old game that was long
+     * clicked and the to navigate to the [GameFragment] to replay the game. We set the adapter of
      * [recyclerView] to `adapter`. We then add an observer to the `gameHistory` field of
      * [viewModel] whose lambda sets the `data` dataset field of `adapter` to the observed [List]
      * of [MinesDatum] whenever ROOM refreshes the `LiveData` of the `gameHistory` list from the
-     * database. Finally we return the outermost View in the layout file associated with the
-     * [ScoreFragmentBinding] variable `binding` (its `root` [View]).
+     * database. Finally we return the outermost [View] in the layout file associated with the
+     * [ScoreFragmentBinding] variable `binding` (its `root` [View]) to use as our UI.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
      * any views in the fragment.
-     * @param container If non-null, this is the parent view that the fragment's
+     * @param container If non-`null`, this is the parent view that the fragment's
      * UI will be attached to. The fragment should not add the view itself,
-     * but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * but this can be used to generate the `LayoutParams` of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
      * @return Return the [View] for the fragment's UI, or null.
@@ -140,6 +141,9 @@ class ScoreFragment : Fragment() {
  * This Listener class redirects a call to its [reload] method to the lambda which is used when it
  * is constructed. (A bit of indirection which seemed called for at the time, but may not be all
  * that necessary after all, although it does still make the code look cleaner.)
+ *
+ * @param listen the lambda which should be called when our [reload] method is called with a
+ * [MinesDatum] object.
  */
 class MinesDatumListener(val listen: (minesDatum: MinesDatum) -> Unit) {
     fun reload(minesDatum: MinesDatum) {
