@@ -12,12 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
+import com.example.android.mines.choose.ChooseFragment
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.ScoreFragmentBinding
 import com.example.android.mines.formatMinesDatum
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * This is the [Fragment] which handles the UI for the display of the statistics of the last game
@@ -40,7 +38,7 @@ class ScoreFragment : Fragment() {
     private val viewModel: SharedViewModel by activityViewModels()
 
     /**
-     * The "New Game" [Button] that the user clicks to navigate back to the `ChooseFragment` in
+     * The "New Game" [Button] that the user clicks to navigate back to the [ChooseFragment] in
      * order to choose game board size and play another random game.
      */
     private lateinit var buttonNewGame: Button
@@ -52,10 +50,8 @@ class ScoreFragment : Fragment() {
 
     /**
      * The [MinesDatum] created from the latest game played, whose statistics we display in our
-     * [TextView] field [textView]. It is loaded in our [onCreateView] override by a call to the
-     * `retrieveLatestDatum` method of our [SharedViewModel] field [viewModel] which does so by
-     * launching a call to the `getLatestEntry` method of our ROOM database on the [Dispatchers.IO]
-     * context.
+     * [TextView] field [textView]. It is set in our [onCreateView] override to the contents of
+     * the [SharedViewModel.latestDatum] field of [viewModel]
      */
     private lateinit var latestDatum: MinesDatum
 
@@ -74,10 +70,9 @@ class ScoreFragment : Fragment() {
      * our [Button] field [buttonNewGame] to the `buttonNewGame` property of `binding` (resource ID
      * R.id.button_new_game) then set its `OnClickListener` to a lambda which navigates to the
      * `ChooseFragment`. We initialize our [TextView] field [textView] to the `textViewScore`
-     * property of `binding` (resource ID R.id.textViewScore), and we then launch a coroutine on the
-     * [Dispatchers.Main] `CoroutineContext` whose lambda sets [latestDatum] to the value of the
-     * [SharedViewModel.latestDatum] field of [viewModel] and appends the [String] result of calling
-     * our [formatMinesDatum] method for [latestDatum].
+     * property of `binding` (resource ID R.id.textViewScore), and we then set [latestDatum] to the
+     * value of the [SharedViewModel.latestDatum] field of [viewModel] and appends the [String] result
+     * of calling our [formatMinesDatum] method for [latestDatum].
      *
      * We initialize our [RecyclerView] field [recyclerView] to the `gameHistoryList` property of
      * `binding` (resource ID R.id.game_history_list in our layout file). We initialize our
@@ -118,10 +113,8 @@ class ScoreFragment : Fragment() {
         }
 
         textView = binding.textViewScore
-        CoroutineScope(Dispatchers.Main).launch {
-            latestDatum = viewModel.latestDatum
-            textView.append(formatMinesDatum(latestDatum))
-        }
+        latestDatum = viewModel.latestDatum
+        textView.append(formatMinesDatum(latestDatum))
 
         recyclerView = binding.gameHistoryList
         val adapter = MineDatumAdapter(MinesDatumListener { minesDatum ->
