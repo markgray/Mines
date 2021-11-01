@@ -5,7 +5,6 @@ package com.example.android.mines
 import android.app.Application
 import android.content.Context
 import android.os.SystemClock
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +22,14 @@ import kotlinx.coroutines.withContext
 /**
  * The [ViewModel] which is shared by all of our fragments. It contains almost all the information
  * that the fragments need, and almost all of their business logic as well.
+ *
+ * @param application the global [Application] instance for this app, supplied by `activityViewModels`
+ * @param savedStateHandle a handle to saved state passed down to this [AndroidViewModel]. This is a
+ * key-value map that will let you write and retrieve objects to and from the saved state. These
+ * values will persist after the process is killed by the system and remain available via the same
+ * object. You can read a value from it via [SavedStateHandle.get] or observe it via [LiveData]
+ * returned by [SavedStateHandle.getLiveData]. You can write a value to it via [SavedStateHandle.set]
+ * or setting a value to [MutableLiveData] returned by [SavedStateHandle.getLiveData].
  */
 class SharedViewModel(
     application: Application,
@@ -33,15 +40,8 @@ class SharedViewModel(
         /**
          * TAG used for logging.
          */
+        @Suppress("unused")
         const val TAG: String = "SharedViewModel"
-    }
-
-    init {
-        Log.i(TAG, "Listing contents of savedStateHandle")
-        for (key: String in savedStateHandle.keys()) {
-            Log.i(TAG, "Value of $key in savedStateHandle is $savedStateHandle[key]")
-        }
-        Log.i(TAG, "End of list of contents of savedStateHandle")
     }
 
     /**
@@ -57,8 +57,9 @@ class SharedViewModel(
 
     /**
      * Flag indicating whether the [Narrator.tellUser] method should be called by our [sayIt] method
-     * or not. It is set to `false` by the `onClickListener` of the "SILENCE" button in the UI of
-     * `ChooseFragement`.
+     * or not. It is set to `false` by the `onClickListener` of the "CLICK FOR SILENT MODE" button
+     * in the UI of `ChooseFragement` and to `true` by the same button when it is labeled "CLICK FOR
+     * TALKATIVE MODE" (ie. the label of the button is toggled also).
      */
     var talkEnabled: Boolean = true
 
@@ -145,14 +146,15 @@ class SharedViewModel(
 
     /**
      * The [CompletableJob] we can use to cancel any outstanding coroutines in our [onCleared]
-     * override (I did not bother to implement [onCleared] because this is the parent activity's
-     * [ViewModel] and will be destroyed when the parent activity is destroyed (I think))
+     * override. There should not be any outstanding coroutines when [onCleared] is called as far
+     * as I can see, but I leave this in just in case.
      */
     private var viewModelJob = Job()
 
     /**
-     * [CoroutineScope] used to launch our [insertMinesDatum] suspend method to insert the
-     * [MinesDatum] version of the current game into our database by our [toMinesDatum] method.
+     * [CoroutineScope] used to launch our [deleteMinesDatum] and [insertMinesDatum] suspend methods
+     * to delete a [MinesDatum] by its [MinesDatum.gameId] and to insert the [MinesDatum] version of
+     * the current game into our database by our [toMinesDatum] method respectively.
      */
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -164,7 +166,9 @@ class SharedViewModel(
     var minesDatabaseDao: MinesDatabaseDao? = null
 
     /**
-     * The [MinesDatum] created by our [toMinesDatum] method from the latest game played.
+     * The [MinesDatum] created by our [toMinesDatum] method from the latest game played. Note that
+     * the [MinesDatum.gameId] property will be the invalid value 0, ROOM will automatically assign
+     * the next unique ID for the table to the [MinesDatum] when it writes it to the database.
      */
     lateinit var latestDatum: MinesDatum
 
@@ -172,7 +176,6 @@ class SharedViewModel(
      * This is an experiment in the use of the [SavedStateHandle] our constructor is passed. This
      * [MutableLiveData] exposes the entry with the key "newest_id" to the UI
      */
-    @Suppress("unused")
     val newestID: MutableLiveData<Long> =
         savedStateHandle.getLiveData("newest_id")
     /**
@@ -182,7 +185,6 @@ class SharedViewModel(
      * @param id the [Long] value to store in our [SavedStateHandle] field [savedStateHandle]
      * under the key "newest_id".
      */
-    @Suppress("unused")
     fun saveNewestId(id: Long) {
         savedStateHandle["newest_id"] = id
     }
@@ -192,8 +194,10 @@ class SharedViewModel(
      * [MinesDatabaseDao] field [minesDatabaseDao] to read the entire contents of our database
      * sorted in ascending order by the "game_elapsed_time" column. It is updated automatically
      * by ROOM, initialized in the `onActivityCreated` override of `ChooseFragment` if it is
-     * still null at that point, and observed by a lambda created in the `onCreateView` override
-     * of `ScoreFragment` in order to update the data of the adapter of the RecyclerView displaying
+     * still null at that point. It is observed by a lambda created in the `onCreateView` override
+     * of `ScoreFragment` in order to update the data of the adapter of its RecyclerView displaying
+     * the game history, and it is observed by a lambda created in the `onCreateView` override
+     * of `EditFragment` in order to update the data of the adapter of its RecyclerView displaying
      * the game history.
      */
     var gameHistory: LiveData<List<MinesDatum>>? = null
