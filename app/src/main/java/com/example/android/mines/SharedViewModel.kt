@@ -160,7 +160,7 @@ class SharedViewModel(
 
     /**
      * The [MinesDatabaseDao] we use to access our database. It is initialized by `ChooseFragment`
-     * in its `onActivityCreated` override to the [MinesDatabaseDao] to use to access the table
+     * in its `onViewStateRestored` override to the [MinesDatabaseDao] to use to access the table
      * "mines_game_history" in our database if it is still null at that point.
      */
     var minesDatabaseDao: MinesDatabaseDao? = null
@@ -193,7 +193,7 @@ class SharedViewModel(
      * This is the [LiveData] holding the results of calling the `getAllGames` method of our
      * [MinesDatabaseDao] field [minesDatabaseDao] to read the entire contents of our database
      * sorted in ascending order by the "game_elapsed_time" column. It is updated automatically
-     * by ROOM, initialized in the `onActivityCreated` override of `ChooseFragment` if it is
+     * by ROOM, initialized in the `onViewStateRestored` override of `ChooseFragment` if it is
      * still null at that point. It is observed by a lambda created in the `onCreateView` override
      * of `ScoreFragment` in order to update the data of the adapter of its RecyclerView displaying
      * the game history, and it is observed by a lambda created in the `onCreateView` override
@@ -205,20 +205,32 @@ class SharedViewModel(
     /**
      * This is called to initialize our game state to a game with [columnCount] columns, [rowCount]
      * rows, and [mines] Mines randomly placed on the board. We begin by using our parameters to
-     * initialize the basic properties of our game board. We allocate an [ArrayList] which will
-     * hold [numSectors] individual [SectorContent] entries for our [gameState] property, and an
-     * [ArrayList] which will hold [numSectors] individual [Boolean] entries for our [haveMines]
-     * property. We fill the first [numMines] entries of [haveMines] with the value *true* and the
-     * rest with the value *false*. We then shuffle [haveMines] to randomly position the *true*
-     * values in the list. Now we populate the game board in [gameState] with [SectorContent]
-     * objects for each sector on the board. To do this we initialize our [Int] variable `var index`
-     * to 0 then loop over `rowNumber` for the [numRows] rows and over `columnNumber` for the
-     * [numColumns] columns constructing a [SectorContent] for variable `val newSectorContent`
-     * located at `rowNumber` and `columnNumber` then setting its `childNum` property to `index`,
-     * its `hasMine` property to the [Boolean] stored at location `index` in [haveMines], and
-     * calling our [neighborSearch] method to have it set its `neighbors` property to a list
-     * of all the the indices of the adjacent sectors of that location. We then add the
-     * `newSectorContent` to our [gameState] list and increment `index`.
+     * initialize the basic properties of our game board:
+     *  - our [numColumns] property is set to the parameter [columnCount]
+     *  - our [numRows] property is set to the parameter [rowCount]
+     *  - our [numSectors] property is set to the parameter [columnCount] times parameter [rowCount]
+     *  - our [numMines] property is set to the parameter [mines]
+     *  - our [numChecked] property is set to 0
+     *  - our [numCheckedSafe] property is set to 0
+     *  - our [numCheckedMine] property is set to 0
+     *  - our [modeMine] property is set to `false`
+     *  - our [modeSafe] property is set to `true`
+     *
+     * Next allocate an [ArrayList] which will hold [numSectors] individual [SectorContent] entries
+     * for our [gameState] property, and an [ArrayList] which will hold [numSectors] individual
+     * [Boolean] entries for our [haveMines] property. We fill the first [numMines] entries of
+     * [haveMines] with the value `true` and the rest with the value `false`. We then shuffle
+     * [haveMines] to randomly position the `true` values in the list.
+     *
+     * Now we populate the game board in [gameState] with [SectorContent] objects for each sector on
+     * the board. To do this we initialize our [Int] variable `var index` to 0 then loop over
+     * `rowNumber` for the [numRows] rows and over `columnNumber` for the [numColumns] columns
+     * constructing a [SectorContent] for variable `val newSectorContent` located at `rowNumber` and
+     * `columnNumber` then setting its `childNum` property to `index`, its `hasMine` property to the
+     * [Boolean] stored at location `index` in [haveMines], and calling our [neighborSearch] method
+     * to have it set its `neighbors` property to a list of all the the indices of the adjacent
+     * sectors of that location. We then add the `newSectorContent` to our [gameState] list and
+     * increment `index`.
      *
      * @param columnCount number of columns on our game board
      * @param rowCount number of rows on our game board
@@ -244,6 +256,7 @@ class SharedViewModel(
             haveMines.add(false)
         }
         haveMines.shuffle()
+
         var index = 0
         for (rowNumber in 0 until numRows) {
             for (columnNumber in 0 until numColumns) {
@@ -407,12 +420,31 @@ class SharedViewModel(
         }
     }
 
+    /**
+     * Deletes its [MinesDatum] parameter [datum] from the game history database. It does this by
+     * launching a new coroutine without blocking the current thread on the [CoroutineScope] of our
+     * field [uiScope] and in its suspend lambda it calls our [deleteMinesDatumByGameId] method with
+     * the [MinesDatum.gameId] property of [datum]. [deleteMinesDatumByGameId] then calls the
+     * [MinesDatabaseDao.deleteSingleID] method of [minesDatabaseDao] with that game ID in a lambda
+     * which is launched on the [Dispatchers.IO] coroutine context.
+     *
+     * @param datum the [MinesDatum] which is to be deleted from the game history database.
+     */
     fun deleteMinesDatum(datum: MinesDatum) {
         uiScope.launch {
             deleteMinesDatumByGameId(datum.gameId)
         }
     }
 
+    /**
+     * Deletes the [MinesDatum] whose [MinesDatum.gameId] property is equal to our [Long] parameter
+     * [id]. We call a suspending block on the [Dispatchers.IO] coroutine context which calls the
+     * [MinesDatabaseDao.deleteSingleID] method of [minesDatabaseDao] with our [Long] parameter [id]
+     * to have it delete the [MinesDatum] in the game history database whose [MinesDatum.gameId]
+     * property is equal to [id].
+     *
+     * @param id the [MinesDatum.gameId] of the [MinesDatum] to be deleted.
+     */
     private suspend fun deleteMinesDatumByGameId(id: Long) {
         withContext(Dispatchers.IO) {
             minesDatabaseDao?.deleteSingleID(id)
