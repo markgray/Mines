@@ -76,7 +76,6 @@ interface MinesDatabaseDao {
      *
      * @param idList the [List] of [MinesDatum.gameId] primary keys whose entries are to be deleted.
      */
-    @Suppress("unused")
     @Query("DELETE FROM mines_game_history where gameId in (:idList)")
     fun deleteMultipleIDs(idList: List<Long>)
 

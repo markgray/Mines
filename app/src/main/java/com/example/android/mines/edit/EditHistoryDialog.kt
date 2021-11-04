@@ -5,6 +5,7 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -52,7 +53,15 @@ class EditHistoryDialog : DialogFragment() {
      * [binding] to a lambda which calls the [SharedViewModel.randomGame] method of our [viewModel]
      * field to have it generate a random game, whose [SharedViewModel.startTime] start time property
      * we set to 1,000,000 milliseconds ago, and then call the [SharedViewModel.toMinesDatum] method
-     * to have it encode the game into a [MinesDatum] and write it to the game history database.
+     * to have it encode the game into a [MinesDatum] and write it to the game history database. We
+     * next set the [View.OnClickListener] of the [EditHistoryDialogBinding.trimToBestButton] button
+     * in [binding] to a lambda which initializes its [String] variable `val numberOfBestString` to
+     * the [String] in the [EditHistoryDialogBinding.trimEditText] `EditText` of [binding] and if
+     * `numberOfBestString` contains only digits and is not the empty string calls the
+     * [SharedViewModel.trimToBest] method of [viewModel] with the [Int] value of `numberOfBestString`
+     * to have it trim the game history database down to `numberOfBestString` entries, and then the
+     * lambda finds a [NavController] for our fragment and calls its [NavController.navigate] method
+     * to navigate back to the [EditFragment].
      *
      * Finally we return the outermost [View] in the layout file associated with [binding] to have it
      * used as the [View] for the fragment's UI.
@@ -84,6 +93,13 @@ class EditHistoryDialog : DialogFragment() {
             viewModel.randomGame(8, 8, 10)
             viewModel.startTime = SystemClock.elapsedRealtime() - 1_000_000L
             viewModel.toMinesDatum()
+        }
+        binding.trimToBestButton.setOnClickListener {
+            val numberOfBestString = binding.trimEditText.text.toString()
+            if (numberOfBestString.isDigitsOnly() && numberOfBestString != "") {
+                viewModel.trimToBest(numberOfBestString.toInt())
+            }
+            findNavController().navigate(R.id.action_editHistoryDialog_to_editFragment)
         }
         return binding.root
     }

@@ -452,6 +452,42 @@ class SharedViewModel(
     }
 
     /**
+     * Trims the games history database down to [bestNumber] entries. If [bestNumber] is greater
+     * than or equal to the current size of our [gameHistory] database we return having done nothing.
+     * Otherwise we initialize our [MutableList] of [Long] variable `val listToDelete` to a new
+     * instance, then loop over `index` from [bestNumber] to the size of [gameHistory] adding the
+     * [MinesDatum.gameId] of the entry at `index` to `listToDelete`. When done creating the [List]
+     * of [MinesDatum.gameId] unique IDs to delete we launch a a new coroutine without blocking the
+     * current thread on the [CoroutineScope] of our field [uiScope] and in its suspend lambda we
+     * call our [deleteMinesDatumsWhoseGameIdIsInList] suspend function with `listToDelete`.
+     *
+     * @param bestNumber the number of entries to trim the game history database down to.
+     */
+    fun trimToBest(bestNumber: Int) {
+        if (bestNumber >= gameHistory!!.value!!.size) return
+        val listToDelete: MutableList<Long> = mutableListOf()
+        for (index in bestNumber until gameHistory!!.value!!.size) {
+            listToDelete.add(gameHistory!!.value!![index].gameId)
+        }
+        uiScope.launch {
+            deleteMinesDatumsWhoseGameIdIsInList(listToDelete)
+        }
+    }
+
+    /**
+     * Deletes all the [MinesDatum] whose [MinesDatum.gameId] is in our [List] of [Long] parameter
+     * [listOfGameIds]. We call a suspending block on the [Dispatchers.IO] coroutine context which
+     * calls the [MinesDatabaseDao.deleteMultipleIDs] method of [minesDatabaseDao] with our [List]
+     * of [Long] parameter [listOfGameIds] to have it delete all the [MinesDatum] in the game history
+     * database whose [MinesDatum.gameId] property is in [listOfGameIds].
+     */
+    private suspend fun deleteMinesDatumsWhoseGameIdIsInList(listOfGameIds: List<Long>) {
+        withContext(Dispatchers.IO) {
+            minesDatabaseDao?.deleteMultipleIDs(listOfGameIds)
+        }
+    }
+
+    /**
      * Encodes our [Boolean] array List [haveMines] into a [String] which it returns to the caller.
      * We initialize our [StringBuilder] variable `val stringBuilder` sized to hold a [String] the
      * size of [haveMines]. Then we loop through each of the [Boolean] `sectorHasMine` values in
