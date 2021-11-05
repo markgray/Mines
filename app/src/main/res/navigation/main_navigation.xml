@@ -19,7 +19,8 @@
             app:popUpTo="@id/chooseFragment" />
         <action
             android:id="@+id/action_chooseFragment_to_editFragment"
-            app:destination="@id/editFragment" />
+            app:destination="@id/editFragment"
+            app:popUpTo="@id/chooseFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -28,7 +29,8 @@
         tools:layout="@layout/game_fragment" >
         <action
             android:id="@+id/action_gameFragment_to_scoreFragment"
-            app:destination="@id/scoreFragment" />
+            app:destination="@id/scoreFragment"
+            app:popUpTo="@id/chooseFragment" />
     </fragment>
     <fragment
         android:id="@+id/scoreFragment"
@@ -69,9 +71,11 @@
     <dialog
         android:id="@+id/editHistoryDialog"
         android:name="com.example.android.mines.edit.EditHistoryDialog"
-        android:label="EditHistoryDialog" >
+        android:label="EditHistoryDialog"
+        tools:layout="@layout/edit_history_dialog" >
         <action
             android:id="@+id/action_editHistoryDialog_to_editFragment"
-            app:destination="@id/editFragment" />
+            app:destination="@id/editFragment"
+            app:popUpTo="@id/chooseFragment" />
     </dialog>
 </navigation>

@@ -19,6 +19,7 @@ import com.example.android.mines.choose.ChooseFragment
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.EditFragmentBinding
 import com.example.android.mines.game.GameFragment
+import com.example.android.mines.isOrAre
 
 /**
  * A simple [Fragment] subclass which allows the user to view and edit the game history database. It
@@ -127,9 +128,12 @@ class EditFragment : Fragment() {
                 if (it.isEmpty()) {
                     binding.textViewFiller.visibility = View.VISIBLE
                     binding.historyRecyclerView.visibility = View.GONE
+                    viewModel.sayIt("There are no games in our history")
                 } else {
                     binding.textViewFiller.visibility = View.GONE
                     binding.historyRecyclerView.visibility = View.VISIBLE
+                    val grammar = isOrAre(it.size, "game", "games")
+                    viewModel.sayIt("There $grammar in our history")
                 }
             }
         })

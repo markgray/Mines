@@ -17,6 +17,7 @@ import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.ScoreFragmentBinding
 import com.example.android.mines.formatMinesDatum
 import com.example.android.mines.game.GameFragment
+import com.example.android.mines.isOrAre
 
 /**
  * This is the [Fragment] which handles the UI for the display of the statistics of the last game
@@ -132,6 +133,8 @@ class ScoreFragment : Fragment() {
 
         viewModel.newestID.observe(viewLifecycleOwner, {
             viewModel.sayIt("There are ${adapter.itemCount} entries in our history")
+            val grammar = isOrAre(adapter.itemCount, "game", "games")
+            viewModel.sayIt("There $grammar in our history")
         })
         return binding.root
     }

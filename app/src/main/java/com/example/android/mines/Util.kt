@@ -79,3 +79,21 @@ fun convertLongToDateString(systemTime: Long): String {
     return SimpleDateFormat("MMM-dd-yyyy' 'HH:mm")
         .format(systemTime).toString()
 }
+
+/**
+ * Creates a grammatically correct [String] to describe how many objects is/are present for [value]
+ * number of objects, with [singular] the singular form of the noun of the object, and [plural] the
+ * plural form of the noun.
+ *
+ * @param value the number of objects we have
+ * @param singular the singular form of the noun for the object
+ * @param plural the plural form of the noun for the objects.
+ * @return a grammatically correct [String] to describe how many objects is/are present
+ */
+fun isOrAre(value: Int, singular: String, plural: String): String {
+    return when (value) {
+        0 -> "are no $plural"
+        1 -> "is $value $singular"
+        else -> "are $value $plural"
+    }
+}
