@@ -67,13 +67,15 @@ class Narrator(context: Context): OnInitListener {
      * the `utteranceId` (unique identifier for this request).
      *
      * @param text the text to be spoken, must be no longer than [TextToSpeech.getMaxSpeechInputLength]
+     * @param queMode the [TextToSpeech] queuing strategy to use either [TextToSpeech.QUEUE_ADD] or
+     * [TextToSpeech.QUEUE_FLUSH]. Defaults to [TextToSpeech.QUEUE_FLUSH].
      * TODO: add an overload to use TextToSpeech.QUEUE_ADD and to split longer strings if needed.
      */
-    fun tellUser(text: String) {
+    fun tellUser(text: String, queMode: Int = TextToSpeech.QUEUE_FLUSH) {
         val dummyBundle: Bundle? = null
         mTts?.speak(
             text,
-            TextToSpeech.QUEUE_FLUSH,
+            queMode,
             dummyBundle,
             null
         )
