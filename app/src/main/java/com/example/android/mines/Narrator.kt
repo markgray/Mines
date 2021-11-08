@@ -60,19 +60,25 @@ class Narrator(context: Context): OnInitListener {
     /**
      * Calls the [TextToSpeech.speak] method of our field [mTts] to have it speak the [String]
      * parameter [text]. We initialize our [Bundle] variable `val dummyBundle` to `null` (a kludge
-     * that the compiler needed when I wrote this, might be fixed?) then call the [TextToSpeech.speak]
-     * method of [mTts] with our parameter [text] as the text to be spoken, with the `queueMode`
+     * that the compiler needed when I wrote this, might be fixed?), and initialize our [Int] variable
+     * `val queMode` to [TextToSpeech.QUEUE_FLUSH] if our [flush] parameter is `true` or to
+     * [TextToSpeech.QUEUE_ADD] if it is `false`. We then call the [TextToSpeech.speak] method of
+     * [mTts] with our parameter [text] as the text to be spoken, with the `queueMode` either
      * [TextToSpeech.QUEUE_FLUSH] (all entries in the playback queue are dropped and replaced by the
-     * new entry), with `dummyBundle` as the parameters for the request (aka `null`), and `null` as
-     * the `utteranceId` (unique identifier for this request).
+     * new entry) or [TextToSpeech.QUEUE_ADD] (the new entry is added at the end of the playback queue)
+     * depending on whether our [Boolean] parameter [flush] is `true` or `false`, with `dummyBundle`
+     * as the parameters for the request (aka `null`), and `null` as the `utteranceId` (unique
+     * identifier for this request).
      *
      * @param text the text to be spoken, must be no longer than [TextToSpeech.getMaxSpeechInputLength]
-     * @param queMode the [TextToSpeech] queuing strategy to use either [TextToSpeech.QUEUE_ADD] or
-     * [TextToSpeech.QUEUE_FLUSH]. Defaults to [TextToSpeech.QUEUE_FLUSH].
-     * TODO: add an overload to use TextToSpeech.QUEUE_ADD and to split longer strings if needed.
+     * @param flush if `true` our call to the [TextToSpeech.speak] method of [mTts] will use the quemode
+     * [TextToSpeech.QUEUE_FLUSH] (all entries in the playback queue are dropped and replaced by the
+     * new entry) and if `false` will use the quemode  [TextToSpeech.QUEUE_ADD] which will add the
+     * [text] to the end of its queue.
      */
-    fun tellUser(text: String, queMode: Int = TextToSpeech.QUEUE_FLUSH) {
+    fun tellUser(text: String, flush: Boolean = true) {
         val dummyBundle: Bundle? = null
+        val queMode = if (flush) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD
         mTts?.speak(
             text,
             queMode,

@@ -407,7 +407,7 @@ class GameFragment : Fragment() {
      */
     private fun onFlippedAll() {
         viewModel.toMinesDatum()
-        viewModel.sayIt("Congratulations, you have won")
+        viewModel.sayIt("Congratulations, you have won", false)
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }
 

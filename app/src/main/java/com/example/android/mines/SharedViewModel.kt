@@ -5,6 +5,7 @@ package com.example.android.mines
 import android.app.Application
 import android.content.Context
 import android.os.SystemClock
+import android.speech.tts.TextToSpeech
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -68,10 +69,13 @@ class SharedViewModel(
      * and only if our [Boolean] property [talkEnabled] is `true`
      *
      * @param text the text that is to be spoken.
+     * @param flush if `true` [Narrator.tellUser] will use the quemode [TextToSpeech.QUEUE_FLUSH]
+     * (flushing any text in its queue) if `false` it will use [TextToSpeech.QUEUE_ADD] which will
+     * add the [text] to the end of its queue.
      */
-    fun sayIt(text: String) {
+    fun sayIt(text: String, flush: Boolean = true) {
         if (talkEnabled) {
-            narrator?.tellUser(text)
+            narrator?.tellUser(text, flush)
         }
     }
 
