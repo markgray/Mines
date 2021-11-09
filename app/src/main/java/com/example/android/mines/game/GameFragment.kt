@@ -260,19 +260,16 @@ class GameFragment : Fragment() {
                 textView.text = "\u274c"
                 viewModel.sayIt("So sorry but this sector has a mine in it", true)
             } else if (!sectorTag.hasBeenChecked) {
-                val neighborsWithMines = markSectorAsSafe(sectorTag, textView)
-                if (neighborsWithMines == 0) {
+                val neighborMines = markSectorAsSafe(sectorTag, textView)
+                if (neighborMines == 0) {
                     markNeighborsAsSafe(sectorTag.neighbors)
                 }
-                val plural: String = if (neighborsWithMines == 1) {
+                val plural: String = if (neighborMines == 1) {
                     "neighbor with a mine"
                 } else {
                     "neighbors with mines"
                 }
-                viewModel.sayIt(
-                    "This sector is safe and has $neighborsWithMines $plural",
-                    true
-                )
+                viewModel.sayIt("This sector is safe and has $neighborMines $plural",true)
             } else {
                 viewModel.sayIt("This sector has already been marked as safe", true)
             }
