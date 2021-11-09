@@ -258,7 +258,7 @@ class GameFragment : Fragment() {
             if (sectorTag.hasMine) {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
                 textView.text = "\u274c"
-                viewModel.sayIt("So sorry but this sector has a mine in it")
+                viewModel.sayIt("So sorry but this sector has a mine in it", true)
             } else if (!sectorTag.hasBeenChecked) {
                 val neighborsWithMines = markSectorAsSafe(sectorTag, textView)
                 if (neighborsWithMines == 0) {
@@ -270,10 +270,11 @@ class GameFragment : Fragment() {
                     "neighbors with mines"
                 }
                 viewModel.sayIt(
-                    "This sector is safe and has $neighborsWithMines $plural"
+                    "This sector is safe and has $neighborsWithMines $plural",
+                    true
                 )
             } else {
-                viewModel.sayIt("This sector has already been marked as safe")
+                viewModel.sayIt("This sector has already been marked as safe", true)
             }
         } else if (viewModel.modeMine) {
             if (sectorTag.hasMine) {
@@ -283,12 +284,12 @@ class GameFragment : Fragment() {
                 }
                 textView.setBackgroundResource(R.drawable.background_light)
                 textView.text = "\u274c"
-                viewModel.sayIt("Correct, this sector does have a mine")
+                viewModel.sayIt("Correct, this sector does have a mine", true)
             } else {
                 if (!sectorTag.hasBeenChecked) {
                     textView.setBackgroundResource(R.drawable.background_dark)
                 }
-                viewModel.sayIt("Wrong, this sector does not have a mine")
+                viewModel.sayIt("Wrong, this sector does not have a mine", true)
             }
         }
 
@@ -407,7 +408,7 @@ class GameFragment : Fragment() {
      */
     private fun onFlippedAll() {
         viewModel.toMinesDatum()
-        viewModel.sayIt("Congratulations, you have won", false)
+        viewModel.sayIt("Congratulations, you have won")
         findNavController().navigate(R.id.action_gameFragment_to_scoreFragment)
     }
 

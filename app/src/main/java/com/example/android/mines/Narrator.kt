@@ -76,7 +76,7 @@ class Narrator(context: Context): OnInitListener {
      * new entry) and if `false` will use the quemode  [TextToSpeech.QUEUE_ADD] which will add the
      * [text] to the end of its queue.
      */
-    fun tellUser(text: String, flush: Boolean = true) {
+    fun tellUser(text: String, flush: Boolean = false) {
         val dummyBundle: Bundle? = null
         val queMode = if (flush) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD
         mTts?.speak(

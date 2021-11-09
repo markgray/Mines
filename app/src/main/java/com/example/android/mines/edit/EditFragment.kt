@@ -128,12 +128,12 @@ class EditFragment : Fragment() {
                 if (it.isEmpty()) {
                     binding.textViewFiller.visibility = View.VISIBLE
                     binding.historyRecyclerView.visibility = View.GONE
-                    viewModel.sayIt("There are no games in our history")
+                    viewModel.sayIt("There are no games in our history", true)
                 } else {
                     binding.textViewFiller.visibility = View.GONE
                     binding.historyRecyclerView.visibility = View.VISIBLE
                     val grammar = isOrAre(it.size, "game", "games")
-                    viewModel.sayIt("There $grammar in our history")
+                    viewModel.sayIt("There $grammar in our history", true)
                 }
             }
         })

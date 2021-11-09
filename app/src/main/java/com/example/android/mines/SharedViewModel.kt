@@ -73,7 +73,7 @@ class SharedViewModel(
      * (flushing any text in its queue) if `false` it will use [TextToSpeech.QUEUE_ADD] which will
      * add the [text] to the end of its queue.
      */
-    fun sayIt(text: String, flush: Boolean = true) {
+    fun sayIt(text: String, flush: Boolean = false) {
         if (talkEnabled) {
             narrator?.tellUser(text, flush)
         }

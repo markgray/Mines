@@ -133,7 +133,7 @@ class ScoreFragment : Fragment() {
 
         viewModel.newestID.observe(viewLifecycleOwner, {
             val grammar = isOrAre(adapter.itemCount, "game", "games")
-            viewModel.sayIt("There $grammar in our history", false)
+            viewModel.sayIt("There $grammar in our history")
         })
         return binding.root
     }
