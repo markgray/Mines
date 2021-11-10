@@ -1,6 +1,7 @@
 package com.example.android.mines.score
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,10 @@ import com.example.android.mines.isOrAre
 class ScoreFragment : Fragment() {
 
     companion object {
+        /**
+         * TAG used for logging
+         */
+        const val TAG = "ScoreFragment"
         /**
          * Boilerplate factory method added by Android Studio when we created this [Fragment]
          */
@@ -128,12 +133,13 @@ class ScoreFragment : Fragment() {
             it?.let {
                 adapter.data = it
                 viewModel.saveNewestId(adapter.newestGameId())
+                val grammar = isOrAre(adapter.itemCount, "game", "games")
+                viewModel.sayIt("There $grammar in our history")
             }
         })
 
-        viewModel.newestID.observe(viewLifecycleOwner, {
-            val grammar = isOrAre(adapter.itemCount, "game", "games")
-            viewModel.sayIt("There $grammar in our history")
+        viewModel.newestID.observe(viewLifecycleOwner, { latestGameID: Long ->
+            Log.i(TAG,"The latest gameID is $latestGameID")
         })
         return binding.root
     }
