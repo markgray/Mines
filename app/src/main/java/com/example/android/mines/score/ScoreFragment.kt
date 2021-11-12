@@ -142,16 +142,14 @@ class ScoreFragment : Fragment() {
             it?.let {
                 adapter.data = it
                 viewModel.saveNewestId(adapter.newestGameId())
-                if (waiting) {
-                    val grammar = isOrAre(adapter.itemCount, "game", "games")
-                    viewModel.sayIt("There $grammar in our history")
-                }
+                val grammar = isOrAre(adapter.itemCount, "game", "games")
+                viewModel.sayIt("There $grammar in our history", waiting)
                 waiting = true
             }
         })
 
         viewModel.newestID.observe(viewLifecycleOwner, { latestGameID: Long ->
-            Log.i(TAG,"The latest gameID is $latestGameID")
+            Log.i(TAG, "The latest gameID is $latestGameID")
         })
         return binding.root
     }
