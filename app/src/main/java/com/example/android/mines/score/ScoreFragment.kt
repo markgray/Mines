@@ -63,6 +63,14 @@ class ScoreFragment : Fragment() {
     private lateinit var latestDatum: MinesDatum
 
     /**
+     * The observer of the [SharedViewModel.gameHistory] field of [viewModel] gets called twice,
+     * once with the old value, and again after ROOM reads the new contents of the game history
+     * database. This flag is used by the observer to prevent it from announcing the number of
+     * games in the database until the updated contents is available.
+     */
+    private var waiting: Boolean = false
+
+    /**
      * The [RecyclerView] in our layout which displays the list of old games which is read from our
      * ROOM database.
      */
@@ -90,8 +98,9 @@ class ScoreFragment : Fragment() {
      * [recyclerView] to `adapter`. We then add an observer to the `gameHistory` field of
      * [viewModel] whose lambda sets the `data` dataset field of `adapter` to the observed [List]
      * of [MinesDatum] whenever ROOM refreshes the `LiveData` of the `gameHistory` list from the
-     * database. Finally we return the outermost [View] in the layout file associated with the
-     * [ScoreFragmentBinding] variable `binding` (its `root` [View]) to use as our UI.
+     * database and if this is the second time it is executed announces the number of games in the
+     * dataset of `adapter`. Finally we return the outermost [View] in the layout file associated
+     * with the [ScoreFragmentBinding] variable `binding` (its `root` [View]) to use as our UI.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
      * any views in the fragment.
@@ -133,8 +142,11 @@ class ScoreFragment : Fragment() {
             it?.let {
                 adapter.data = it
                 viewModel.saveNewestId(adapter.newestGameId())
-                val grammar = isOrAre(adapter.itemCount, "game", "games")
-                viewModel.sayIt("There $grammar in our history")
+                if (waiting) {
+                    val grammar = isOrAre(adapter.itemCount, "game", "games")
+                    viewModel.sayIt("There $grammar in our history")
+                }
+                waiting = true
             }
         })
 
