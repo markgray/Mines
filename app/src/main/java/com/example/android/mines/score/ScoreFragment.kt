@@ -138,7 +138,7 @@ class ScoreFragment : Fragment() {
             findNavController().navigate(R.id.action_scoreFragment_to_gameFragment)
         })
         recyclerView.adapter = adapter
-        viewModel.gameHistory!!.observe(viewLifecycleOwner, {
+        viewModel.gameHistory!!.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.data = it
                 viewModel.saveNewestId(adapter.newestGameId())
@@ -146,11 +146,11 @@ class ScoreFragment : Fragment() {
                 viewModel.sayIt("There $grammar in our history", waiting)
                 waiting = true
             }
-        })
+        }
 
-        viewModel.newestID.observe(viewLifecycleOwner, { latestGameID: Long ->
+        viewModel.newestID.observe(viewLifecycleOwner) { latestGameID: Long ->
             Log.i(TAG, "The latest gameID is $latestGameID")
-        })
+        }
         return binding.root
     }
 }

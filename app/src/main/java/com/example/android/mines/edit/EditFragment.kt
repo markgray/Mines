@@ -122,7 +122,7 @@ class EditFragment : Fragment() {
         )
         recyclerView.adapter = adapter
 
-        viewModel.gameHistory!!.observe(viewLifecycleOwner, { listOfMinesDatum: List<MinesDatum>? ->
+        viewModel.gameHistory!!.observe(viewLifecycleOwner) { listOfMinesDatum: List<MinesDatum>? ->
             listOfMinesDatum?.let {
                 adapter.data = it
                 if (it.isEmpty()) {
@@ -136,7 +136,7 @@ class EditFragment : Fragment() {
                     viewModel.sayIt("There $grammar in our history", true)
                 }
             }
-        })
+        }
         return binding.root
     }
 

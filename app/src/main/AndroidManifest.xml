@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,LockedOrientationActivity">
+        tools:ignore="AllowBackup,DataExtractionRules,LockedOrientationActivity">
         <activity android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
