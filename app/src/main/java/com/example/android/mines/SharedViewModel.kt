@@ -59,7 +59,7 @@ class SharedViewModel(
     /**
      * Flag indicating whether the [Narrator.tellUser] method should be called by our [sayIt] method
      * or not. It is set to `false` by the `onClickListener` of the "CLICK FOR SILENT MODE" button
-     * in the UI of `ChooseFragement` and to `true` by the same button when it is labeled "CLICK FOR
+     * in the UI of `ChooseFragment` and to `true` by the same button when it is labeled "CLICK FOR
      * TALKATIVE MODE" (ie. the label of the button is toggled also).
      */
     var talkEnabled: Boolean = true
