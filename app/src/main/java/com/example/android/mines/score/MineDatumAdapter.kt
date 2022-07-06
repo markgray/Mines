@@ -1,4 +1,3 @@
-
 package com.example.android.mines.score
 
 import android.annotation.SuppressLint
@@ -25,7 +24,7 @@ import com.example.android.mines.formatMinesDatum
  */
 class MineDatumAdapter(
     private val minesDatumListener: MinesDatumListener
-): RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MineDatumAdapter.ViewHolder>() {
 
     /**
      * Our dataset. It is set in the lambda of an `Observer` of the `gameHistory` field of our
@@ -34,7 +33,7 @@ class MineDatumAdapter(
      * [newest] to 0 so that the dataset is once again searched for the newest [MinesDatum.gameId]
      * in order to highlight it in green.
      */
-    var data = listOf<MinesDatum>()
+    var data: List<MinesDatum> = listOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -46,7 +45,7 @@ class MineDatumAdapter(
      * The [MinesDatum.gameId] property of the newest [MinesDatum] added to our database (valid IDs
      * start at 1).
      */
-    private var newest : Long = 0L
+    private var newest: Long = 0L
 
     /**
      * Searches the [MinesDatum] in our dataset [data] for the highest [MinesDatum.gameId] property
@@ -55,11 +54,11 @@ class MineDatumAdapter(
      * @return the highest [MinesDatum.gameId] property of the [MinesDatum] in our dataset (ie. the
      * newest entry).
      */
-    fun newestGameId() : Long {
+    fun newestGameId(): Long {
         if (newest == 0L) {
-            for (datum in data) {
-                if (datum.gameId > newest) {
-                    newest = datum.gameId
+            for ((gameId) in data) {
+                if (gameId > newest) {
+                    newest = gameId
                 }
             }
         }
@@ -92,7 +91,7 @@ class MineDatumAdapter(
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = data.size
+    override fun getItemCount(): Int = data.size
 
     /**
      * Called by [RecyclerView] to display the data at the specified position. This method should

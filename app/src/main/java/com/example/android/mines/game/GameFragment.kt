@@ -187,7 +187,7 @@ class GameFragment : Fragment() {
                 textView.width = cellSize
                 textView.height = cellSize
                 textView.gravity = Gravity.CENTER
-                textView.textSize = cellSize.toFloat()/resources.displayMetrics.density - 8.0f
+                textView.textSize = cellSize.toFloat() / resources.displayMetrics.density - 8.0f
                 textView.setPadding(4, 4, 4, 4)
                 textView.setOnClickListener { view ->
                     onSectorClicked(view)
@@ -252,8 +252,8 @@ class GameFragment : Fragment() {
      * @param view the [View] that was clicked.
      */
     private fun onSectorClicked(view: View) {
-        val sectorTag : SectorContent = (view.tag as SectorContent)
-        val textView : TextView = view as TextView
+        val sectorTag: SectorContent = (view.tag as SectorContent)
+        val textView: TextView = view as TextView
         if (viewModel.modeSafe) {
             if (sectorTag.hasMine) {
                 textView.setBackgroundResource(R.drawable.bomb_icon)
@@ -269,7 +269,7 @@ class GameFragment : Fragment() {
                 } else {
                     "neighbors with mines"
                 }
-                viewModel.sayIt("This sector is safe and has $neighborMines $plural",true)
+                viewModel.sayIt("This sector is safe and has $neighborMines $plural", true)
             } else {
                 viewModel.sayIt("This sector has already been marked as safe", true)
             }
@@ -294,7 +294,7 @@ class GameFragment : Fragment() {
         Log.i(
             "GameFragment",
             "${sectorTag.column} ${sectorTag.row} " +
-            "${viewModel.numCheckedSafe} safe ${viewModel.numCheckedMine} mine"
+                "${viewModel.numCheckedSafe} safe ${viewModel.numCheckedMine} mine"
         )
         if (viewModel.numChecked == viewModel.numSectors) {
             Toast.makeText(
@@ -327,7 +327,7 @@ class GameFragment : Fragment() {
     private fun markSectorAsSafe(
         sectorTag: SectorContent,
         textView: TextView
-    ) : Int {
+    ): Int {
         sectorTag.hasBeenChecked = true
         viewModel.numCheckedSafe++
         textView.setBackgroundResource(R.drawable.background_light)
@@ -410,8 +410,11 @@ class GameFragment : Fragment() {
     }
 
     companion object {
+        /**
+         * Called to construct a new instance of [GameFragment] which it returns
+         */
         @Suppress("unused")
-        fun newInstance() = GameFragment()
+        fun newInstance(): GameFragment = GameFragment()
     }
 
 }

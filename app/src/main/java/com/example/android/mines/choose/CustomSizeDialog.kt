@@ -21,7 +21,7 @@ import com.example.android.mines.game.GameFragment
 /**
  * This [DialogFragment] allows the user to configure the game board however they want it.
  */
-class CustomSizeDialog : DialogFragment()  {
+class CustomSizeDialog : DialogFragment() {
     /**
      * The [SharedViewModel] instance we share with all our other fragments.
      */
@@ -41,17 +41,17 @@ class CustomSizeDialog : DialogFragment()  {
     /**
      * The number of columns on the game board
      */
-    private var customColumns : Int = 6
+    private var customColumns: Int = 6
 
     /**
      * The number of rows on the game board
      */
-    private var customRows : Int = 6
+    private var customRows: Int = 6
 
     /**
      * The number of sectors on the game board which have Mines in them.
      */
-    private var customMines : Int = 4
+    private var customMines: Int = 4
 
 
     /**
@@ -135,8 +135,8 @@ class CustomSizeDialog : DialogFragment()  {
             customMines = sane(
                 binding.minesNumber.text.toString(),
                 1,
-                customRows*customColumns/2,
-                customRows*customColumns/10
+                customRows * customColumns / 2,
+                customRows * customColumns / 10
             )
             saveChoices()
             viewModel.randomGame(customColumns, customRows, customMines)
@@ -200,16 +200,16 @@ class CustomSizeDialog : DialogFragment()  {
         /**
          * The key in our [SharedPreferences] file for our [customColumns] field.
          */
-        const val CUSTOM_COLUMNS = "custom_columns"
+        const val CUSTOM_COLUMNS: String = "custom_columns"
 
         /**
          * The key in our [SharedPreferences] file for our [customRows] field.
          */
-        const val CUSTOM_ROWS = "custom_rows"
+        const val CUSTOM_ROWS: String = "custom_rows"
 
         /**
          * The key in our [SharedPreferences] file for our [customMines] field.
          */
-        const val CUSTOM_MINES = "custom_mines"
+        const val CUSTOM_MINES: String = "custom_mines"
     }
 }

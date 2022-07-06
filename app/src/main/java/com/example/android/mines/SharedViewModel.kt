@@ -182,6 +182,7 @@ class SharedViewModel(
      */
     val newestID: MutableLiveData<Long> =
         savedStateHandle.getLiveData("newest_id")
+
     /**
      * This method saves its [Long] parameter [id] in our [SavedStateHandle] field [savedStateHandle]
      * under the key "newest_id".
@@ -356,7 +357,7 @@ class SharedViewModel(
         if (theSectorContent.column > 0) {
             theSectorContent.neighbors.add(theSectorContent.childNum - 1)
         }
-        if (theSectorContent.column < numColumns -1) {
+        if (theSectorContent.column < numColumns - 1) {
             theSectorContent.neighbors.add(theSectorContent.childNum + 1)
         }
         if (theSectorContent.row > 0) {
@@ -468,10 +469,10 @@ class SharedViewModel(
      * @param bestNumber the number of entries to trim the game history database down to.
      */
     fun trimToBest(bestNumber: Int) {
-        if (bestNumber >= gameHistory!!.value!!.size) return
+        if (bestNumber >= ((gameHistory ?: return).value ?: return).size) return
         val listToDelete: MutableList<Long> = mutableListOf()
-        for (index in bestNumber until gameHistory!!.value!!.size) {
-            listToDelete.add(gameHistory!!.value!![index].gameId)
+        for (index in bestNumber until ((gameHistory ?: return).value ?: return).size) {
+            listToDelete.add(((gameHistory ?: return).value ?: return)[index].gameId)
         }
         uiScope.launch {
             deleteMinesDatumsWhoseGameIdIsInList(listToDelete)

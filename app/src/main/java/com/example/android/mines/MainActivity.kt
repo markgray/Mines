@@ -3,6 +3,10 @@ package com.example.android.mines
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * This is the main activity of our Mine Sweeper game. It just sets our content view to a layout
+ * file containing a `FragmentContainerView` which hosts the fragments which implement the game.
+ */
 class MainActivity : AppCompatActivity() {
 
     /**

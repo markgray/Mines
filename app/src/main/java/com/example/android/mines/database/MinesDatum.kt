@@ -13,7 +13,7 @@ import com.example.android.mines.SharedViewModel
  */
 @Entity(tableName = "mines_game_history")
 data class MinesDatum
-    (
+(
     /**
      * The primary key of our database table. The `@PrimaryKey` annotation marks a field in an Entity
      * as the primary key. The `autoGenerate` field of [PrimaryKey] is set to `true` to let SQLite

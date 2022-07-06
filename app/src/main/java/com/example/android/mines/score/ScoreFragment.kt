@@ -31,12 +31,13 @@ class ScoreFragment : Fragment() {
         /**
          * TAG used for logging
          */
-        const val TAG = "ScoreFragment"
+        const val TAG: String = "ScoreFragment"
+
         /**
          * Boilerplate factory method added by Android Studio when we created this [Fragment]
          */
         @Suppress("unused")
-        fun newInstance() = ScoreFragment()
+        fun newInstance(): ScoreFragment = ScoreFragment()
     }
 
     /**
@@ -138,7 +139,7 @@ class ScoreFragment : Fragment() {
             findNavController().navigate(R.id.action_scoreFragment_to_gameFragment)
         })
         recyclerView.adapter = adapter
-        viewModel.gameHistory!!.observe(viewLifecycleOwner) {
+        (viewModel.gameHistory ?: return null).observe(viewLifecycleOwner) {
             it?.let {
                 adapter.data = it
                 viewModel.saveNewestId(adapter.newestGameId())
@@ -164,6 +165,13 @@ class ScoreFragment : Fragment() {
  * [MinesDatum] object.
  */
 class MinesDatumListener(val listen: (minesDatum: MinesDatum) -> Unit) {
+    /**
+     * Called with the [MinesDatum] of a game in our game history when that game is long clicked.
+     * We then call the lambda we were constructed with to have it do what is necessary to replay
+     * that game.
+     *
+     * @param minesDatum the [MinesDatum] of the game that will be replayed.
+     */
     fun reload(minesDatum: MinesDatum) {
         listen(minesDatum)
     }

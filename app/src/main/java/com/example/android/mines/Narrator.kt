@@ -9,7 +9,7 @@ import android.util.Log
 /**
  * Class used to interface with the [TextToSpeech] class.
  */
-class Narrator(context: Context): OnInitListener {
+class Narrator(context: Context) : OnInitListener {
     /**
      * [TextToSpeech] instance we will use to synthesize speech
      */
@@ -91,6 +91,6 @@ class Narrator(context: Context): OnInitListener {
         /**
          * TAG used for logging.
          */
-        const val TAG = "Narrator"
+        const val TAG: String = "Narrator"
     }
 }

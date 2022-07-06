@@ -30,23 +30,23 @@ class ChooseFragment : Fragment() {
         /**
          * Default number of columns if the user does not choose a game board size
          */
-        const val COLUMN_COUNT = 8
+        const val COLUMN_COUNT: Int = 8
 
         /**
          * Default number of row if the user does not choose a game board size
          */
-        const val ROW_COUNT = 8
+        const val ROW_COUNT: Int = 8
 
         /**
          * Default number of Mined sectors if the user does not choose a game board size
          */
-        const val MINE_COUNT = 10
+        const val MINE_COUNT: Int = 10
 
         /**
          * Unused [ChooseFragment] factory method.
          */
         @Suppress("unused")
-        fun newInstance() = ChooseFragment()
+        fun newInstance(): ChooseFragment = ChooseFragment()
     }
 
     /**
@@ -207,12 +207,12 @@ class ChooseFragment : Fragment() {
             binding.quietOrTalkative.text = getString(R.string.clickForTalkativeMode)
         }
 
-        minesDataBase  = MinesDataBase.getInstance(application)
+        minesDataBase = MinesDataBase.getInstance(application)
         if (viewModel.minesDatabaseDao == null) {
             viewModel.minesDatabaseDao = minesDataBase.minesDatabaseDao
         }
         if (viewModel.gameHistory == null) {
-            viewModel.gameHistory = viewModel.minesDatabaseDao!!.getAllGames()
+            viewModel.gameHistory = (viewModel.minesDatabaseDao ?: return).getAllGames()
         }
     }
 

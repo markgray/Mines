@@ -22,7 +22,7 @@ fun formatMinesDatum(game: MinesDatum): String {
         append("Rows: ${game.numRows}\n")
         append("Mines: ${game.numMines}\n")
         append("Date: ${convertLongToDateString(game.startTimeMilli)}\n")
-        append("Time: ${DateUtils.formatElapsedTime(game.elapsedTimeMilli/1_000L)}\n")
+        append("Time: ${DateUtils.formatElapsedTime(game.elapsedTimeMilli / 1_000L)}\n")
         //append("Mine Locations: ${game.haveMines}\n")
     }
     return sb.toString()

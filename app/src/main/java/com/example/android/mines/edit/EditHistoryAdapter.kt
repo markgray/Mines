@@ -45,7 +45,7 @@ class EditHistoryAdapter(
      * change events, but that would introduce a great deal of complexity that is unwarranted in
      * this case.
      */
-    var data = listOf<MinesDatum>()
+    var data: List<MinesDatum> = listOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -78,7 +78,7 @@ class EditHistoryAdapter(
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = data.size
+    override fun getItemCount(): Int = data.size
 
     /**
      * Called by [RecyclerView] to display the data at the specified position. This method should
