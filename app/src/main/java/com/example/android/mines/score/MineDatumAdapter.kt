@@ -56,7 +56,7 @@ class MineDatumAdapter(
      */
     fun newestGameId(): Long {
         if (newest == 0L) {
-            for ((gameId) in data) {
+            for ((gameId, _, _, _, _, _, _) in data) {
                 if (gameId > newest) {
                     newest = gameId
                 }
