@@ -34,7 +34,7 @@ class MineDatumAdapter(
      * in order to highlight it in green.
      */
     var data: List<MinesDatum> = listOf()
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint("NotifyDataSetChanged") // The whole List changes so notifyDataSetChanged is needed
         set(value) {
             field = value
             newest = 0L

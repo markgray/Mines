@@ -45,7 +45,7 @@ class ChooseFragment : Fragment() {
         /**
          * Unused [ChooseFragment] factory method.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Suggested change would make class less reusable
         fun newInstance(): ChooseFragment = ChooseFragment()
     }
 
@@ -128,7 +128,7 @@ class ChooseFragment : Fragment() {
      *
      * @return Return the [View] for the fragment's UI, or null.
      */
-    @Suppress("RedundantNullableReturnType")
+    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

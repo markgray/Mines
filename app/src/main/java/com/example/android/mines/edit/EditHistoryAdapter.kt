@@ -46,7 +46,7 @@ class EditHistoryAdapter(
      * this case.
      */
     var data: List<MinesDatum> = listOf()
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint("NotifyDataSetChanged") // The whole List changes so notifyDataSetChanged is needed
         set(value) {
             field = value
             notifyDataSetChanged()

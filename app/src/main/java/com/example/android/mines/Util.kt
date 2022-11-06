@@ -1,9 +1,9 @@
 package com.example.android.mines
 
-import android.annotation.SuppressLint
 import android.text.format.DateUtils
 import com.example.android.mines.database.MinesDatum
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * Formats the fields of its [MinesDatum] parameter [game] into a [String] suitable for display to
@@ -74,9 +74,8 @@ fun formatGameBoard(game: MinesDatum): String {
  *  - dd-yyyy - day in month and full year numerically
  *  - HH:mm - Hours and minutes in 24hr format
  */
-@SuppressLint("SimpleDateFormat")
 fun convertLongToDateString(systemTime: Long): String {
-    return SimpleDateFormat("MMM-dd-yyyy' 'HH:mm")
+    return SimpleDateFormat("MMM-dd-yyyy' 'HH:mm", Locale.US)
         .format(systemTime).toString()
 }
 

@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate") // I like to use kdoc [] references
 
 package com.example.android.mines
 
@@ -41,7 +41,7 @@ class SharedViewModel(
         /**
          * TAG used for logging.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Suggested change would make class less reusable
         const val TAG: String = "SharedViewModel"
     }
 
@@ -520,7 +520,7 @@ class SharedViewModel(
      *
      * @return the [MinesDatum] which was most recently inserted into our game history database.
      */
-    @Suppress("unused")
+    @Suppress("unused") // Suggested change would make method less reusable
     suspend fun retrieveLatestDatum(): MinesDatum {
         return withContext(Dispatchers.IO) {
             minesDatabaseDao!!.getLatestEntry()!!

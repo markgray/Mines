@@ -106,7 +106,7 @@ class GameFragment : Fragment() {
      *
      * @return Return the [View] for the fragment's UI, or `null`.
      */
-    @Suppress("RedundantNullableReturnType")
+    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -163,7 +163,7 @@ class GameFragment : Fragment() {
      *
      * @return the [GridLayout] field [board] which we have filled with [TextView]'s
      */
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n") // This is a US only app
     private fun createBoard(): View {
 
         board.columnCount = viewModel.numColumns
@@ -413,7 +413,7 @@ class GameFragment : Fragment() {
         /**
          * Called to construct a new instance of [GameFragment] which it returns
          */
-        @Suppress("unused")
+        @Suppress("unused") // Suggested change would make class less reusable
         fun newInstance(): GameFragment = GameFragment()
     }
 

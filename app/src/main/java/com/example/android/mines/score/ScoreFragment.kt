@@ -36,7 +36,7 @@ class ScoreFragment : Fragment() {
         /**
          * Boilerplate factory method added by Android Studio when we created this [Fragment]
          */
-        @Suppress("unused")
+        @Suppress("unused") // Suggested change would make class less reusable
         fun newInstance(): ScoreFragment = ScoreFragment()
     }
 
@@ -113,7 +113,7 @@ class ScoreFragment : Fragment() {
      *
      * @return Return the [View] for the fragment's UI, or null.
      */
-    @Suppress("RedundantNullableReturnType")
+    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
