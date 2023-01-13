@@ -1,103 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:ignore="Autofill,HardcodedText,LabelFor">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/columnsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/columns"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/columnsNumber"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="Autofill,HardcodedText,LabelFor">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/columnsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/columns"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toStartOf="@+id/columnsNumber"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/columnsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:inputType="number"
+        android:text="6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/columnsLabel"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/columnsNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/columnsLabel"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/rowsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/rows"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/rowsNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/columnsLabel" />
 
-        <TextView
-            android:id="@+id/rowsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/rows"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toStartOf="@+id/rowsNumber"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/columnsLabel" />
+    <EditText
+        android:id="@+id/rowsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:inputType="number"
+        android:text="6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rowsLabel"
+        app:layout_constraintTop_toBottomOf="@+id/columnsNumber"
+        tools:ignore="LabelFor" />
 
-        <EditText
-            android:id="@+id/rowsNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rowsLabel"
-            app:layout_constraintTop_toBottomOf="@+id/columnsNumber"
-            tools:ignore="LabelFor" />
+    <TextView
+        android:id="@+id/minesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mines:"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/abortButton"
+        app:layout_constraintEnd_toStartOf="@+id/minesNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rowsLabel"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/minesLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mines:"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/abortButton"
-            app:layout_constraintEnd_toStartOf="@+id/minesNumber"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rowsLabel"
-            app:layout_constraintVertical_bias="0.0" />
+    <EditText
+        android:id="@+id/minesNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:inputType="number"
+        android:text="6"
+        app:layout_constraintBottom_toTopOf="@+id/abortButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/minesLabel"
+        app:layout_constraintTop_toBottomOf="@+id/rowsNumber"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
-            android:id="@+id/minesNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="6"
-            app:layout_constraintBottom_toTopOf="@+id/abortButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/minesLabel"
-            app:layout_constraintTop_toBottomOf="@+id/rowsNumber"
-            app:layout_constraintVertical_bias="0.0" />
+    <Button
+        android:id="@+id/abortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Abort"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/abortButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Abort"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/play_game_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/play"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <Button
+        android:id="@+id/play_game_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
