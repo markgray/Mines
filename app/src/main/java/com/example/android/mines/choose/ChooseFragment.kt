@@ -252,12 +252,15 @@ class ChooseFragment : Fragment() {
             R.id.board8by8 -> {
                 viewModel.randomGame(8, 8, 10)
             }
+
             R.id.board12by16 -> {
                 viewModel.randomGame(12, 16, 30)
             }
+
             R.id.board16by16 -> {
                 viewModel.randomGame(16, 16, 40)
             }
+
             R.id.board16by30 -> {
                 viewModel.randomGame(16, 30, 99)
             }
