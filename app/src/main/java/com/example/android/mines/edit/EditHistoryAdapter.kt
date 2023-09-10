@@ -108,7 +108,7 @@ class EditHistoryAdapter(
      * layout/mine_datum_view.xml
      */
     class ViewHolder private constructor(
-        val binding: MineEditDatumViewBinding
+        private val binding: MineEditDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         /**

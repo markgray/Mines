@@ -126,7 +126,7 @@ class MineDatumAdapter(
      * @param binding The [MineDatumViewBinding] for our layout file layout/mine_datum_view.xml
      */
     class ViewHolder private constructor(
-        val binding: MineDatumViewBinding
+        private val binding: MineDatumViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         /**
