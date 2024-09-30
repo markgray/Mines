@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
      * @param savedInstanceState We do not call [onSaveInstanceState] so do not use.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rootView = window.decorView.findViewById<ContentFrameLayout>(android.R.id.content)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                 leftMargin = insets.left
                 rightMargin = insets.right
                 topMargin = insets.top
+                bottomMargin = insets.bottom
             }
             // Return CONSUMED if you don't want want the window insets to keep passing
             // down to descendant views.
