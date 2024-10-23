@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.marktgray.android.mines"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 12
         versionName = "1.1.10"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
