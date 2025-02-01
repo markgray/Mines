@@ -31,20 +31,20 @@ import com.example.android.mines.score.ScoreFragment
 class GameFragment : Fragment() {
 
     /**
-     * The [GridLayout] with binding id `boardGrid` (resource ID [R.id.board_grid]) which holds the
+     * The [GridLayout] with binding id `boardGrid` (resource ID `R.id.board_grid`) which holds the
      * [TextView]'s which represent our game board.
      */
     private lateinit var board: GridLayout
 
     /**
-     * The [Button] with binding id `buttonSafe` (resource ID [R.id.button_safe]) which the user uses
+     * The [Button] with binding id `buttonSafe` (resource ID `R.id.button_safe`) which the user uses
      * to transition to "Safe" mode (clicking a sector on the game board in this mode marks the
      * sector as a safe sector).
      */
     private lateinit var safe: Button
 
     /**
-     * The [Button] with binding id `buttonMine` (resource ID [R.id.button_mine]) which the user uses
+     * The [Button] with binding id `buttonMine` (resource ID `R.id.button_mine`) which the user uses
      * to transition to "Mine" mode (clicking a sector on the game board in this mode marks the
      * sector as a mined sector).
      */
@@ -78,12 +78,12 @@ class GameFragment : Fragment() {
      *
      * First we initialize our variable `val binding` to the [GameFragmentBinding] that its `inflate`
      * static method returns when  it uses our [LayoutInflater] parameter [inflater] to inflate our
-     * layout file [R.layout.game_fragment] using our [ViewGroup] parameter [container] for its
+     * layout file `R.layout.game_fragment` using our [ViewGroup] parameter [container] for its
      * `LayoutParams` without attaching to it. We set our [GridLayout] field [board] to the `binding`
-     * property `boardGrid` (resource ID [R.id.board_grid] in our layout file), set our [Button] field
-     * [safe] to the `binding` property `buttonSafe` (resource ID [R.id.button_safe] in our layout
+     * property `boardGrid` (resource ID `R.id.board_grid` in our layout file), set our [Button] field
+     * [safe] to the `binding` property `buttonSafe` (resource ID `R.id.button_safe` in our layout
      * file), and set our [Button] field [mine] to the `binding` property `buttonMine` (resource ID
-     * [R.id.button_mine] in our layout file). We set our [Int] field [boardWidth] to the absolute
+     * `R.id.button_mine` in our layout file). We set our [Int] field [boardWidth] to the absolute
      * width of the available display size in pixels of the current display metrics that are in effect
      * for our activity, and set our [Int] field [boardHeight] to the `buttonTop` property of our
      * [SharedViewModel] field [viewModel] (which should have been set to the top Y coordinate of
@@ -149,7 +149,7 @@ class GameFragment : Fragment() {
      *  - Initialize our [SectorContent] variable `val contents` to the `listIndex` entry in the
      *  `gameState` field of [viewModel] (post incrementing `listIndex` while we are at it)
      *  - Initialize our [TextView] variable `val textView` to a new instance.
-     *  - Set the background of `textView` to the drawable [R.drawable.background_dark] (a gray
+     *  - Set the background of `textView` to the drawable `R.drawable.background_dark` (a gray
      *  "rectangle")
      *  - Set the `tag` of `textView` to `contents`, its `width` and `height` to `cellSize`, its
      *  gravity to [Gravity.CENTER], its `textSize` to `cellSize` divided by the logical density of
@@ -209,7 +209,7 @@ class GameFragment : Fragment() {
      * If the `modeSafe` property of our [SharedViewModel] field [viewModel] is true (the user is
      * clicking sectors he thinks are "Safe") we check whether the [SectorContent] property `hasMine`
      * is `true` (indicates it actually has a mine) and if so we set the background of `textView` to
-     * the drawable with resource ID [R.drawable.bomb_icon] (a black circle) and the text of
+     * the drawable with resource ID `R.drawable.bomb_icon` (a black circle) and the text of
      * `textView` to a red X character. Then we call the [SharedViewModel.sayIt] method of [viewModel]
      * to have the tts engine tell the user: "So sorry but this sector has a mine in it".
      *
@@ -233,12 +233,12 @@ class GameFragment : Fragment() {
      * is `true` (the sector has a "Mine" in it) and if so we check whether the `hasBeenChecked`
      * property of `sectorTag` is `false` (the sector has not been checked before) and if so we set
      * it to `true` and increment the `numCheckedMine` property of [viewModel], then we set the
-     * background of `textView` to the drawable with resource ID [R.drawable.background_light] and
+     * background of `textView` to the drawable with resource ID `R.drawable.background_light` and
      * set the text of `textView` to a red X character, then we call the [SharedViewModel.sayIt]
      * method of [viewModel] to have the tts engine tell the user: "Correct, this sector does have a
      * mine". If the `hasMine` property of `sectorTag` is `false` (there is no mine in the sector)
      * we check whether the `hasBeenChecked` property of `sectorTag` is `false` and if so we set the
-     * background of `textView` to the drawable with resource ID [R.drawable.background_light] (since
+     * background of `textView` to the drawable with resource ID `R.drawable.background_light` (since
      * this should be the current background anyway, I am not sure why I bothered doing this). Then
      * we call the [SharedViewModel.sayIt] method of [viewModel] to have the tts engine tell the user:
      * "Wrong, this sector does not have a mine".
@@ -311,7 +311,7 @@ class GameFragment : Fragment() {
      * [sectorTag] and [TextView] parameter [textView] as a safe (unmined) sector. We set the
      * `hasBeenChecked` property of [sectorTag] to true, increment the `numCheckedSafe` property
      * of our [SharedViewModel] field [viewModel] to register that this sector has been correctly
-     * checked as "Safe", and change the background of [textView] to [R.drawable.background_light]
+     * checked as "Safe", and change the background of [textView] to `R.drawable.background_light`
      * (a light drawable which highlights the fact that the sector has been "checked"). We set our
      * [MutableList] of [Int] variable `val neighborList` to the `neighbors` field of [sectorTag],
      * and initialize our variable `var numberWithMines` to 0 (we will use this to count the number

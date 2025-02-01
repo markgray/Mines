@@ -56,7 +56,7 @@ class ChooseFragment : Fragment() {
 
     /**
      * The [ChooseFragmentBinding] which is inflated from its associated layout file
-     * layout/choose_fragment.xml (resource ID [R.layout.choose_fragment]) and bound to.
+     * layout/choose_fragment.xml (resource ID `R.layout.choose_fragment`) and bound to.
      */
     private lateinit var binding: ChooseFragmentBinding
 
@@ -88,15 +88,15 @@ class ChooseFragment : Fragment() {
      * logic that operates on the returned View to [onViewCreated]. First we initialize our field
      * [binding] to the [ChooseFragmentBinding] that the [ChooseFragmentBinding.inflate] method
      * returns when it uses our [LayoutInflater] parameter [inflater] to inflate our layout file
-     * [R.layout.choose_fragment] using our [ViewGroup] parameter [container] for its `LayoutParams`
+     * `R.layout.choose_fragment` using our [ViewGroup] parameter [container] for its `LayoutParams`
      * without attaching to it. We set the `OnClickListener` of the quietOrTalkative `Button` in our
      * layout to a lambda which branches on whether the [SharedViewModel.talkEnabled] property of
      * [viewModel] to is `true` or `false`:
      *  - `true`: it sets the [SharedViewModel.talkEnabled] property of [viewModel] to `false` and
-     *  and sets the text  of the `Button` to the [String] with resource ID [R.string.clickForTalkativeMode]
+     *  and sets the text  of the `Button` to the [String] with resource ID `R.string.clickForTalkativeMode`
      *  ("CLICK FOR TALKATIVE MODE").
      *  - `false`: it sets the [SharedViewModel.talkEnabled] property of [viewModel] to `true` and
-     *  and sets the text  of the `Button` to the [String] with resource ID [R.string.clickForQuietMode]
+     *  and sets the text  of the `Button` to the [String] with resource ID `R.string.clickForQuietMode`
      *  ("CLICK FOR SILENT MODE").
      *
      * We set the `OnClickListener` of the [ChooseFragmentBinding.editHistory] `Button` in our layout
@@ -182,9 +182,9 @@ class ChooseFragment : Fragment() {
      * is currently attached to. We then branch on whether the [SharedViewModel.talkEnabled] property
      * of [viewModel] to is `true` or `false`:
      *  - `true`: sets the text  of the `quietOrTalkative` `Button` in our layout to the [String]
-     *  with resource ID [R.string.clickForQuietMode] ("CLICK FOR SILENT MODE").
+     *  with resource ID `R.string.clickForQuietMode` ("CLICK FOR SILENT MODE").
      *  - `false`: sets the text  of the `quietOrTalkative` `Button` in our layout to the [String]
-     *  with resource ID [R.string.clickForTalkativeMode] ("CLICK FOR TALKATIVE MODE").
+     *  with resource ID `R.string.clickForTalkativeMode` ("CLICK FOR TALKATIVE MODE").
      *
      * We then use [application] in a call to the [MinesDataBase.getInstance] method to retrieve the
      * [MinesDataBase] singleton (creating it if need be, or returning the previously opened instance)
@@ -217,7 +217,7 @@ class ChooseFragment : Fragment() {
     }
 
     /**
-     * Called when the `buttonPlay` `Button` (ID [R.id.button_play]) is clicked. If our [boardSizeChosen]
+     * Called when the `buttonPlay` `Button` (ID `R.id.button_play`) is clicked. If our [boardSizeChosen]
      * flag is false the user has not selected a board size before clicking the Play button so we call
      * the `randomGame` method of [viewModel] with the default values [COLUMN_COUNT], [ROW_COUNT], and
      * [MINE_COUNT] before we call the [NavController.navigate] method of the [NavController] of our
@@ -229,7 +229,7 @@ class ChooseFragment : Fragment() {
     }
 
     /**
-     * Called when the `buttonCustom` `Button` (ID [R.id.button_custom]) is clicked. Then we call
+     * Called when the `buttonCustom` `Button` (ID `R.id.button_custom`) is clicked. Then we call
      * the [NavController.navigate] method of the [NavController] of our fragment to navigate to the
      * [CustomSizeDialog] dialog fragment.
      */

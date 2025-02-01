@@ -28,7 +28,7 @@ import com.example.android.mines.isOrAre
 class EditFragment : Fragment() {
 
     /**
-     * The [ViewBinding] generated from our layout file [R.layout.edit_fragment].
+     * The [ViewBinding] generated from our layout file `R.layout.edit_fragment`.
      */
     private lateinit var binding: EditFragmentBinding
 
@@ -50,7 +50,7 @@ class EditFragment : Fragment() {
      *
      * First we initialize our [EditFragmentBinding] field [binding] by having the
      * [EditFragmentBinding.inflate] method inflate its associated layout file
-     * [R.layout.edit_fragment] using our [LayoutInflater] parameter [inflater], with
+     * `R.layout.edit_fragment` using our [LayoutInflater] parameter [inflater], with
      * our [ViewGroup] parameter [container] supplying the layout params without the
      * view being attached to it.
      *

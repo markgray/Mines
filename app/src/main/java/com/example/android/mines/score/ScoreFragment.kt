@@ -84,14 +84,14 @@ class ScoreFragment : Fragment() {
      * it was generated from using our [LayoutInflater] parameter [inflater], and our [ViewGroup]
      * parameter [container] for the LayoutParams of the views without attaching to it. We initialize
      * our [Button] field [buttonNewGame] to the `buttonNewGame` property of `binding` (resource ID
-     * [R.id.button_new_game]) then set its `OnClickListener` to a lambda which navigates to the
+     * `R.id.button_new_game`) then set its `OnClickListener` to a lambda which navigates to the
      * [ChooseFragment]. We initialize our [TextView] field [textView] to the `textViewScore`
-     * property of `binding` (resource ID [R.id.textViewScore]), and we then set [latestDatum] to the
+     * property of `binding` (resource ID `R.id.textViewScore`), and we then set [latestDatum] to the
      * value of the [SharedViewModel.latestDatum] field of [viewModel] and append the [String] result
      * of calling our [formatMinesDatum] method for [latestDatum] to the text of [textView].
      *
      * We initialize our [RecyclerView] field [recyclerView] to the `gameHistoryList` property of
-     * `binding` (resource ID [R.id.game_history_list] in our layout file). We initialize our
+     * `binding` (resource ID `R.id.game_history_list` in our layout file). We initialize our
      * [MineDatumAdapter] variable `val adapter` to an instance constructed to use as its
      * [MinesDatumListener] a lambda which calls the `loadGameFromMinesDatum` method of our
      * [SharedViewModel] field [viewModel] to load the [MinesDatum] of the old game that was long

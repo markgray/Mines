@@ -29,7 +29,7 @@ class CustomSizeDialog : DialogFragment() {
 
     /**
      * The [CustomSizeDialogBinding] binding that is created from the inflation of our layout file
-     * layout/custom_size_dialog.xml (resource ID [R.layout.custom_size_dialog])
+     * layout/custom_size_dialog.xml (resource ID `R.layout.custom_size_dialog`)
      */
     private lateinit var binding: CustomSizeDialogBinding
 
@@ -59,7 +59,7 @@ class CustomSizeDialog : DialogFragment() {
      * [SharedPreferences] field [preferences] to a a [SharedPreferences] object for accessing
      * preferences that are private to this activity. We then initialize our field [binding] to the
      * [CustomSizeDialogBinding] that its `inflate` method returns when  it uses our [LayoutInflater]
-     * parameter [inflater] to inflate our layout file [R.layout.custom_size_dialog] using our
+     * parameter [inflater] to inflate our layout file `R.layout.custom_size_dialog` using our
      * [ViewGroup] parameter [container] for its LayoutParams without attaching to it. Finally we
      * return the outermost [View] of the layout file associated with [binding].
      *

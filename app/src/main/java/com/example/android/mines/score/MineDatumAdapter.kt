@@ -162,7 +162,7 @@ class MineDatumAdapter(
         }
 
         /**
-         * Set the TextColor of the [MineDatumViewBinding.gameStats] (resource ID [R.id.game_stats])
+         * Set the TextColor of the [MineDatumViewBinding.gameStats] (resource ID `R.id.game_stats`)
          * [TextView] in [binding] to the color of our parameter [color].
          *
          * @param color a color value in the form 0xAARRGGBB.
