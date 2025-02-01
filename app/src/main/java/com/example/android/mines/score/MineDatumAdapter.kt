@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.database.MinesDatum
 import com.example.android.mines.databinding.MineDatumViewBinding
