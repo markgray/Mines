@@ -58,7 +58,7 @@ abstract class MinesDataBase : RoomDatabase() {
                         MinesDataBase::class.java,
                         "mines_game_history"
                     )
-                        .fallbackToDestructiveMigration()
+                        .fallbackToDestructiveMigration(dropAllTables = true)
                         .build()
                     INSTANCE = instance
                 }
