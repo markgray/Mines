@@ -17,6 +17,7 @@ import com.example.android.mines.R
 import com.example.android.mines.SharedViewModel
 import com.example.android.mines.databinding.CustomSizeDialogBinding
 import com.example.android.mines.game.GameFragment
+import androidx.core.content.edit
 
 /**
  * This [DialogFragment] allows the user to configure the game board however they want it.
@@ -189,11 +190,11 @@ class CustomSizeDialog : DialogFragment() {
      * [CUSTOM_ROWS] and [CUSTOM_MINES] respectively.
      */
     private fun saveChoices() {
-        val editor = preferences.edit()
-        editor.putInt(CUSTOM_COLUMNS, customColumns)
-        editor.putInt(CUSTOM_ROWS, customRows)
-        editor.putInt(CUSTOM_MINES, customMines)
-        editor.apply()
+        preferences.edit {
+            putInt(CUSTOM_COLUMNS, customColumns)
+            putInt(CUSTOM_ROWS, customRows)
+            putInt(CUSTOM_MINES, customMines)
+        }
     }
 
     companion object {

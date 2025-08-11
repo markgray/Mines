@@ -15,6 +15,7 @@ import com.example.android.mines.edit.EditHistoryAdapter.ViewHolder
 import com.example.android.mines.formatGameBoard
 import com.example.android.mines.formatMinesDatum
 import com.example.android.mines.game.GameFragment
+import androidx.core.view.isVisible
 
 /**
  * This is the [RecyclerView.Adapter] that we use to display all the [MinesDatum] in our game history
@@ -161,19 +162,19 @@ class EditHistoryAdapter(
                 true
             }
             binding.rootView.setOnClickListener {
-                if (binding.buttonGroup.visibility == View.VISIBLE) {
+                if (binding.buttonGroup.isVisible) {
                     binding.buttonGroup.visibility = View.GONE
                 }
             }
 
             binding.deleteButton.setOnClickListener {
-                if (binding.buttonGroup.visibility == View.VISIBLE) {
+                if (binding.buttonGroup.isVisible) {
                     binding.buttonGroup.visibility = View.GONE
                 }
                 deleteListener(item)
             }
             binding.playAgainButton.setOnClickListener {
-                if (binding.buttonGroup.visibility == View.VISIBLE) {
+                if (binding.buttonGroup.isVisible) {
                     binding.buttonGroup.visibility = View.GONE
                 }
                 playAgainListener(item)
