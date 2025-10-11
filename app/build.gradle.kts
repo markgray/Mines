@@ -62,9 +62,9 @@ dependencies {
 
     // Room and Lifecycle dependencies
     implementation("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("androidx.room:room-runtime:2.8.1")
-    ksp("androidx.room:room-compiler:2.8.1")
-    annotationProcessor("androidx.room:room-compiler:2.8.1")
+    implementation("androidx.room:room-runtime:2.8.2")
+    ksp("androidx.room:room-compiler:2.8.2")
+    annotationProcessor("androidx.room:room-compiler:2.8.2")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
